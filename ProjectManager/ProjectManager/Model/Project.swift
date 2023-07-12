@@ -8,10 +8,10 @@
 import Foundation
 
 struct Project: Equatable {
-    enum State {
-        case todo
-        case doing
-        case done
+    enum State: String {
+        case todo = "TODO"
+        case doing = "DOING"
+        case done = "DONE"
     }
     
     let title: String
