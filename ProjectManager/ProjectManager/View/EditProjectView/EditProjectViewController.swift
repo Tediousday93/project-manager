@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class EditProjectViewController: UIViewController {
-    let titleTextField: UITextField = {
+    private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.font = .preferredFont(forTextStyle: .title3)
         textField.textColor = .black
@@ -17,7 +19,7 @@ final class EditProjectViewController: UIViewController {
         return textField
     }()
     
-    let datePicker: UIDatePicker = {
+    private let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.datePickerMode = .date
@@ -25,7 +27,7 @@ final class EditProjectViewController: UIViewController {
         return datePicker
     }()
     
-    let bodyTextView: UITextView = {
+    private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         
@@ -42,11 +44,46 @@ final class EditProjectViewController: UIViewController {
         return stackView
     }()
     
+    private var rightBarButton: UIBarButtonItem?
+    private var leftBarButton: UIBarButtonItem?
+    
+    private let viewModel: EditProjectViewModel
+    
+    init(viewModel: EditProjectViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureViewHierarchy()
         setupLayoutConstraints()
+    }
+    
+    private func configureNavigationBar() {
+        self.rightBarButton = UIBarButtonItem(
+            title: Constant.rightBarButtonTitle,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        rightBarButton?.isEnabled = false
+        
+        self.leftBarButton = UIBarButtonItem(
+            title: viewModel.mode.leftBarButtonTitle,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        
+        self.navigationItem.title = Constant.navigationBarTitle
+        self.navigationItem.rightBarButtonItem = self.rightBarButton
+        self.navigationItem.leftBarButtonItem = self.leftBarButton
     }
     
     private func configureViewHierarchy() {
@@ -72,6 +109,8 @@ final class EditProjectViewController: UIViewController {
     
     private enum Constant {
         static let titlePlaceholder: String = "Title"
+        static let navigationBarTitle: String = "TODO"
+        static let rightBarButtonTitle: String = "Done"
         static let spacing: CGFloat = 10
     }
 }
