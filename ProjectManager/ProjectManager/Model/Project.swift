@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Project: Equatable {
+struct Project: Identifiable, Equatable {
     enum State: String {
         case todo = "TODO"
         case doing = "DOING"
