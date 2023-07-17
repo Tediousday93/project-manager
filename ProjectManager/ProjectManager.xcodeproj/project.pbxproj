@@ -19,6 +19,7 @@
 		AD8994602A6510D900D848A5 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD89945F2A6510D900D848A5 /* ProjectCell.swift */; };
 		AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994612A65156C00D848A5 /* HeaderView.swift */; };
 		AD8994642A651F7600D848A5 /* EditProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994632A651F7600D848A5 /* EditProjectViewController.swift */; };
+		AD8994672A652BFC00D848A5 /* EditProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994662A652BFC00D848A5 /* EditProjectViewModel.swift */; };
 		C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0525F51E1D0094C4CF /* AppDelegate.swift */; };
 		C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */; };
 		C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0925F51E1D0094C4CF /* MainViewController.swift */; };
@@ -51,6 +52,7 @@
 		AD89945F2A6510D900D848A5 /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 		AD8994612A65156C00D848A5 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AD8994632A651F7600D848A5 /* EditProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectViewController.swift; sourceTree = "<group>"; };
+		AD8994662A652BFC00D848A5 /* EditProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectViewModel.swift; sourceTree = "<group>"; };
 		B0B3BFE63510492564CC44FB /* Pods-ProjectManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.release.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.release.xcconfig"; sourceTree = "<group>"; };
 		C7431F0225F51E1D0094C4CF /* ProjectManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7431F0525F51E1D0094C4CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				AD8994632A651F7600D848A5 /* EditProjectViewController.swift */,
+				AD8994662A652BFC00D848A5 /* EditProjectViewModel.swift */,
 			);
 			path = EditProjectView;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				AD8994472A5F5E9400D848A5 /* ProjectListViewModel.swift in Sources */,
 				AD8994642A651F7600D848A5 /* EditProjectViewController.swift in Sources */,
 				AD8994452A5F5B4100D848A5 /* ProjectListViewController.swift in Sources */,
+				AD8994672A652BFC00D848A5 /* EditProjectViewModel.swift in Sources */,
 				AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */,
 				C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */,
 				AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */,
