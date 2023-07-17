@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import RxSwift
 
 final class MainViewModel {
-    private var projectList: [Project] = []
+    
 }
