@@ -8,7 +8,11 @@
 import Foundation
 
 final class ProjectManager {
-    private(set) var projectList: [Project] = []
+    private(set) var projectList: [Project]
+    
+    init(projectList: [Project] = []) {
+        self.projectList = projectList
+    }
     
     func createProject(title: String, date: Date, body: String) {
         let newProject = Project(title: title, date: date, body: body, state: .todo, id: UUID())
