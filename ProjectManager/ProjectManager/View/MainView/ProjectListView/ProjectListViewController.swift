@@ -31,6 +31,7 @@ final class ProjectListViewController: UIViewController {
     private func configureTableView() {
         tableView.dataSource = self.dataSource
         tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupLayoutConstraints() {

@@ -30,6 +30,7 @@ final class HeaderView: UIView {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
