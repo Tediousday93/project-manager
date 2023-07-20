@@ -45,13 +45,34 @@ final class EditProjectViewModel {
             self.mode = .edit
         }
     }
+    
+    private func createProject() -> Project? {
+        guard let title, let date, let body else { return nil }
+        
+        return Project(title: title,
+                       date: date,
+                       body: body,
+                       state: self.state,
+                       id: self.id)
+    }
 }
 
 extension EditProjectViewModel: ViewModelType {
-    struct Input { }
-    struct Output { }
+    struct Input {
+        let rightBarButtonTapped: Observable<Void>
+    }
+    
+    struct Output {
+        let projectCreated: Observable<Void>
+    }
     
     func transform(input: Input) -> Output {
-        return Output()
+        let projectCreated = input.rightBarButtonTapped
+            .withUnretained(self)
+            .map { owner, _ in
+                let project = owner.createProject()
+            }
+        
+        return Output(projectCreated: projectCreated)
     }
 }

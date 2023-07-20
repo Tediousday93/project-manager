@@ -48,6 +48,7 @@ final class EditProjectViewController: UIViewController {
     private var leftBarButton: UIBarButtonItem?
     
     private let viewModel: EditProjectViewModel
+    private let disposeBag: DisposeBag = DisposeBag()
     
     init(viewModel: EditProjectViewModel) {
         self.viewModel = viewModel
@@ -63,17 +64,22 @@ final class EditProjectViewController: UIViewController {
         configureNavigationBar()
         configureViewHierarchy()
         setupLayoutConstraints()
+        bindAction()
     }
     
     private func configureNavigationBar() {
-        self.rightBarButton = UIBarButtonItem(
-            title: Constant.rightBarButtonTitle,
-            style: .plain,
-            target: nil,
-            action: nil
-        )
-        rightBarButton?.isEnabled = false
-        
+        self.rightBarButton = {
+            let barButtonItem = UIBarButtonItem(
+                title: Constant.rightBarButtonTitle,
+                style: .plain,
+                target: nil,
+                action: nil
+            )
+            barButtonItem.isEnabled = false
+            
+            return barButtonItem
+        }()
+
         self.leftBarButton = UIBarButtonItem(
             title: viewModel.mode.leftBarButtonTitle,
             style: .plain,
@@ -105,6 +111,28 @@ final class EditProjectViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                                                 constant: -Constant.spacing)
         ])
+    }
+    
+    private func bindAction() {
+        guard let rightBarButton else { return }
+        
+        let rightBarButtonTapped = rightBarButton.rx
+            .tap
+            .asObservable()
+        
+        let input = EditProjectViewModel.Input(
+            rightBarButtonTapped: rightBarButtonTapped
+        )
+        
+        let output = viewModel.transform(input: input)
+        
+        output.projectCreated
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     private enum Constant {
