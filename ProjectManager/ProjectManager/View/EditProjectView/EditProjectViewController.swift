@@ -44,8 +44,23 @@ final class EditProjectViewController: UIViewController {
         return stackView
     }()
     
-    private var rightBarButton: UIBarButtonItem?
-    private var leftBarButton: UIBarButtonItem?
+    private var rightBarButton: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(title: Constant.rightBarButtonTitle,
+                                            style: .plain,
+                                            target: nil,
+                                            action: nil)
+        barButtonItem.isEnabled = false
+        
+        return barButtonItem
+    }()
+    
+    private var leftBarButton: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(title: nil,
+                                            style: .plain,
+                                            target: nil,
+                                            action: nil)
+        return barButtonItem
+    }()
     
     private let viewModel: EditProjectViewModel
     private let disposeBag: DisposeBag = DisposeBag()
@@ -68,54 +83,34 @@ final class EditProjectViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        self.rightBarButton = {
-            let barButtonItem = UIBarButtonItem(
-                title: Constant.rightBarButtonTitle,
-                style: .plain,
-                target: nil,
-                action: nil
-            )
-            barButtonItem.isEnabled = false
-            
-            return barButtonItem
-        }()
-
-        self.leftBarButton = UIBarButtonItem(
-            title: viewModel.mode.leftBarButtonTitle,
-            style: .plain,
-            target: nil,
-            action: nil
-        )
-        
+        self.leftBarButton.title = viewModel.mode.leftBarButtonTitle
         self.navigationItem.title = Constant.navigationBarTitle
         self.navigationItem.rightBarButtonItem = self.rightBarButton
         self.navigationItem.leftBarButtonItem = self.leftBarButton
     }
     
     private func configureViewHierarchy() {
+        view.addSubview(stackView)
+        
         stackView.addArrangedSubview(titleTextField)
         stackView.addArrangedSubview(datePicker)
         stackView.addArrangedSubview(bodyTextView)
-        
-        view.addSubview(stackView)
     }
     
     private func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                           constant: Constant.spacing),
+                                           constant: Constant.edgeSpacing),
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: -Constant.spacing),
+                                              constant: -Constant.edgeSpacing),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                               constant: Constant.spacing),
+                                               constant: Constant.edgeSpacing),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: -Constant.spacing)
+                                                constant: -Constant.edgeSpacing)
         ])
     }
     
     private func bindAction() {
-        guard let rightBarButton else { return }
-        
         let rightBarButtonTapped = rightBarButton.rx
             .tap
             .asObservable()
@@ -134,11 +129,13 @@ final class EditProjectViewController: UIViewController {
             }
             .disposed(by: disposeBag)
     }
-    
-    private enum Constant {
+}
+
+private extension EditProjectViewController {
+    enum Constant {
         static let titlePlaceholder: String = "Title"
         static let navigationBarTitle: String = "TODO"
         static let rightBarButtonTitle: String = "Done"
-        static let spacing: CGFloat = 10
+        static let edgeSpacing: CGFloat = 10
     }
 }
