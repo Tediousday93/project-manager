@@ -5,6 +5,8 @@
 // 
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class MainViewController: UIViewController {
     private let stackView: UIStackView = {
@@ -18,6 +20,17 @@ final class MainViewController: UIViewController {
         return stackView
     }()
     
+    private let addBarButton: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: nil,
+            action: nil
+        )
+        
+        return barButtonItem
+    }()
+    
+    private let disposeBag: DisposeBag = DisposeBag()
     private let viewModel: MainViewModel
     
     init(viewModel: MainViewModel) {
@@ -34,10 +47,12 @@ final class MainViewController: UIViewController {
         configureNavigationBar()
         configureRootView()
         setupLayoutConstraints()
+        bindAction()
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.title = Constants.title
+        self.navigationItem.title = Constant.title
+        self.navigationItem.rightBarButtonItem = self.addBarButton
     }
     
     private func configureRootView() {
@@ -47,16 +62,32 @@ final class MainViewController: UIViewController {
     
     private func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -Constants.toolBarHeight)
+            stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                              constant: -Constant.toolBarHeight)
         ])
+    }
+    
+    private func bindAction() {
+        addBarButton.rx.tap
+            .asObservable()
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, _ in
+                let editViewModel = EditViewModel(from: nil)
+                let editViewController = EditViewController(viewModel: editViewModel)
+                let navigationController = UINavigationController(rootViewController: editViewController)
+                navigationController.modalPresentationStyle = .formSheet
+                owner.present(navigationController, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
-extension MainViewController {
-    private enum Constants {
+private extension MainViewController {
+    enum Constant {
         static let title = "Project Manager"
         static let toolBarHeight: CGFloat = 50
     }
