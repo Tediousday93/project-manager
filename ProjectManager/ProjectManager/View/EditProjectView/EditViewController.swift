@@ -1,5 +1,5 @@
 //
-//  EditProjectViewController.swift
+//  EditViewController.swift
 //  ProjectManager
 //
 //  Created by Rowan on 2023/07/17.
@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class EditProjectViewController: UIViewController {
+final class EditViewController: UIViewController {
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.font = .preferredFont(forTextStyle: .title3)
@@ -38,7 +38,7 @@ final class EditProjectViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -62,10 +62,10 @@ final class EditProjectViewController: UIViewController {
         return barButtonItem
     }()
     
-    private let viewModel: EditProjectViewModel
+    private let viewModel: EditViewModel
     private let disposeBag: DisposeBag = DisposeBag()
     
-    init(viewModel: EditProjectViewModel) {
+    init(viewModel: EditViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -77,6 +77,7 @@ final class EditProjectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+        configureRootView()
         configureViewHierarchy()
         setupLayoutConstraints()
         bindAction()
@@ -87,6 +88,10 @@ final class EditProjectViewController: UIViewController {
         self.navigationItem.title = Constant.navigationBarTitle
         self.navigationItem.rightBarButtonItem = self.rightBarButton
         self.navigationItem.leftBarButtonItem = self.leftBarButton
+    }
+    
+    private func configureRootView() {
+        view.backgroundColor = .systemBackground
     }
     
     private func configureViewHierarchy() {
@@ -115,7 +120,7 @@ final class EditProjectViewController: UIViewController {
             .tap
             .asObservable()
         
-        let input = EditProjectViewModel.Input(
+        let input = EditViewModel.Input(
             rightBarButtonTapped: rightBarButtonTapped
         )
         
@@ -131,7 +136,7 @@ final class EditProjectViewController: UIViewController {
     }
 }
 
-private extension EditProjectViewController {
+private extension EditViewController {
     enum Constant {
         static let titlePlaceholder: String = "Title"
         static let navigationBarTitle: String = "TODO"

@@ -1,5 +1,5 @@
 //
-//  EditProjectViewModel.swift
+//  EditViewModel.swift
 //  ProjectManager
 //
 //  Created by Rowan on 2023/07/17.
@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-final class EditProjectViewModel {
+final class EditViewModel {
     enum Mode {
         case create
         case edit
@@ -31,7 +31,7 @@ final class EditProjectViewModel {
     private let state: Project.State
     private let id: UUID
     
-    init(from project: Project?) {
+    init(from project: Project? = nil) {
         self.title = project?.title
         self.date = project?.date ?? Date()
         self.body = project?.body
@@ -57,7 +57,7 @@ final class EditProjectViewModel {
     }
 }
 
-extension EditProjectViewModel: ViewModelType {
+extension EditViewModel: ViewModelType {
     struct Input {
         let rightBarButtonTapped: Observable<Void>
     }
