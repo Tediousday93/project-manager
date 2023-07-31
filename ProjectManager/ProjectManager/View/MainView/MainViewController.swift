@@ -79,7 +79,12 @@ final class MainViewController: UIViewController {
                 let editViewModel = EditViewModel(from: nil)
                 let editViewController = EditViewController(viewModel: editViewModel)
                 let navigationController = UINavigationController(rootViewController: editViewController)
+                let barAppearance = UINavigationBarAppearance()
+                barAppearance.backgroundColor = .systemGray6
+                
+                navigationController.navigationBar.scrollEdgeAppearance = barAppearance
                 navigationController.modalPresentationStyle = .formSheet
+                
                 owner.present(navigationController, animated: true)
             }
             .disposed(by: disposeBag)
