@@ -31,7 +31,9 @@ final class ProjectListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureRootView()
+        configureTableView()
         setupLayoutConstraints()
+        configureDataSource()
     }
     
     private func configureRootView() {
@@ -52,6 +54,27 @@ final class ProjectListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
+    }
+    
+    private func configureDataSource() {
+        dataSource = DataSource(tableView: tableView, cellProvider: cellProvider)
+    }
+    
+    private func cellProvider(
+        _ tableView: UITableView,
+        _ indexPath: IndexPath,
+        _ itemIdentifier: Project.ID
+    ) -> UITableViewCell? {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: ProjectCell.identifier,
+            for: indexPath
+        ) as? ProjectCell
+        
+        guard let project = viewModel.projectList.filter({ $0.id == itemIdentifier }).first else {
+            return cell
+        }
+        
+        return cell
     }
 }
 

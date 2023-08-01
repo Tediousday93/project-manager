@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		20AE11B679C35DB46A537402 /* Pods_ProjectManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D47C891451BEA9DB3094BB48 /* Pods_ProjectManagerTests.framework */; };
 		79A248FE0FF8C2A9975A10CC /* Pods_ProjectManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F94021592CAF34083BDA7774 /* Pods_ProjectManager.framework */; };
+		AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */; };
 		AD8994302A5E427A00D848A5 /* ProjectManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD89942F2A5E427A00D848A5 /* ProjectManagerTests.swift */; };
 		AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994392A5E6B6200D848A5 /* Project.swift */; };
 		AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD89943F2A5EAA8D00D848A5 /* MainViewModel.swift */; };
@@ -41,6 +42,7 @@
 		4A3B7F0A36525C81549A95B9 /* Pods-ProjectManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-ProjectManagerTests/Pods-ProjectManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5A3CFABBF8DFE17EA7FAA362 /* Pods-ProjectManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManagerTests.release.xcconfig"; path = "Target Support Files/Pods-ProjectManagerTests/Pods-ProjectManagerTests.release.xcconfig"; sourceTree = "<group>"; };
 		A75CEDCD244C20CEFDC6E51F /* Pods-ProjectManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.debug.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.debug.xcconfig"; sourceTree = "<group>"; };
+		AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
 		AD89942D2A5E427A00D848A5 /* ProjectManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD89942F2A5E427A00D848A5 /* ProjectManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManagerTests.swift; sourceTree = "<group>"; };
 		AD8994392A5E6B6200D848A5 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */,
+				AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */,
 				AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */,
 				AD8994422A5F565800D848A5 /* ProjectManager.swift in Sources */,
 				C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */,

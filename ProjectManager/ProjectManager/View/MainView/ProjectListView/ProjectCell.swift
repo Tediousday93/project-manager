@@ -67,7 +67,9 @@ final class ProjectCell: UITableViewCell {
         bodyLabel.text = nil
         dateLabel.text = nil
     }
-    
+}
+
+extension ProjectCell {
     private func configureViewHierarchy() {
         labelStackView.addArrangedSubview(titleLabel)
         labelStackView.addArrangedSubview(bodyLabel)
@@ -87,3 +89,5 @@ final class ProjectCell: UITableViewCell {
         ])
     }
 }
+
+extension ProjectCell: IdentifierProtocol { }
