@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController(rootViewController: mainViewController)
         let barAppearance = UINavigationBarAppearance()
         barAppearance.backgroundColor = .systemGray5
+        barAppearance.shadowColor = .clear
         navigationController.navigationBar.scrollEdgeAppearance = barAppearance
         
         window = UIWindow(windowScene: windowScene)
