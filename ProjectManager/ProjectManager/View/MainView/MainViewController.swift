@@ -44,10 +44,23 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addChildren()
         configureNavigationBar()
         configureRootView()
-        setupLayoutConstraints()
+        setupStackView()
         bindAction()
+    }
+    
+    private func addChildren() {
+        let todoViewModel = ProjectListViewModel(projectState: .todo)
+        let doingViewModel = ProjectListViewModel(projectState: .doing)
+        let doneViewModel = ProjectListViewModel(projectState: .done)
+        
+        self.addChild(ProjectListViewController(viewModel: todoViewModel))
+        self.addChild(ProjectListViewController(viewModel: doingViewModel))
+        self.addChild(ProjectListViewController(viewModel: doneViewModel))
+        
+        viewModel.addChildren([todoViewModel, doingViewModel, doneViewModel])
     }
     
     private func configureNavigationBar() {
@@ -60,7 +73,11 @@ final class MainViewController: UIViewController {
         self.view.addSubview(stackView)
     }
     
-    private func setupLayoutConstraints() {
+    private func setupStackView() {
+        self.children.forEach { child in
+            stackView.addArrangedSubview(child.view)
+        }
+        
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),

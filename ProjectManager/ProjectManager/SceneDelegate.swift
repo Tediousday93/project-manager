@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let projectManager = ProjectManager()
-        let mainViewModel = MainViewModel(projectManager: projectManager)
+        let mainViewModel = MainViewModel()
         let mainViewController = MainViewController(viewModel: mainViewModel)
         let navigationController = UINavigationController(rootViewController: mainViewController)
         let barAppearance = UINavigationBarAppearance()

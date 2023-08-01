@@ -6,13 +6,29 @@
 //
 
 import Foundation
+import RxSwift
 
 final class ProjectListViewModel {
-    private let projectState: Project.State
-    private let projectManager: ProjectManager
+    let projectState: Project.State
     
-    init(projectState: Project.State, projectManager: ProjectManager) {
+    private(set) var projectList: [Project] = []
+    
+    init(projectState: Project.State) {
         self.projectState = projectState
-        self.projectManager = projectManager
     }
 }
+
+extension ProjectListViewModel: ViewModelType {
+    struct Input {
+        
+    }
+    
+    struct Output {
+        
+    }
+    
+    func transform(input: Input) -> Output {
+        return Output()
+    }
+}
+
