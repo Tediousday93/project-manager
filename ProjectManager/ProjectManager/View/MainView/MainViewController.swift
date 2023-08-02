@@ -30,7 +30,7 @@ final class MainViewController: UIViewController {
         return barButtonItem
     }()
     
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag: DisposeBag = .init()
     private let viewModel: MainViewModel
     
     init(viewModel: MainViewModel) {

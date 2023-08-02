@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class ProjectListViewController: UIViewController {
     private enum Section: Hashable {
@@ -17,6 +19,7 @@ final class ProjectListViewController: UIViewController {
     
     private let tableView: UITableView = UITableView()
     private var dataSource: DataSource?
+    private let disposeBag: DisposeBag = .init()
     private let viewModel: ProjectListViewModel
     
     init(viewModel: ProjectListViewModel) {
@@ -70,11 +73,64 @@ final class ProjectListViewController: UIViewController {
             for: indexPath
         ) as? ProjectCell
         
-        guard let project = viewModel.projectList.filter({ $0.id == itemIdentifier }).first else {
+        guard let project = viewModel.retriveProject(for: itemIdentifier) else {
             return cell
         }
         
         return cell
+    }
+    
+    private func bindState() {
+        viewModel.projectCreated
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.applyLatestSnapshot()
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.projectUpdated
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, itemID in
+                owner.reloadSnapshotItem(id: itemID)
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.projectDeleted
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, itemID in
+                owner.deleteSnapshotItem(id: itemID)
+            }
+            .disposed(by: disposeBag)
+            
+    }
+    
+    private func applyLatestSnapshot() {
+        let idList = viewModel.projectIDList
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(idList)
+        dataSource?.apply(snapshot)
+    }
+    
+    private func reloadSnapshotItem(id: UUID) {
+        guard var snapshot = dataSource?.snapshot() else {
+            return
+        }
+        
+        snapshot.reloadItems([id])
+        dataSource?.apply(snapshot)
+    }
+    
+    private func deleteSnapshotItem(id: UUID) {
+        guard var snapshot = dataSource?.snapshot() else {
+            return
+        }
+        
+        snapshot.deleteItems([id])
+        dataSource?.apply(snapshot)
     }
 }
 
