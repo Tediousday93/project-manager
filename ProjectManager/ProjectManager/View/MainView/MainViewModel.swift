@@ -17,3 +17,26 @@ final class MainViewModel {
         }
     }
 }
+
+extension MainViewModel: ViewModelType {
+    struct Input {
+        let addBarButtonTapped: Observable<Void>
+    }
+    
+    struct Output {
+        let editViewModel: Observable<EditViewModel>
+    }
+    
+    func transform(input: Input) -> Output {
+        let editViewModel = input.addBarButtonTapped
+            .withUnretained(self)
+            .map { owner, _ in
+                let editViewModel = EditViewModel(from: nil)
+                editViewModel.delegate = owner.children[.todo]
+                
+                return editViewModel
+            }
+        
+        return Output(editViewModel: editViewModel)
+    }
+}

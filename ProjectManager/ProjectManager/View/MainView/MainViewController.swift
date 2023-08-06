@@ -51,7 +51,7 @@ final class MainViewController: UIViewController {
         addChildren()
         configureNavigationBar()
         configureRootView()
-        setupStackView()
+        configureStackView()
         bindAction()
     }
     
@@ -77,7 +77,7 @@ final class MainViewController: UIViewController {
         self.view.addSubview(stackView)
     }
     
-    private func setupStackView() {
+    private func configureStackView() {
         self.children.forEach { child in
             stackView.addArrangedSubview(child.view)
         }
@@ -92,19 +92,24 @@ final class MainViewController: UIViewController {
     }
     
     private func bindAction() {
-        addBarButton.rx.tap
+        let addBarButtonTapped = addBarButton.rx
+            .tap
             .asObservable()
+        
+        let input = MainViewModel.Input(addBarButtonTapped: addBarButtonTapped)
+        let output = viewModel.transform(input: input)
+        
+        output.editViewModel
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
-            .bind { owner, _ in
-                owner.presentEditView()
+            .bind { owner, editViewModel in
+                owner.presentEditView(viewModel: editViewModel)
             }
             .disposed(by: disposeBag)
     }
     
-    private func presentEditView() {
-        let editViewModel = EditViewModel(from: nil)
-        let editViewController = EditViewController(viewModel: editViewModel)
+    private func presentEditView(viewModel: EditViewModel) {
+        let editViewController = EditViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: editViewController)
         let barAppearance = UINavigationBarAppearance()
         barAppearance.backgroundColor = .systemGray6
