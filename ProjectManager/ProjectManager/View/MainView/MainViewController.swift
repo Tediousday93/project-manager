@@ -30,7 +30,7 @@ final class MainViewController: UIViewController {
         return barButtonItem
     }()
     
-    private let disposeBag: DisposeBag = .init()
+    private var disposeBag: DisposeBag = .init()
     private let viewModel: MainViewModel
     
     init(viewModel: MainViewModel) {
@@ -40,6 +40,10 @@ final class MainViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        disposeBag = .init()
     }
     
     override func viewDidLoad() {
@@ -93,18 +97,22 @@ final class MainViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { owner, _ in
-                let editViewModel = EditViewModel(from: nil)
-                let editViewController = EditViewController(viewModel: editViewModel)
-                let navigationController = UINavigationController(rootViewController: editViewController)
-                let barAppearance = UINavigationBarAppearance()
-                barAppearance.backgroundColor = .systemGray6
-                
-                navigationController.navigationBar.scrollEdgeAppearance = barAppearance
-                navigationController.modalPresentationStyle = .formSheet
-                
-                owner.present(navigationController, animated: true)
+                owner.presentEditView()
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func presentEditView() {
+        let editViewModel = EditViewModel(from: nil)
+        let editViewController = EditViewController(viewModel: editViewModel)
+        let navigationController = UINavigationController(rootViewController: editViewController)
+        let barAppearance = UINavigationBarAppearance()
+        barAppearance.backgroundColor = .systemGray6
+        
+        navigationController.navigationBar.scrollEdgeAppearance = barAppearance
+        navigationController.modalPresentationStyle = .formSheet
+        
+        self.present(navigationController, animated: true)
     }
 }
 
