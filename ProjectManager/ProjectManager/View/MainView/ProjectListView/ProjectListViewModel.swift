@@ -58,17 +58,5 @@ final class ProjectListViewModel {
     }
 }
 
-extension ProjectListViewModel: ViewModelType {
-    struct Input {
-        
-    }
-    
-    struct Output {
-        
-    }
-    
-    func transform(input: Input) -> Output {
-        return Output()
-    }
-}
+extension ProjectListViewModel: EditViewModelDelegate { }
 

@@ -63,11 +63,15 @@ final class EditViewController: UIViewController {
     }()
     
     private let viewModel: EditViewModel
-    private let disposeBag: DisposeBag = DisposeBag()
+    private var disposeBag: DisposeBag = .init()
     
     init(viewModel: EditViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    deinit {
+        disposeBag = .init()
     }
     
     required init?(coder: NSCoder) {
@@ -120,13 +124,20 @@ final class EditViewController: UIViewController {
             .tap
             .asObservable()
         
-        let input = EditViewModel.Input(
-            rightBarButtonTapped: rightBarButtonTapped
-        )
-        
+        let input = EditViewModel.Input(rightBarButtonTapped: rightBarButtonTapped)
         let output = viewModel.transform(input: input)
         
         output.projectCreated
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        leftBarButton.rx
+            .tap
+            .asObservable()
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { owner, _ in

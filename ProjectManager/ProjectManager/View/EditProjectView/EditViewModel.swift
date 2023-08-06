@@ -8,6 +8,10 @@
 import Foundation
 import RxSwift
 
+protocol EditViewModelDelegate {
+    
+}
+
 final class EditViewModel {
     enum Mode {
         case create
@@ -24,6 +28,7 @@ final class EditViewModel {
     }
     
     let mode: Mode
+    var delegate: EditViewModelDelegate?
     
     private var title: String?
     private var date: Date?
@@ -32,28 +37,18 @@ final class EditViewModel {
     private let id: UUID
     
     init(from project: Project? = nil) {
-        self.title = project?.title
-        self.date = project?.date ?? Date()
-        self.body = project?.body
-        self.state = project?.state ?? .todo
-        self.id = project?.id ?? UUID()
-        
         switch project {
         case .none:
             self.mode = .create
         case .some:
             self.mode = .edit
         }
-    }
-    
-    private func createProject() -> Project? {
-        guard let title, let date, let body else { return nil }
         
-        return Project(title: title,
-                       date: date,
-                       body: body,
-                       state: self.state,
-                       id: self.id)
+        self.title = project?.title
+        self.date = project?.date ?? Date()
+        self.body = project?.body
+        self.state = project?.state ?? .todo
+        self.id = project?.id ?? UUID()
     }
 }
 
@@ -74,5 +69,15 @@ extension EditViewModel: ViewModelType {
             }
         
         return Output(projectCreated: projectCreated)
+    }
+    
+    private func createProject() -> Project? {
+        guard let title, let date, let body else { return nil }
+        
+        return Project(title: title,
+                       date: date,
+                       body: body,
+                       state: self.state,
+                       id: self.id)
     }
 }
