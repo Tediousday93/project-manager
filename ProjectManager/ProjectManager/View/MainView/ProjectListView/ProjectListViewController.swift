@@ -19,12 +19,16 @@ final class ProjectListViewController: UIViewController {
     
     private let tableView: UITableView = UITableView()
     private var dataSource: DataSource?
-    private let disposeBag: DisposeBag = .init()
+    private var disposeBag: DisposeBag = .init()
     private let viewModel: ProjectListViewModel
     
     init(viewModel: ProjectListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    deinit {
+        disposeBag = .init()
     }
     
     required init?(coder: NSCoder) {
@@ -59,6 +63,26 @@ final class ProjectListViewController: UIViewController {
         ])
     }
     
+    private func bindState() {
+        viewModel.projectListSubject
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, event in
+                switch event {
+                case .added:
+                    owner.applyLatestSnapshot()
+                case .updated(let id):
+                    owner.reloadSnapshotItem(id: id)
+                case .deleted(let id):
+                    owner.deleteSnapshotItem(id: id)
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: -
+extension ProjectListViewController {
     private func configureDataSource() {
         dataSource = DataSource(tableView: tableView, cellProvider: cellProvider)
     }
@@ -78,33 +102,6 @@ final class ProjectListViewController: UIViewController {
         }
         
         return cell
-    }
-    
-    private func bindState() {
-        viewModel.projectCreated
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind { owner, _ in
-                owner.applyLatestSnapshot()
-            }
-            .disposed(by: disposeBag)
-        
-        viewModel.projectUpdated
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind { owner, itemID in
-                owner.reloadSnapshotItem(id: itemID)
-            }
-            .disposed(by: disposeBag)
-        
-        viewModel.projectDeleted
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind { owner, itemID in
-                owner.deleteSnapshotItem(id: itemID)
-            }
-            .disposed(by: disposeBag)
-            
     }
     
     private func applyLatestSnapshot() {

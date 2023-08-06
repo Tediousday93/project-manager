@@ -9,20 +9,23 @@ import Foundation
 import RxSwift
 
 final class ProjectListViewModel {
-    let projectState: Project.State
+    enum ProjectListEvent {
+        case added
+        case updated(id: UUID)
+        case deleted(id: UUID)
+    }
     
     var projectIDList: [UUID] {
         return projectList.map { $0.id }
     }
     
-    let projectCreated: PublishSubject<Void> = .init()
-    let projectUpdated: PublishSubject<UUID> = .init()
-    let projectDeleted: PublishSubject<UUID> = .init()
+    let projectListSubject: PublishSubject<ProjectListEvent> = .init()
+    let projectState: Project.State
+    private(set) var projectList: [Project]
     
-    private(set) var projectList: [Project] = []
-    
-    init(projectState: Project.State) {
+    init(projectState: Project.State, projectList: [Project] = []) {
         self.projectState = projectState
+        self.projectList = projectList
     }
     
     func retriveProject(for id: UUID) -> Project? {
@@ -31,8 +34,27 @@ final class ProjectListViewModel {
             .first
     }
     
-    func createProject() {
+    func add(project: Project) {
+        projectList.append(project)
+        projectListSubject.onNext(.added)
+    }
+    
+    func updateProject(with newProject: Project) {
+        guard let index = projectList.firstIndex(where: { $0.id == newProject.id }) else {
+            return
+        }
         
+        projectList[index] = newProject
+        projectListSubject.onNext(.updated(id: newProject.id))
+    }
+    
+    func deleteProject(id: UUID) {
+        guard let index = projectList.firstIndex(where: { $0.id == id }) else {
+            return
+        }
+        
+        projectList.remove(at: index)
+        projectListSubject.onNext(.deleted(id: id))
     }
 }
 
