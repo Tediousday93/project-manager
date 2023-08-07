@@ -13,7 +13,7 @@ final class MainViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 10
+        stackView.spacing = Constant.stackViewSpacing
         stackView.backgroundColor = .systemGray4
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -52,7 +52,7 @@ final class MainViewController: UIViewController {
         configureNavigationBar()
         configureRootView()
         configureStackView()
-        bindAction()
+        bindUI()
     }
     
     private func addChildren() {
@@ -91,7 +91,7 @@ final class MainViewController: UIViewController {
         ])
     }
     
-    private func bindAction() {
+    private func bindUI() {
         let addBarButtonTapped = addBarButton.rx
             .tap
             .asObservable()
@@ -125,6 +125,7 @@ private extension MainViewController {
     enum Constant {
         static let title = "Project Manager"
         static let toolBarHeight: CGFloat = 50
+        static let stackViewSpacing: CGFloat = 10
     }
 }
 
