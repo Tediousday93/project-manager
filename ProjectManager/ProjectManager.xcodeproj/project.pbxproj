@@ -16,7 +16,6 @@
 		AD8994422A5F565800D848A5 /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994412A5F565800D848A5 /* ProjectManager.swift */; };
 		AD8994452A5F5B4100D848A5 /* ProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994442A5F5B4100D848A5 /* ProjectListViewController.swift */; };
 		AD8994472A5F5E9400D848A5 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994462A5F5E9400D848A5 /* ProjectListViewModel.swift */; };
-		AD89944A2A5F5F3C00D848A5 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */; };
 		AD8994602A6510D900D848A5 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD89945F2A6510D900D848A5 /* ProjectCell.swift */; };
 		AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994612A65156C00D848A5 /* HeaderView.swift */; };
 		AD8994642A651F7600D848A5 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994632A651F7600D848A5 /* EditViewController.swift */; };
@@ -50,7 +49,6 @@
 		AD8994412A5F565800D848A5 /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
 		AD8994442A5F5B4100D848A5 /* ProjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewController.swift; sourceTree = "<group>"; };
 		AD8994462A5F5E9400D848A5 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
-		AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		AD89945F2A6510D900D848A5 /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 		AD8994612A65156C00D848A5 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AD8994632A651F7600D848A5 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 		AD8994482A5F5F2300D848A5 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */,
 				AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */,
 			);
 			path = Common;
@@ -429,7 +426,6 @@
 				AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */,
 				C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */,
 				AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */,
-				AD89944A2A5F5F3C00D848A5 /* ViewModelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
