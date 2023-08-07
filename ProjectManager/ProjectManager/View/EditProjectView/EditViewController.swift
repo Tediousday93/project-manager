@@ -39,6 +39,7 @@ final class EditViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .fill
+        stackView.spacing = Constant.stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -84,22 +85,22 @@ final class EditViewController: UIViewController {
         configureRootView()
         configureViewHierarchy()
         setupLayoutConstraints()
-        bindAction()
+        bindUI()
     }
     
     private func configureNavigationBar() {
-        self.leftBarButton.title = viewModel.mode.leftBarButtonTitle
-        self.navigationItem.title = Constant.navigationBarTitle
-        self.navigationItem.rightBarButtonItem = self.rightBarButton
-        self.navigationItem.leftBarButtonItem = self.leftBarButton
+        leftBarButton.title = viewModel.mode.leftBarButtonTitle
+        self.navigationItem.title = viewModel.projectState.rawValue
+        self.navigationItem.rightBarButtonItem = rightBarButton
+        self.navigationItem.leftBarButtonItem = leftBarButton
     }
     
     private func configureRootView() {
-        view.backgroundColor = .systemBackground
+        self.view.backgroundColor = .systemBackground
     }
     
     private func configureViewHierarchy() {
-        view.addSubview(stackView)
+        self.view.addSubview(stackView)
         
         stackView.addArrangedSubview(titleTextField)
         stackView.addArrangedSubview(datePicker)
@@ -108,39 +109,64 @@ final class EditViewController: UIViewController {
     
     private func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+            stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,
                                            constant: Constant.edgeSpacing),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
                                               constant: -Constant.edgeSpacing),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
                                                constant: Constant.edgeSpacing),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
                                                 constant: -Constant.edgeSpacing)
         ])
     }
     
-    private func bindAction() {
-        let rightBarButtonTapped = rightBarButton.rx
-            .tap
+    private func bindUI() {
+        let rightBarButtonTapped = rightBarButton.rx.tap
+            .asObservable()
+        let titleText = titleTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .asObservable()
+        let pickedDate = datePicker.rx.date
+            .distinctUntilChanged()
+            .asObservable()
+        let bodyText = bodyTextView.rx.text
+            .orEmpty
+            .distinctUntilChanged()
             .asObservable()
         
-        let input = EditViewModel.Input(rightBarButtonTapped: rightBarButtonTapped)
+        let input = EditViewModel.Input(
+            rightBarButtonTapped: rightBarButtonTapped,
+            titleText: titleText,
+            pickedDate: pickedDate,
+            bodyText: bodyText
+        )
         let output = viewModel.transform(input: input)
         
         output.projectCreated
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
-            .bind { owner, _ in
+            .subscribe { owner, _ in
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
         
-        leftBarButton.rx
-            .tap
-            .asObservable()
+        output.isContentEdited
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
-            .bind { owner, _ in
+            .bind { owner, isContentEdited in
+                if isContentEdited {
+                    owner.rightBarButton.isEnabled = true
+                } else {
+                    owner.rightBarButton.isEnabled = false
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        leftBarButton.rx.tap
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe { owner, _ in
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
@@ -150,8 +176,8 @@ final class EditViewController: UIViewController {
 private extension EditViewController {
     enum Constant {
         static let titlePlaceholder: String = "Title"
-        static let navigationBarTitle: String = "TODO"
         static let rightBarButtonTitle: String = "Done"
         static let edgeSpacing: CGFloat = 10
+        static let stackViewSpacing: CGFloat = 15
     }
 }

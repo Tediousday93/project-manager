@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol EditViewModelDelegate {
-    
+    func add(project: Project)
 }
 
 final class EditViewModel {
@@ -27,14 +27,15 @@ final class EditViewModel {
         }
     }
     
-    let mode: Mode
     var delegate: EditViewModelDelegate?
     
-    private var title: String?
-    private var date: Date?
-    private var body: String?
-    private let state: Project.State
+    let mode: Mode
+    let projectState: Project.State
+    private var title: String
+    private var date: Date
+    private var body: String
     private let id: UUID
+    private let sourceProject: Project?
     
     init(from project: Project? = nil) {
         switch project {
@@ -44,21 +45,26 @@ final class EditViewModel {
             self.mode = .edit
         }
         
-        self.title = project?.title
+        self.title = project?.title ?? ""
         self.date = project?.date ?? Date()
-        self.body = project?.body
-        self.state = project?.state ?? .todo
+        self.body = project?.body ?? ""
+        self.projectState = project?.state ?? .todo
         self.id = project?.id ?? UUID()
+        self.sourceProject = project
     }
 }
 
 extension EditViewModel: ViewModelType {
     struct Input {
         let rightBarButtonTapped: Observable<Void>
+        let titleText: Observable<String>
+        let pickedDate: Observable<Date>
+        let bodyText: Observable<String>
     }
     
     struct Output {
         let projectCreated: Observable<Void>
+        let isContentEdited: Observable<Bool>
     }
     
     func transform(input: Input) -> Output {
@@ -66,18 +72,41 @@ extension EditViewModel: ViewModelType {
             .withUnretained(self)
             .map { owner, _ in
                 let project = owner.createProject()
+                owner.delegate?.add(project: project)
+            }
+        let isTitleEdited = input.titleText
+            .withUnretained(self)
+            .map { owner, title in
+                owner.title = title
+                let oldTitle = owner.sourceProject?.title ?? ""
+                return owner.title == oldTitle ? false : true
+            }
+        let isDateEdited = input.pickedDate
+            .withUnretained(self)
+            .map { owner, date in
+                owner.date = date
+            }
+        let isBodyEdited = input.bodyText
+            .withUnretained(self)
+            .map { owner, body in
+                owner.body = body
+                let oldBody = owner.sourceProject?.body ?? ""
+                return owner.body == oldBody ? false : true
+            }
+        let isContentEdited = Observable.combineLatest(isTitleEdited, isBodyEdited)
+            .map { (isTitleEdited, isBodyEdited) in
+                isTitleEdited || isBodyEdited ? true : false
             }
         
-        return Output(projectCreated: projectCreated)
+        return Output(projectCreated: projectCreated,
+                      isContentEdited: isContentEdited)
     }
     
-    private func createProject() -> Project? {
-        guard let title, let date, let body else { return nil }
-        
+    private func createProject() -> Project {
         return Project(title: title,
                        date: date,
                        body: body,
-                       state: self.state,
-                       id: self.id)
+                       state: projectState,
+                       id: id)
     }
 }
