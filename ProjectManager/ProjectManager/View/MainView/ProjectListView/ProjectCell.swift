@@ -19,7 +19,7 @@ final class ProjectCell: UITableViewCell {
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.textColor = .systemGray5
+        label.textColor = .systemGray
         
         return label
     }()

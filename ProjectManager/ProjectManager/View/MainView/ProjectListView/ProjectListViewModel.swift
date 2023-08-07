@@ -29,9 +29,7 @@ final class ProjectListViewModel {
     }
     
     func retriveProject(for id: UUID) -> Project? {
-        return projectList
-            .filter { $0.id == id }
-            .first
+        return projectList.first { $0.id == id }
     }
     
     func add(project: Project) {
@@ -59,4 +57,3 @@ final class ProjectListViewModel {
 }
 
 extension ProjectListViewModel: EditViewModelDelegate { }
-

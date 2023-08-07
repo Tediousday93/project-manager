@@ -41,6 +41,7 @@ final class ProjectListViewController: UIViewController {
         configureTableView()
         setupLayoutConstraints()
         configureDataSource()
+        bindState()
     }
     
     private func configureRootView() {
@@ -49,8 +50,10 @@ final class ProjectListViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.dataSource = self.dataSource
+        tableView.dataSource = dataSource
         tableView.delegate = self
+        tableView.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
+        tableView.separatorInset = .zero
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -81,7 +84,8 @@ final class ProjectListViewController: UIViewController {
     }
 }
 
-// MARK: -
+// MARK: - TableView DataSource
+
 extension ProjectListViewController {
     private func configureDataSource() {
         dataSource = DataSource(tableView: tableView, cellProvider: cellProvider)
@@ -100,6 +104,9 @@ extension ProjectListViewController {
         guard let project = viewModel.retriveProject(for: itemIdentifier) else {
             return cell
         }
+        
+        cell?.titleLabel.text = project.title
+        cell?.bodyLabel.text = project.body
         
         return cell
     }
@@ -130,6 +137,8 @@ extension ProjectListViewController {
         dataSource?.apply(snapshot)
     }
 }
+
+// MARK: - TableView Delegate
 
 extension ProjectListViewController: UITableViewDelegate {
     
