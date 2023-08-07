@@ -139,6 +139,7 @@
 		AD89943B2A5E9D9300D848A5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AD8994482A5F5F2300D848A5 /* Common */,
 				AD8994282A5C5E2E00D848A5 /* MainView */,
 				AD8994652A651F8600D848A5 /* EditProjectView */,
 			);
@@ -206,7 +207,6 @@
 			children = (
 				C7431F0525F51E1D0094C4CF /* AppDelegate.swift */,
 				C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */,
-				AD8994482A5F5F2300D848A5 /* Common */,
 				AD8994362A5E42A800D848A5 /* Model */,
 				AD89943B2A5E9D9300D848A5 /* View */,
 				AD8994372A5E460E00D848A5 /* Resource */,
