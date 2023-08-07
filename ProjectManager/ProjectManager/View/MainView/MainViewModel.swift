@@ -18,7 +18,7 @@ final class MainViewModel {
     }
 }
 
-extension MainViewModel: ViewModelType {
+extension MainViewModel {
     struct Input {
         let addBarButtonTapped: Observable<Void>
     }
@@ -27,7 +27,7 @@ extension MainViewModel: ViewModelType {
         let editViewModel: Observable<EditViewModel>
     }
     
-    func transform(input: Input) -> Output {
+    func transform(_ input: Input) -> Output {
         let editViewModel = input.addBarButtonTapped
             .withUnretained(self)
             .map { owner, _ in

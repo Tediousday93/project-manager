@@ -92,19 +92,16 @@ final class MainViewController: UIViewController {
     }
     
     private func bindUI() {
-        let addBarButtonTapped = addBarButton.rx
-            .tap
+        let addBarButtonTapped = addBarButton.rx.tap
             .asObservable()
         
         let input = MainViewModel.Input(addBarButtonTapped: addBarButtonTapped)
-        let output = viewModel.transform(input: input)
+        let output = viewModel.transform(input)
         
         output.editViewModel
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind { owner, editViewModel in
+            .bind(with: self, onNext: { owner, editViewModel in
                 owner.presentEditView(viewModel: editViewModel)
-            }
+            })
             .disposed(by: disposeBag)
     }
     
