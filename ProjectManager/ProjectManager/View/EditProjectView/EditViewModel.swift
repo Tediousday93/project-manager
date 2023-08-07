@@ -54,7 +54,7 @@ final class EditViewModel {
     }
 }
 
-extension EditViewModel: ViewModelType {
+extension EditViewModel {
     struct Input {
         let rightBarButtonTapped: Observable<Void>
         let titleText: Observable<String>
@@ -67,7 +67,7 @@ extension EditViewModel: ViewModelType {
         let isContentEdited: Observable<Bool>
     }
     
-    func transform(input: Input) -> Output {
+    func transform(_ input: Input, with disposeBag: DisposeBag) -> Output {
         let projectCreated = input.rightBarButtonTapped
             .withUnretained(self)
             .map { owner, _ in
@@ -81,11 +81,6 @@ extension EditViewModel: ViewModelType {
                 let oldTitle = owner.sourceProject?.title ?? ""
                 return owner.title == oldTitle ? false : true
             }
-        let isDateEdited = input.pickedDate
-            .withUnretained(self)
-            .map { owner, date in
-                owner.date = date
-            }
         let isBodyEdited = input.bodyText
             .withUnretained(self)
             .map { owner, body in
@@ -97,6 +92,14 @@ extension EditViewModel: ViewModelType {
             .map { (isTitleEdited, isBodyEdited) in
                 isTitleEdited || isBodyEdited ? true : false
             }
+        
+        input.pickedDate
+            .withUnretained(self)
+            .map { owner, date in
+                owner.date = date
+            }
+            .subscribe()
+            .disposed(by: disposeBag)
         
         return Output(projectCreated: projectCreated,
                       isContentEdited: isContentEdited)

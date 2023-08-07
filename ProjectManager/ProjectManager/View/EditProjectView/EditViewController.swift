@@ -141,34 +141,28 @@ final class EditViewController: UIViewController {
             pickedDate: pickedDate,
             bodyText: bodyText
         )
-        let output = viewModel.transform(input: input)
+        let output = viewModel.transform(input, with: disposeBag)
         
         output.projectCreated
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .subscribe { owner, _ in
+            .bind(with: self, onNext: { owner, _ in
                 owner.dismiss(animated: true)
-            }
+            })
             .disposed(by: disposeBag)
         
         output.isContentEdited
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind { owner, isContentEdited in
+            .bind(with: self, onNext: { owner, isContentEdited in
                 if isContentEdited {
                     owner.rightBarButton.isEnabled = true
                 } else {
                     owner.rightBarButton.isEnabled = false
                 }
-            }
+            })
             .disposed(by: disposeBag)
         
         leftBarButton.rx.tap
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .subscribe { owner, _ in
+            .bind(with: self, onNext: { owner, _ in
                 owner.dismiss(animated: true)
-            }
+            })
             .disposed(by: disposeBag)
     }
 }
