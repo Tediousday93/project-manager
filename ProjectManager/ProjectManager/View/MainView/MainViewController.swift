@@ -95,13 +95,20 @@ final class MainViewController: UIViewController {
         let addBarButtonTapped = addBarButton.rx.tap
             .asObservable()
         
-        let input = MainViewModel.Input(addBarButtonTapped: addBarButtonTapped)
+        let input = MainViewModel.Input(
+            addBarButtonTapped: addBarButtonTapped
+        )
         let output = viewModel.transform(input)
         
         output.editViewModel
-            .bind(with: self, onNext: { owner, editViewModel in
+//            .observe(on: MainScheduler.instance)
+//            .bind(with: self) { owner, editViewModel in
+//                owner.presentEditView(viewModel: editViewModel)
+//            }
+            .asDriver(onErrorJustReturn: .init())
+            .drive(with: self) { owner, editViewModel in
                 owner.presentEditView(viewModel: editViewModel)
-            })
+            }
             .disposed(by: disposeBag)
     }
     

@@ -67,10 +67,11 @@ final class ProjectListViewController: UIViewController {
     }
     
     private func bindState() {
-        viewModel.projectListSubject
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind { owner, event in
+        viewModel.projectListEventRelay
+//            .observe(on: MainScheduler.instance)
+//            .withUnretained(self)
+//            .bind { owner, event in
+            .bind(with: self) { owner, event in
                 switch event {
                 case .added:
                     owner.applyLatestSnapshot()
@@ -101,7 +102,7 @@ extension ProjectListViewController {
             for: indexPath
         ) as? ProjectCell
         
-        guard let project = viewModel.retriveProject(for: itemIdentifier) else {
+        guard let project = viewModel.retrieveProject(for: itemIdentifier) else {
             return cell
         }
         

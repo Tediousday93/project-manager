@@ -90,9 +90,10 @@ extension EditViewModel {
             }
         let isContentEdited = Observable.combineLatest(isTitleEdited, isBodyEdited)
             .map { (isTitleEdited, isBodyEdited) in
-                isTitleEdited || isBodyEdited ? true : false
+                isTitleEdited || isBodyEdited
             }
         
+        // 이게 최선인가?
         input.pickedDate
             .withUnretained(self)
             .map { owner, date in

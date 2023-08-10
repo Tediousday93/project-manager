@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
 final class ProjectListViewModel {
     enum ProjectListEvent {
@@ -19,7 +20,7 @@ final class ProjectListViewModel {
         return projectList.map { $0.id }
     }
     
-    let projectListSubject: PublishSubject<ProjectListEvent> = .init()
+    let projectListEventRelay: PublishRelay<ProjectListEvent> = .init()
     let projectState: Project.State
     private(set) var projectList: [Project]
     
@@ -28,13 +29,13 @@ final class ProjectListViewModel {
         self.projectList = projectList
     }
     
-    func retriveProject(for id: UUID) -> Project? {
+    func retrieveProject(for id: UUID) -> Project? {
         return projectList.first { $0.id == id }
     }
     
     func add(project: Project) {
         projectList.append(project)
-        projectListSubject.onNext(.added)
+        projectListEventRelay.accept(.added)
     }
     
     func updateProject(with newProject: Project) {
@@ -43,7 +44,7 @@ final class ProjectListViewModel {
         }
         
         projectList[index] = newProject
-        projectListSubject.onNext(.updated(id: newProject.id))
+        projectListEventRelay.accept(.updated(id: newProject.id))
     }
     
     func deleteProject(id: UUID) {
@@ -52,7 +53,7 @@ final class ProjectListViewModel {
         }
         
         projectList.remove(at: index)
-        projectListSubject.onNext(.deleted(id: id))
+        projectListEventRelay.accept(.deleted(id: id))
     }
 }
 

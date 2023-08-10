@@ -144,25 +144,43 @@ final class EditViewController: UIViewController {
         let output = viewModel.transform(input, with: disposeBag)
         
         output.projectCreated
-            .bind(with: self, onNext: { owner, _ in
+//            .observe(on: MainScheduler.instance)
+//            .bind(with: self) { owner, _ in
+//                owner.dismiss(animated: true)
+//            }
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
                 owner.dismiss(animated: true)
-            })
+            }
             .disposed(by: disposeBag)
         
         output.isContentEdited
-            .bind(with: self, onNext: { owner, isContentEdited in
+//            .observe(on: MainScheduler.instance)
+//            .bind(with: self) { owner, isContentEdited in
+//                if isContentEdited {
+//                    owner.rightBarButton.isEnabled = true
+//                } else {
+//                    owner.rightBarButton.isEnabled = false
+//                }
+//            }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isContentEdited in
                 if isContentEdited {
                     owner.rightBarButton.isEnabled = true
                 } else {
                     owner.rightBarButton.isEnabled = false
                 }
-            })
+            }
             .disposed(by: disposeBag)
         
         leftBarButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
+//            .bind(with: self) { owner, _ in
+//                owner.dismiss(animated: true)
+//            }
+            .asDriver()
+            .drive(with: self) { owner, _ in
                 owner.dismiss(animated: true)
-            })
+            }
             .disposed(by: disposeBag)
     }
 }
