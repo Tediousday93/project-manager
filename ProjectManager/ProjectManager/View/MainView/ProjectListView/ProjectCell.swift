@@ -12,6 +12,8 @@ final class ProjectCell: UITableViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.textColor = .black
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         
         return label
     }()
@@ -20,6 +22,8 @@ final class ProjectCell: UITableViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .systemGray
+        label.numberOfLines = 3
+        label.lineBreakMode = .byTruncatingTail
         
         return label
     }()
@@ -67,9 +71,7 @@ final class ProjectCell: UITableViewCell {
         bodyLabel.text = nil
         dateLabel.text = nil
     }
-}
-
-extension ProjectCell {
+    
     private func configureViewHierarchy() {
         labelStackView.addArrangedSubview(titleLabel)
         labelStackView.addArrangedSubview(bodyLabel)
