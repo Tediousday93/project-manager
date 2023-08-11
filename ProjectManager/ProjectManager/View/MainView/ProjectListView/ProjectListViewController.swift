@@ -67,7 +67,7 @@ final class ProjectListViewController: UIViewController {
     }
     
     private func bindState() {
-        viewModel.projectListEventRelay
+        viewModel.projectListEvent
 //            .observe(on: MainScheduler.instance)
 //            .withUnretained(self)
 //            .bind { owner, event in

@@ -90,7 +90,7 @@ final class EditViewController: UIViewController {
     
     private func configureNavigationBar() {
         leftBarButton.title = viewModel.mode.leftBarButtonTitle
-        self.navigationItem.title = viewModel.projectState.rawValue
+        self.navigationItem.title = (viewModel.sourceProject?.state ?? .todo).rawValue
         self.navigationItem.rightBarButtonItem = rightBarButton
         self.navigationItem.leftBarButtonItem = leftBarButton
     }
@@ -121,26 +121,29 @@ final class EditViewController: UIViewController {
     }
     
     private func bindUI() {
-        let rightBarButtonTapped = rightBarButton.rx.tap
-            .asObservable()
+        let input = EditViewModel.Input()
+        
         let titleText = titleTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
-            .asObservable()
         let pickedDate = datePicker.rx.date
             .distinctUntilChanged()
-            .asObservable()
         let bodyText = bodyTextView.rx.text
             .orEmpty
             .distinctUntilChanged()
-            .asObservable()
         
-        let input = EditViewModel.Input(
-            rightBarButtonTapped: rightBarButtonTapped,
-            titleText: titleText,
-            pickedDate: pickedDate,
-            bodyText: bodyText
-        )
+        Observable.combineLatest(titleText, pickedDate, bodyText)
+            .catchAndReturn(("", Date(), ""))
+            .subscribe { title, date, body in
+                input.projectContents.accept((title, date, body))
+            }
+            .disposed(by: disposeBag)
+        
+        rightBarButton.rx.tap
+            .bind(to: input.rightBarButtonTapped)
+            .disposed(by: disposeBag)
+            
+        
         let output = viewModel.transform(input, with: disposeBag)
         
         output.projectCreated

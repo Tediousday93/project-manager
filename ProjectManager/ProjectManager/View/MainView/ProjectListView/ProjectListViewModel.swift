@@ -16,12 +16,13 @@ final class ProjectListViewModel {
         case deleted(id: UUID)
     }
     
+    let projectListEvent: PublishRelay<ProjectListEvent> = .init()
+    let projectState: Project.State
+    var parent: MainViewModel?
     var projectIDList: [UUID] {
         return projectList.map { $0.id }
     }
     
-    let projectListEventRelay: PublishRelay<ProjectListEvent> = .init()
-    let projectState: Project.State
     private(set) var projectList: [Project]
     
     init(projectState: Project.State, projectList: [Project] = []) {
@@ -35,7 +36,7 @@ final class ProjectListViewModel {
     
     func add(project: Project) {
         projectList.append(project)
-        projectListEventRelay.accept(.added)
+        projectListEvent.accept(.added)
     }
     
     func updateProject(with newProject: Project) {
@@ -44,7 +45,7 @@ final class ProjectListViewModel {
         }
         
         projectList[index] = newProject
-        projectListEventRelay.accept(.updated(id: newProject.id))
+        projectListEvent.accept(.updated(id: newProject.id))
     }
     
     func deleteProject(id: UUID) {
@@ -53,7 +54,7 @@ final class ProjectListViewModel {
         }
         
         projectList.remove(at: index)
-        projectListEventRelay.accept(.deleted(id: id))
+        projectListEvent.accept(.deleted(id: id))
     }
 }
 

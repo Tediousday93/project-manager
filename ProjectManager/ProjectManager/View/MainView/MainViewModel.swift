@@ -13,6 +13,7 @@ final class MainViewModel {
     
     func addChildren(_ children: [ProjectListViewModel]) {
         children.forEach { child in
+            child.parent = self
             self.children[child.projectState] = child
         }
     }
