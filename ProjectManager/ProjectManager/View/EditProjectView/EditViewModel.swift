@@ -43,7 +43,7 @@ extension EditViewModel {
         let isContentEdited: Observable<Bool>
     }
     
-    func transform(_ input: Input, with disposeBag: DisposeBag) -> Output {
+    func transform(_ input: Input) -> Output {
         let projectCreated = Observable
             .combineLatest(input.rightBarButtonTapped, input.projectContents)
             .map { _, projectContents in

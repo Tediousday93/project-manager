@@ -144,7 +144,7 @@ final class EditViewController: UIViewController {
             .disposed(by: disposeBag)
             
         
-        let output = viewModel.transform(input, with: disposeBag)
+        let output = viewModel.transform(input)
         
         output.projectCreated
 //            .observe(on: MainScheduler.instance)
