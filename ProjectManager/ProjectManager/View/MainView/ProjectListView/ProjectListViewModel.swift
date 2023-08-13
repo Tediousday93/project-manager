@@ -24,6 +24,11 @@ final class ProjectListViewModel {
     }
     
     private(set) var projectList: [Project]
+//    let projectListSubject: BehaviorSubject<[Project]> = .init(value: [])
+//    
+//    subscript (_ identifier: Project.ID) -> Project? {
+//        try? projectListSubject.value().first { $0.id == identifier }
+//    }
     
     init(projectState: Project.State, projectList: [Project] = []) {
         self.projectState = projectState

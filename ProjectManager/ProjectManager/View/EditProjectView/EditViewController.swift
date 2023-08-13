@@ -89,7 +89,7 @@ final class EditViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        leftBarButton.title = viewModel.mode.leftBarButtonTitle
+        leftBarButton.title = viewModel.leftBarButtonTitle
         self.navigationItem.title = (viewModel.sourceProject?.state ?? .todo).rawValue
         self.navigationItem.rightBarButtonItem = rightBarButton
         self.navigationItem.leftBarButtonItem = leftBarButton

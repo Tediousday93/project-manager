@@ -7,6 +7,9 @@
 
 import Foundation
 
+// Service -> DB, persistence Storing
+// UseCase -> Project CRUD
+
 final class ProjectManager {
     private(set) var projectList: [Project]
     
