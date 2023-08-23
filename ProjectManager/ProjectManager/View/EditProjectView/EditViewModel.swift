@@ -9,10 +9,6 @@ import Foundation
 import RxSwift
 import RxRelay
 
-protocol EditViewModelDelegate {
-    func add(project: Project)
-}
-
 final class EditViewModel {
     var leftBarButtonTitle: String {
         switch sourceProject {
@@ -22,8 +18,6 @@ final class EditViewModel {
             return "Edit"
         }
     }
-    
-    var delegate: EditViewModelDelegate?
     
     let sourceProject: Project?
     
@@ -56,8 +50,6 @@ extension EditViewModel {
                                body: projectContents.body,
                                state: owner.sourceProject?.state ?? .todo,
                                id: owner.sourceProject?.id ?? UUID())
-                
-                owner.delegate?.add(project: project)
             }
             
         let isContentEdited = input.projectContents
