@@ -7,59 +7,29 @@
 
 import Foundation
 import RxSwift
-
-protocol EditViewModelDelegate {
-    func add(project: Project)
-}
+import RxRelay
 
 final class EditViewModel {
-    enum Mode {
-        case create
-        case edit
-        
-        var leftBarButtonTitle: String {
-            switch self {
-            case .create:
-                return "Cancel"
-            case .edit:
-                return "Edit"
-            }
+    var leftBarButtonTitle: String {
+        switch sourceProject {
+        case .none:
+            return "Cancel"
+        case .some:
+            return "Edit"
         }
     }
     
-    var delegate: EditViewModelDelegate?
-    
-    let mode: Mode
-    let projectState: Project.State
-    private var title: String
-    private var date: Date
-    private var body: String
-    private let id: UUID
-    private let sourceProject: Project?
+    let sourceProject: Project?
     
     init(from project: Project? = nil) {
-        switch project {
-        case .none:
-            self.mode = .create
-        case .some:
-            self.mode = .edit
-        }
-        
-        self.title = project?.title ?? ""
-        self.date = project?.date ?? Date()
-        self.body = project?.body ?? ""
-        self.projectState = project?.state ?? .todo
-        self.id = project?.id ?? UUID()
         self.sourceProject = project
     }
 }
 
 extension EditViewModel {
     struct Input {
-        let rightBarButtonTapped: Observable<Void>
-        let titleText: Observable<String>
-        let pickedDate: Observable<Date>
-        let bodyText: Observable<String>
+        let rightBarButtonTapped: PublishRelay<Void> = .init()
+        let projectContents: PublishRelay<(title: String, date: Date, body: String)> = .init()
     }
     
     struct Output {
@@ -67,50 +37,38 @@ extension EditViewModel {
         let isContentEdited: Observable<Bool>
     }
     
-    func transform(_ input: Input, with disposeBag: DisposeBag) -> Output {
-        let projectCreated = input.rightBarButtonTapped
+    func transform(_ input: Input) -> Output {
+        let projectCreated = Observable
+            .combineLatest(input.rightBarButtonTapped, input.projectContents)
+            .map { _, projectContents in
+                return projectContents
+            }
             .withUnretained(self)
-            .map { owner, _ in
-                let project = owner.createProject()
-                owner.delegate?.add(project: project)
+            .map { owner, projectContents in
+                let project = Project(title: projectContents.title,
+                               date: projectContents.date,
+                               body: projectContents.body,
+                               state: owner.sourceProject?.state ?? .todo,
+                               id: owner.sourceProject?.id ?? UUID())
             }
-        let isTitleEdited = input.titleText
+            
+        let isContentEdited = input.projectContents
+            .map { title, date, body in
+                return (title, body)
+            }
             .withUnretained(self)
-            .map { owner, title in
-                owner.title = title
-                let oldTitle = owner.sourceProject?.title ?? ""
-                return owner.title == oldTitle ? false : true
+            .map { owner, inputText in
+                return owner.check(inputText: inputText)
             }
-        let isBodyEdited = input.bodyText
-            .withUnretained(self)
-            .map { owner, body in
-                owner.body = body
-                let oldBody = owner.sourceProject?.body ?? ""
-                return owner.body == oldBody ? false : true
-            }
-        let isContentEdited = Observable.combineLatest(isTitleEdited, isBodyEdited)
-            .map { (isTitleEdited, isBodyEdited) in
-                isTitleEdited || isBodyEdited
-            }
-        
-        // 이게 최선인가?
-        input.pickedDate
-            .withUnretained(self)
-            .map { owner, date in
-                owner.date = date
-            }
-            .subscribe()
-            .disposed(by: disposeBag)
         
         return Output(projectCreated: projectCreated,
                       isContentEdited: isContentEdited)
     }
     
-    private func createProject() -> Project {
-        return Project(title: title,
-                       date: date,
-                       body: body,
-                       state: projectState,
-                       id: id)
+    private func check(inputText: (title: String, body: String)) -> Bool {
+        let isTitleEdited = inputText.title != (sourceProject?.title ?? "")
+        let isBodyEdited = inputText.body != (sourceProject?.body ?? "")
+        
+        return isTitleEdited || isBodyEdited
     }
 }

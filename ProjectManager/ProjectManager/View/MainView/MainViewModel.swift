@@ -13,12 +13,13 @@ final class MainViewModel {
     
     func addChildren(_ children: [ProjectListViewModel]) {
         children.forEach { child in
+            child.parent = self
             self.children[child.projectState] = child
         }
     }
 }
 
-extension MainViewModel {
+extension MainViewModel: ViewModelType {
     struct Input {
         let addBarButtonTapped: Observable<Void>
     }
@@ -32,7 +33,6 @@ extension MainViewModel {
             .withUnretained(self)
             .map { owner, _ in
                 let editViewModel = EditViewModel(from: nil)
-                editViewModel.delegate = owner.children[.todo]
                 
                 return editViewModel
             }
