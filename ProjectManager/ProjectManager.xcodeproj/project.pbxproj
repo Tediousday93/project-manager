@@ -10,10 +10,12 @@
 		20AE11B679C35DB46A537402 /* Pods_ProjectManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D47C891451BEA9DB3094BB48 /* Pods_ProjectManagerTests.framework */; };
 		79A248FE0FF8C2A9975A10CC /* Pods_ProjectManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F94021592CAF34083BDA7774 /* Pods_ProjectManager.framework */; };
 		AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */; };
+		AD5F1EF82A8F8EE3007C7AD0 /* ProjectManagable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1EF72A8F8EE3007C7AD0 /* ProjectManagable.swift */; };
+		AD5F1EFB2A96C3A1007C7AD0 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1EFA2A96C3A1007C7AD0 /* UIViewController+Rx.swift */; };
 		AD8994302A5E427A00D848A5 /* ProjectManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD89942F2A5E427A00D848A5 /* ProjectManagerTests.swift */; };
 		AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994392A5E6B6200D848A5 /* Project.swift */; };
 		AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD89943F2A5EAA8D00D848A5 /* MainViewModel.swift */; };
-		AD8994422A5F565800D848A5 /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994412A5F565800D848A5 /* ProjectManager.swift */; };
+		AD8994422A5F565800D848A5 /* DefaultProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994412A5F565800D848A5 /* DefaultProjectManager.swift */; };
 		AD8994452A5F5B4100D848A5 /* ProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994442A5F5B4100D848A5 /* ProjectListViewController.swift */; };
 		AD8994472A5F5E9400D848A5 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994462A5F5E9400D848A5 /* ProjectListViewModel.swift */; };
 		AD89944A2A5F5F3C00D848A5 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */; };
@@ -43,11 +45,13 @@
 		5A3CFABBF8DFE17EA7FAA362 /* Pods-ProjectManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManagerTests.release.xcconfig"; path = "Target Support Files/Pods-ProjectManagerTests/Pods-ProjectManagerTests.release.xcconfig"; sourceTree = "<group>"; };
 		A75CEDCD244C20CEFDC6E51F /* Pods-ProjectManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.debug.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.debug.xcconfig"; sourceTree = "<group>"; };
 		AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
+		AD5F1EF72A8F8EE3007C7AD0 /* ProjectManagable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManagable.swift; sourceTree = "<group>"; };
+		AD5F1EFA2A96C3A1007C7AD0 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 		AD89942D2A5E427A00D848A5 /* ProjectManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD89942F2A5E427A00D848A5 /* ProjectManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManagerTests.swift; sourceTree = "<group>"; };
 		AD8994392A5E6B6200D848A5 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		AD89943F2A5EAA8D00D848A5 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-		AD8994412A5F565800D848A5 /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
+		AD8994412A5F565800D848A5 /* DefaultProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProjectManager.swift; sourceTree = "<group>"; };
 		AD8994442A5F5B4100D848A5 /* ProjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewController.swift; sourceTree = "<group>"; };
 		AD8994462A5F5E9400D848A5 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
 		AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
@@ -98,6 +102,47 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		AD5F1EF32A8F8E5C007C7AD0 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				AD8994392A5E6B6200D848A5 /* Project.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		AD5F1EF42A8F8E78007C7AD0 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				AD5F1EF72A8F8EE3007C7AD0 /* ProjectManagable.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		AD5F1EF52A8F8E90007C7AD0 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				AD8994412A5F565800D848A5 /* DefaultProjectManager.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		AD5F1EF62A8F8EA8007C7AD0 /* ProjectManager */ = {
+			isa = PBXGroup;
+			children = (
+				AD5F1EF52A8F8E90007C7AD0 /* Implementation */,
+				AD5F1EF42A8F8E78007C7AD0 /* Interface */,
+			);
+			path = ProjectManager;
+			sourceTree = "<group>";
+		};
+		AD5F1EF92A96C320007C7AD0 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				AD5F1EFA2A96C3A1007C7AD0 /* UIViewController+Rx.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		AD8994282A5C5E2E00D848A5 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,9 +164,8 @@
 		AD8994362A5E42A800D848A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AD8994392A5E6B6200D848A5 /* Project.swift */,
-				AD8994412A5F565800D848A5 /* ProjectManager.swift */,
-				AD89943C2A5E9FB700D848A5 /* Service */,
+				AD5F1EF62A8F8EA8007C7AD0 /* ProjectManager */,
+				AD5F1EF32A8F8E5C007C7AD0 /* Entity */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -207,8 +251,10 @@
 			children = (
 				C7431F0525F51E1D0094C4CF /* AppDelegate.swift */,
 				C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */,
+				AD89943C2A5E9FB700D848A5 /* Service */,
 				AD8994362A5E42A800D848A5 /* Model */,
 				AD89943B2A5E9D9300D848A5 /* View */,
+				AD5F1EF92A96C320007C7AD0 /* Utility */,
 				AD8994372A5E460E00D848A5 /* Resource */,
 			);
 			path = ProjectManager;
@@ -417,9 +463,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */,
+				AD5F1EF82A8F8EE3007C7AD0 /* ProjectManagable.swift in Sources */,
 				AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */,
-				AD8994422A5F565800D848A5 /* ProjectManager.swift in Sources */,
+				AD8994422A5F565800D848A5 /* DefaultProjectManager.swift in Sources */,
 				C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */,
+				AD5F1EFB2A96C3A1007C7AD0 /* UIViewController+Rx.swift in Sources */,
 				AD8994602A6510D900D848A5 /* ProjectCell.swift in Sources */,
 				C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */,
 				AD8994472A5F5E9400D848A5 /* ProjectListViewModel.swift in Sources */,
