@@ -147,10 +147,6 @@ final class EditViewController: UIViewController {
         let output = viewModel.transform(input)
         
         output.projectCreated
-//            .observe(on: MainScheduler.instance)
-//            .bind(with: self) { owner, _ in
-//                owner.dismiss(animated: true)
-//            }
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { owner, _ in
                 owner.dismiss(animated: true)
@@ -158,14 +154,6 @@ final class EditViewController: UIViewController {
             .disposed(by: disposeBag)
         
         output.isContentEdited
-//            .observe(on: MainScheduler.instance)
-//            .bind(with: self) { owner, isContentEdited in
-//                if isContentEdited {
-//                    owner.rightBarButton.isEnabled = true
-//                } else {
-//                    owner.rightBarButton.isEnabled = false
-//                }
-//            }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isContentEdited in
                 if isContentEdited {
@@ -177,9 +165,6 @@ final class EditViewController: UIViewController {
             .disposed(by: disposeBag)
         
         leftBarButton.rx.tap
-//            .bind(with: self) { owner, _ in
-//                owner.dismiss(animated: true)
-//            }
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.dismiss(animated: true)

@@ -101,10 +101,6 @@ final class MainViewController: UIViewController {
         let output = viewModel.transform(input)
         
         output.editViewModel
-//            .observe(on: MainScheduler.instance)
-//            .bind(with: self) { owner, editViewModel in
-//                owner.presentEditView(viewModel: editViewModel)
-//            }
             .asDriver(onErrorJustReturn: .init())
             .drive(with: self) { owner, editViewModel in
                 owner.presentEditView(viewModel: editViewModel)
