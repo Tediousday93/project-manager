@@ -12,13 +12,8 @@
 		AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */; };
 		AD5F1EF82A8F8EE3007C7AD0 /* ProjectManagable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1EF72A8F8EE3007C7AD0 /* ProjectManagable.swift */; };
 		AD5F1EFB2A96C3A1007C7AD0 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1EFA2A96C3A1007C7AD0 /* UIViewController+Rx.swift */; };
-		AD5F1EFE2A9D0829007C7AD0 /* EditProjectUsecaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1EFD2A9D0829007C7AD0 /* EditProjectUsecaseType.swift */; };
 		AD5F1F062A9D0D4C007C7AD0 /* ProjectListUsecaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F052A9D0D4C007C7AD0 /* ProjectListUsecaseType.swift */; };
-		AD5F1F0C2A9D0E44007C7AD0 /* MainUsecaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F0B2A9D0E44007C7AD0 /* MainUsecaseType.swift */; };
-		AD5F1F0E2A9D1016007C7AD0 /* MainUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F0D2A9D1016007C7AD0 /* MainUsecase.swift */; };
 		AD5F1F102A9D14EC007C7AD0 /* ProjectListUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F0F2A9D14EC007C7AD0 /* ProjectListUsecase.swift */; };
-		AD5F1F122A9DCAE9007C7AD0 /* CreateProjectUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F112A9DCAE9007C7AD0 /* CreateProjectUsecase.swift */; };
-		AD5F1F142A9DCBC3007C7AD0 /* UpdateProjectUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F132A9DCBC3007C7AD0 /* UpdateProjectUsecase.swift */; };
 		AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */; };
 		AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */; };
 		AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */; };
@@ -56,13 +51,8 @@
 		AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
 		AD5F1EF72A8F8EE3007C7AD0 /* ProjectManagable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManagable.swift; sourceTree = "<group>"; };
 		AD5F1EFA2A96C3A1007C7AD0 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
-		AD5F1EFD2A9D0829007C7AD0 /* EditProjectUsecaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectUsecaseType.swift; sourceTree = "<group>"; };
 		AD5F1F052A9D0D4C007C7AD0 /* ProjectListUsecaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListUsecaseType.swift; sourceTree = "<group>"; };
-		AD5F1F0B2A9D0E44007C7AD0 /* MainUsecaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUsecaseType.swift; sourceTree = "<group>"; };
-		AD5F1F0D2A9D1016007C7AD0 /* MainUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUsecase.swift; sourceTree = "<group>"; };
 		AD5F1F0F2A9D14EC007C7AD0 /* ProjectListUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListUsecase.swift; sourceTree = "<group>"; };
-		AD5F1F112A9DCAE9007C7AD0 /* CreateProjectUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectUsecase.swift; sourceTree = "<group>"; };
-		AD5F1F132A9DCBC3007C7AD0 /* UpdateProjectUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProjectUsecase.swift; sourceTree = "<group>"; };
 		AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEditViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProjectViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProjectViewModel.swift; sourceTree = "<group>"; };
@@ -164,85 +154,24 @@
 		AD5F1EFC2A9D0802007C7AD0 /* Usecases */ = {
 			isa = PBXGroup;
 			children = (
-				AD5F1F072A9D0D6E007C7AD0 /* MainUsecase */,
+				AD5F1F052A9D0D4C007C7AD0 /* ProjectListUsecaseType.swift */,
 				AD5F1F022A9D0D19007C7AD0 /* ProjectListUsecase */,
-				AD5F1EFF2A9D0831007C7AD0 /* EditProjectUsecase */,
 			);
 			path = Usecases;
-			sourceTree = "<group>";
-		};
-		AD5F1EFF2A9D0831007C7AD0 /* EditProjectUsecase */ = {
-			isa = PBXGroup;
-			children = (
-				AD5F1F012A9D084B007C7AD0 /* Implementation */,
-				AD5F1F002A9D0843007C7AD0 /* Interface */,
-			);
-			path = EditProjectUsecase;
-			sourceTree = "<group>";
-		};
-		AD5F1F002A9D0843007C7AD0 /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				AD5F1EFD2A9D0829007C7AD0 /* EditProjectUsecaseType.swift */,
-			);
-			path = Interface;
-			sourceTree = "<group>";
-		};
-		AD5F1F012A9D084B007C7AD0 /* Implementation */ = {
-			isa = PBXGroup;
-			children = (
-				AD5F1F112A9DCAE9007C7AD0 /* CreateProjectUsecase.swift */,
-				AD5F1F132A9DCBC3007C7AD0 /* UpdateProjectUsecase.swift */,
-			);
-			path = Implementation;
 			sourceTree = "<group>";
 		};
 		AD5F1F022A9D0D19007C7AD0 /* ProjectListUsecase */ = {
 			isa = PBXGroup;
 			children = (
 				AD5F1F042A9D0D35007C7AD0 /* Implementation */,
-				AD5F1F032A9D0D33007C7AD0 /* Interface */,
 			);
 			path = ProjectListUsecase;
-			sourceTree = "<group>";
-		};
-		AD5F1F032A9D0D33007C7AD0 /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				AD5F1F052A9D0D4C007C7AD0 /* ProjectListUsecaseType.swift */,
-			);
-			path = Interface;
 			sourceTree = "<group>";
 		};
 		AD5F1F042A9D0D35007C7AD0 /* Implementation */ = {
 			isa = PBXGroup;
 			children = (
 				AD5F1F0F2A9D14EC007C7AD0 /* ProjectListUsecase.swift */,
-			);
-			path = Implementation;
-			sourceTree = "<group>";
-		};
-		AD5F1F072A9D0D6E007C7AD0 /* MainUsecase */ = {
-			isa = PBXGroup;
-			children = (
-				AD5F1F0A2A9D0E32007C7AD0 /* Implementation */,
-				AD5F1F082A9D0E20007C7AD0 /* Interface */,
-			);
-			path = MainUsecase;
-			sourceTree = "<group>";
-		};
-		AD5F1F082A9D0E20007C7AD0 /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				AD5F1F0B2A9D0E44007C7AD0 /* MainUsecaseType.swift */,
-			);
-			path = Interface;
-			sourceTree = "<group>";
-		};
-		AD5F1F0A2A9D0E32007C7AD0 /* Implementation */ = {
-			isa = PBXGroup;
-			children = (
-				AD5F1F0D2A9D1016007C7AD0 /* MainUsecase.swift */,
 			);
 			path = Implementation;
 			sourceTree = "<group>";
@@ -265,13 +194,14 @@
 			path = ProjectManagerTests;
 			sourceTree = "<group>";
 		};
-		AD8994362A5E42A800D848A5 /* Model */ = {
+		AD8994362A5E42A800D848A5 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				AD5F1EF62A8F8EA8007C7AD0 /* ProjectManager */,
 				AD5F1EF32A8F8E5C007C7AD0 /* Entity */,
+				AD5F1EFC2A9D0802007C7AD0 /* Usecases */,
+				AD5F1EF62A8F8EA8007C7AD0 /* ProjectManager */,
 			);
-			path = Model;
+			path = Domain;
 			sourceTree = "<group>";
 		};
 		AD8994372A5E460E00D848A5 /* Resource */ = {
@@ -358,8 +288,7 @@
 				C7431F0525F51E1D0094C4CF /* AppDelegate.swift */,
 				C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */,
 				AD89943C2A5E9FB700D848A5 /* Service */,
-				AD8994362A5E42A800D848A5 /* Model */,
-				AD5F1EFC2A9D0802007C7AD0 /* Usecases */,
+				AD8994362A5E42A800D848A5 /* Domain */,
 				AD89943B2A5E9D9300D848A5 /* View */,
 				AD5F1EF92A96C320007C7AD0 /* Utility */,
 				AD8994372A5E460E00D848A5 /* Resource */,
@@ -573,17 +502,13 @@
 				AD5F1EF82A8F8EE3007C7AD0 /* ProjectManagable.swift in Sources */,
 				AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */,
 				AD8994422A5F565800D848A5 /* DefaultProjectManager.swift in Sources */,
-				AD5F1F0C2A9D0E44007C7AD0 /* MainUsecaseType.swift in Sources */,
 				C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */,
 				AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */,
 				AD5F1EFB2A96C3A1007C7AD0 /* UIViewController+Rx.swift in Sources */,
 				AD8994602A6510D900D848A5 /* ProjectCell.swift in Sources */,
-				AD5F1EFE2A9D0829007C7AD0 /* EditProjectUsecaseType.swift in Sources */,
 				AD5F1F102A9D14EC007C7AD0 /* ProjectListUsecase.swift in Sources */,
 				C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */,
 				AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */,
-				AD5F1F122A9DCAE9007C7AD0 /* CreateProjectUsecase.swift in Sources */,
-				AD5F1F0E2A9D1016007C7AD0 /* MainUsecase.swift in Sources */,
 				AD8994472A5F5E9400D848A5 /* ProjectListViewModel.swift in Sources */,
 				AD8994642A651F7600D848A5 /* EditViewController.swift in Sources */,
 				AD8994452A5F5B4100D848A5 /* ProjectListViewController.swift in Sources */,
@@ -593,7 +518,6 @@
 				AD5F1F062A9D0D4C007C7AD0 /* ProjectListUsecaseType.swift in Sources */,
 				AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */,
 				AD89944A2A5F5F3C00D848A5 /* ViewModelType.swift in Sources */,
-				AD5F1F142A9DCBC3007C7AD0 /* UpdateProjectUsecase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
