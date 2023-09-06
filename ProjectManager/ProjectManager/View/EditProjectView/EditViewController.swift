@@ -63,10 +63,10 @@ final class EditViewController: UIViewController {
         return barButtonItem
     }()
     
-    private let viewModel: EditViewModel
+    private let viewModel: AbstractEditViewModel
     private var disposeBag: DisposeBag = .init()
     
-    init(viewModel: EditViewModel) {
+    init(viewModel: AbstractEditViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -89,8 +89,8 @@ final class EditViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        leftBarButton.title = viewModel.leftBarButtonTitle
-        self.navigationItem.title = (viewModel.sourceProject?.state ?? .todo).rawValue
+//        leftBarButton.title = viewModel.leftBarButtonTitle
+//        self.navigationItem.title = (viewModel.sourceProject?.state ?? .todo).rawValue
         self.navigationItem.rightBarButtonItem = rightBarButton
         self.navigationItem.leftBarButtonItem = leftBarButton
     }
@@ -121,32 +121,42 @@ final class EditViewController: UIViewController {
     }
     
     private func bindUI() {
-        let input = EditViewModel.Input()
+        let viewWillAppearEvent = self.rx.viewWillAppear
+            .asObservable()
         
         let titleText = titleTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
+        
         let pickedDate = datePicker.rx.date
             .distinctUntilChanged()
+        
         let bodyText = bodyTextView.rx.text
             .orEmpty
             .distinctUntilChanged()
         
-        Observable.combineLatest(titleText, pickedDate, bodyText)
+        let projectContents = Observable.combineLatest(titleText, pickedDate, bodyText)
             .catchAndReturn(("", Date(), ""))
-            .subscribe { title, date, body in
-                input.projectContents.accept((title, date, body))
+            .map { title, date, body in
+                EditViewModel.InputContents(title: title,
+                                            date: date,
+                                            body: body)
             }
-            .disposed(by: disposeBag)
+            .asObservable()
         
-        rightBarButton.rx.tap
-            .bind(to: input.rightBarButtonTapped)
-            .disposed(by: disposeBag)
-            
+        let rightBarButtonTapped = rightBarButton.rx.tap
+            .asDriver(onErrorJustReturn: ())
+            .asObservable()
+        
+        let input = CreateProjectViewModel.Input(
+            viewWillAppearEvent: viewWillAppearEvent,
+            rightBarButtonTapped: rightBarButtonTapped,
+            projectContents: projectContents
+        )
         
         let output = viewModel.transform(input)
         
-        output.projectCreated
+        output.projectDelegated
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { owner, _ in
                 owner.dismiss(animated: true)

@@ -33,14 +33,21 @@ final class DefaultProjectManager: ProjectManagable {
         return projectList
     }
     
-    func updateProject(for editedProject: Project) {
-        guard let index = projectList.firstIndex(where: { $0.id == editedProject.id }) else {
+    func updateProject(for id: Project.ID, title: String, date: Date, body: String) {
+        guard let index = projectList.firstIndex(where: { $0.id == id }) else {
             return
         }
-        projectList[index] = editedProject
+        
+        let targetProject = projectList[index]
+        let updatedProject = Project(title: title,
+                                     date: date,
+                                     body: body,
+                                     state: targetProject.state,
+                                     id: id)
+        projectList[index] = updatedProject
     }
     
-    func deleteProject(for id: UUID) {
+    func deleteProject(for id: Project.ID) {
         guard let index = projectList.firstIndex(where: { $0.id == id }) else {
             return
         }

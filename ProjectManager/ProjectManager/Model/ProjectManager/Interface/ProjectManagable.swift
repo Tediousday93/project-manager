@@ -9,9 +9,9 @@ import Foundation
 
 protocol ProjectManagable {
     func createProject(title: String, date: Date, body: String)
-    func getProject(for id: UUID) -> Project?
+    func getProject(for id: Project.ID) -> Project?
     func getAllProject() -> [Project]
-    func updateProject(for editedProject: Project)
-    func deleteProject(for id: UUID)
+    func updateProject(for id: Project.ID, title: String, date: Date, body: String)
+    func deleteProject(for id: Project.ID)
 }
 

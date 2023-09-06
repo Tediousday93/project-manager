@@ -20,6 +20,7 @@ final class ProjectListViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     private var dataSource: DataSource?
     private var disposeBag: DisposeBag = .init()
+    
     private let viewModel: ProjectListViewModel
     
     init(viewModel: ProjectListViewModel) {
@@ -66,9 +67,29 @@ final class ProjectListViewController: UIViewController {
         ])
     }
     
+    private func bindUI() {
+        let viewWillAppearEvent = self.rx.viewWillAppear.asObservable()
+        
+        let input = ProjectListViewModel.Input(
+            viewWillAppearEvent: viewWillAppearEvent
+        )
+        
+        let output = viewModel.transform(input)
+        
+        output.initialDataPassed
+            .asDriver(onErrorRecover: { error in
+                print(error)
+                // Alert 띄우기
+                return Driver.just(())
+            })
+            .drive()
+            .disposed(by: disposeBag)
+    }
+    
     private func bindState() {
         viewModel.projectListEvent
-            .bind(with: self) { owner, event in
+            .asDriver(onErrorJustReturn: .added)
+            .drive(with: self) { owner, event in
                 switch event {
                 case .added:
                     owner.applyLatestSnapshot()

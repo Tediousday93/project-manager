@@ -16,51 +16,59 @@ final class ProjectListViewModel {
         case deleted(id: UUID)
     }
     
+    typealias ProjectContents = (title: String, date: Date, body: String)
+    
     let projectListEvent: PublishRelay<ProjectListEvent> = .init()
-    let projectState: Project.State
-    var parent: MainViewModel?
-    var projectIDList: [UUID] {
-        return projectList.map { $0.id }
+    let projectList: BehaviorRelay<[Project]> = .init(value: [])
+    
+    var projectIDList: [Project.ID] {
+        return usecase.projectIDList()
     }
     
-    private(set) var projectList: [Project]
-//    let projectListSubject: BehaviorSubject<[Project]> = .init(value: [])
-//    
-//    subscript (_ identifier: Project.ID) -> Project? {
-//        try? projectListSubject.value().first { $0.id == identifier }
-//    }
-    
-    init(projectState: Project.State, projectList: [Project] = []) {
-        self.projectState = projectState
-        self.projectList = projectList
+    private let usecase: ProjectListUsecaseType
+
+    init(usecase: ProjectListUsecaseType) {
+        self.usecase = usecase
     }
     
-    func retrieveProject(for id: UUID) -> Project? {
-        return projectList.first { $0.id == id }
-    }
-    
-    func add(project: Project) {
-        projectList.append(project)
-        projectListEvent.accept(.added)
-    }
-    
-    func updateProject(with newProject: Project) {
-        guard let index = projectList.firstIndex(where: { $0.id == newProject.id }) else {
-            return
-        }
-        
-        projectList[index] = newProject
-        projectListEvent.accept(.updated(id: newProject.id))
-    }
-    
-    func deleteProject(id: UUID) {
-        guard let index = projectList.firstIndex(where: { $0.id == id }) else {
-            return
-        }
-        
-        projectList.remove(at: index)
-        projectListEvent.accept(.deleted(id: id))
+    func retrieveProject(for identifier: UUID) -> Project? {
+        return usecase.retrieveProject(for: identifier)
     }
 }
 
-extension ProjectListViewModel: EditViewModelDelegate { }
+extension ProjectListViewModel: ViewModelType {
+    struct Input {
+        let viewWillAppearEvent: Observable<Void>
+    }
+    
+    struct Output {
+        let initialDataPassed: Observable<Void>
+    }
+    
+    func transform(_ input: Input) -> Output {
+        let initialDataPassed =  input.viewWillAppearEvent
+            .withUnretained(self)
+            .flatMap { owner, _ in
+                owner.usecase.getAllProject()
+                    .withUnretained(owner)
+            }
+            .map { owner, projectList in
+                owner.projectList
+                    .accept(projectList)
+            }
+        
+        return Output(
+            initialDataPassed: initialDataPassed
+        )
+    }
+}
+
+extension ProjectListViewModel: EditViewModelDelegate {
+    func createProject(title: String, date: Date, body: String) {
+        usecase.createProject(title: title, date: date, body: body)
+    }
+    
+    func updateProject(at id: UUID, with inputContents: AbstractEditViewModel.InputContents) {
+        usecase.updateProject(for: id, with: inputContents)
+    }
+}

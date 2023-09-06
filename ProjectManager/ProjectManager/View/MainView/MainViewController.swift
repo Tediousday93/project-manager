@@ -48,23 +48,10 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addChildren()
         configureNavigationBar()
         configureRootView()
-        configureStackView()
+        setupLayoutConstraints()
         bindUI()
-    }
-    
-    private func addChildren() {
-        let todoViewModel = ProjectListViewModel(projectState: .todo)
-        let doingViewModel = ProjectListViewModel(projectState: .doing)
-        let doneViewModel = ProjectListViewModel(projectState: .done)
-        
-        self.addChild(ProjectListViewController(viewModel: todoViewModel))
-        self.addChild(ProjectListViewController(viewModel: doingViewModel))
-        self.addChild(ProjectListViewController(viewModel: doneViewModel))
-        
-        viewModel.addChildren([todoViewModel, doingViewModel, doneViewModel])
     }
     
     private func configureNavigationBar() {
@@ -77,11 +64,7 @@ final class MainViewController: UIViewController {
         self.view.addSubview(stackView)
     }
     
-    private func configureStackView() {
-        self.children.forEach { child in
-            stackView.addArrangedSubview(child.view)
-        }
-        
+    private func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
@@ -92,23 +75,48 @@ final class MainViewController: UIViewController {
     }
     
     private func bindUI() {
+        let viewWillAppearEvent = self.rx.viewWillAppear
+            .asObservable()
         let addBarButtonTapped = addBarButton.rx.tap
             .asObservable()
         
         let input = MainViewModel.Input(
+            viewWillAppearEvent: viewWillAppearEvent,
             addBarButtonTapped: addBarButtonTapped
         )
         let output = viewModel.transform(input)
         
+        output.projectListViewModels
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { owner, projectListViewModels in
+                owner.addChildren(with: projectListViewModels)
+            }, onError: { error in
+                print(error)
+                // Alert 띄우기
+            })
+            .disposed(by: disposeBag)
+        
         output.editViewModel
-            .asDriver(onErrorJustReturn: .init())
             .drive(with: self) { owner, editViewModel in
                 owner.presentEditView(viewModel: editViewModel)
             }
             .disposed(by: disposeBag)
     }
     
-    private func presentEditView(viewModel: EditViewModel) {
+    private func addChildren(with viewModels: [ProjectListViewModel]) {
+        viewModels.forEach { [weak self] in
+            guard let self else { return }
+            
+            self.addChild(ProjectListViewController(viewModel: $0))
+        }
+        
+        self.children.forEach { child in
+            stackView.addArrangedSubview(child.view)
+        }
+    }
+    
+    private func presentEditView(viewModel: CreateProjectViewModel) {
         let editViewController = EditViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: editViewController)
         let barAppearance = UINavigationBarAppearance()
