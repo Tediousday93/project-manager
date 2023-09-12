@@ -32,7 +32,8 @@
 		AD9E51612AA8639900A04A50 /* CoreDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51602AA8639900A04A50 /* CoreDataRepository.swift */; };
 		AD9E516D2AAA612700A04A50 /* CDProject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E516B2AAA612700A04A50 /* CDProject+CoreDataClass.swift */; };
 		AD9E516E2AAA612700A04A50 /* CDProject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E516C2AAA612700A04A50 /* CDProject+CoreDataProperties.swift */; };
-		AD9E51702AAA619F00A04A50 /* CoreDataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E516F2AAA619F00A04A50 /* CoreDataRepresentable.swift */; };
+		AD9E51702AAA619F00A04A50 /* DomainConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E516F2AAA619F00A04A50 /* DomainConvertible.swift */; };
+		AD9E51732AAF7CAD00A04A50 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51722AAF7CAD00A04A50 /* Persistable.swift */; };
 		C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0525F51E1D0094C4CF /* AppDelegate.swift */; };
 		C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */; };
 		C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0925F51E1D0094C4CF /* MainViewController.swift */; };
@@ -78,7 +79,8 @@
 		AD9E51602AA8639900A04A50 /* CoreDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepository.swift; sourceTree = "<group>"; };
 		AD9E516B2AAA612700A04A50 /* CDProject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDProject+CoreDataClass.swift"; path = "ProjectManager/Data/CoreData/Entity/CDProject+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		AD9E516C2AAA612700A04A50 /* CDProject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDProject+CoreDataProperties.swift"; path = "ProjectManager/Data/CoreData/Entity/CDProject+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		AD9E516F2AAA619F00A04A50 /* CoreDataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepresentable.swift; sourceTree = "<group>"; };
+		AD9E516F2AAA619F00A04A50 /* DomainConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainConvertible.swift; sourceTree = "<group>"; };
+		AD9E51722AAF7CAD00A04A50 /* Persistable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
 		B0B3BFE63510492564CC44FB /* Pods-ProjectManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.release.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.release.xcconfig"; sourceTree = "<group>"; };
 		C7431F0225F51E1D0094C4CF /* ProjectManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7431F0525F51E1D0094C4CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -279,9 +281,9 @@
 			isa = PBXGroup;
 			children = (
 				AD9E51622AAA5F1200A04A50 /* Entity */,
-				AD9E515F2AA8615000A04A50 /* UseCase */,
-				AD9E515E2AA8613400A04A50 /* Repository */,
 				AD9E515D2AA856D900A04A50 /* CoreDataStack */,
+				AD9E515E2AA8613400A04A50 /* Repository */,
+				AD9E515F2AA8615000A04A50 /* UseCase */,
 				AD9E515A2AA856D200A04A50 /* Model.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -313,11 +315,20 @@
 		AD9E51622AAA5F1200A04A50 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				AD9E516F2AAA619F00A04A50 /* CoreDataRepresentable.swift */,
+				AD9E51712AAF7C4800A04A50 /* ConversionProtocols */,
 				AD9E516B2AAA612700A04A50 /* CDProject+CoreDataClass.swift */,
 				AD9E516C2AAA612700A04A50 /* CDProject+CoreDataProperties.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		AD9E51712AAF7C4800A04A50 /* ConversionProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				AD9E516F2AAA619F00A04A50 /* DomainConvertible.swift */,
+				AD9E51722AAF7CAD00A04A50 /* Persistable.swift */,
+			);
+			path = ConversionProtocols;
 			sourceTree = "<group>";
 		};
 		C7431EF925F51E1D0094C4CF = {
@@ -565,11 +576,12 @@
 				C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */,
 				AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */,
 				AD5F1EFB2A96C3A1007C7AD0 /* UIViewController+Rx.swift in Sources */,
+				AD9E51732AAF7CAD00A04A50 /* Persistable.swift in Sources */,
 				AD8994602A6510D900D848A5 /* ProjectCell.swift in Sources */,
 				AD9E516D2AAA612700A04A50 /* CDProject+CoreDataClass.swift in Sources */,
 				AD9E515C2AA856D200A04A50 /* Model.xcdatamodeld in Sources */,
 				AD9E516E2AAA612700A04A50 /* CDProject+CoreDataProperties.swift in Sources */,
-				AD9E51702AAA619F00A04A50 /* CoreDataRepresentable.swift in Sources */,
+				AD9E51702AAA619F00A04A50 /* DomainConvertible.swift in Sources */,
 				AD5F1F102A9D14EC007C7AD0 /* ProjectListUsecase.swift in Sources */,
 				C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */,
 				AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */,
