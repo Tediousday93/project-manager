@@ -22,17 +22,21 @@ final class ProjectListViewModel {
     let projectList: BehaviorRelay<[Project]> = .init(value: [])
     
     var projectIDList: [Project.ID] {
-        return usecase.projectIDList()
+        return projectList
+            .value
+            .map { $0.id }
     }
     
-    private let usecase: ProjectListUsecaseType
+    private let useCase: ProjectListUseCaseType
 
-    init(usecase: ProjectListUsecaseType) {
-        self.usecase = usecase
+    init(useCase: ProjectListUseCaseType) {
+        self.useCase = useCase
     }
     
     func retrieveProject(for identifier: UUID) -> Project? {
-        return usecase.retrieveProject(for: identifier)
+        return projectList
+            .value
+            .first { $0.id == identifier }
     }
 }
 
@@ -42,14 +46,14 @@ extension ProjectListViewModel: ViewModelType {
     }
     
     struct Output {
-        let initialDataPassed: Observable<Void>
+        let dataFetched: Observable<Void>
     }
     
     func transform(_ input: Input) -> Output {
-        let initialDataPassed =  input.viewWillAppearEvent
+        let dataFetched =  input.viewWillAppearEvent
             .withUnretained(self)
             .flatMap { owner, _ in
-                owner.usecase.getAllProject()
+                owner.useCase.projectList()
                     .withUnretained(owner)
             }
             .map { owner, projectList in
@@ -58,7 +62,7 @@ extension ProjectListViewModel: ViewModelType {
             }
         
         return Output(
-            initialDataPassed: initialDataPassed
+            dataFetched: dataFetched
         )
     }
 }
