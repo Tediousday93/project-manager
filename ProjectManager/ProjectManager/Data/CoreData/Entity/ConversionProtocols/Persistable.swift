@@ -8,6 +8,6 @@
 import Foundation
 import CoreData
 
-protocol Persistable: AnyObject, NSManagedObject, DomainConvertible {
+protocol Persistable: NSManagedObject, DomainConvertible {
     static func fetchRequest() -> NSFetchRequest<Self>
 }
