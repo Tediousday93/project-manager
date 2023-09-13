@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-final class ProjectListUseCase<Repository>: ProjectListUseCaseType where Repository: CoreDataRepositoryType, Repository.T == Project {
+final class CDProjectListUseCase<Repository>: ProjectListUseCaseType where Repository: CoreDataRepositoryType, Repository.T == Project {
     private let repository: Repository
     
     init(repository: Repository) {
