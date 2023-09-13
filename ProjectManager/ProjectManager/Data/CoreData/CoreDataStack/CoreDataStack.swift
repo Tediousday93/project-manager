@@ -25,16 +25,8 @@ final class CoreDataStack {
         return persistentContainer.viewContext
     }
     
-    func fetch<T: NSManagedObject>(request: NSFetchRequest<T>) -> [T] {
-        let result = Result { try context.fetch(request) }
-        
-        switch result {
-        case .success(let fetchedData):
-            return fetchedData
-        case .failure(let error):
-            print(error.localizedDescription)
-            return []
-        }
+    func fetch<T: NSManagedObject>(request: NSFetchRequest<T>) throws -> [T] {
+        return try context.fetch(request)
     }
     
     func saveContext() {
