@@ -77,7 +77,6 @@ final class CoreDataRepository<T: CoreDataRepresentable>: CoreDataRepositoryType
             return
         }
         
-        coreDataStack.context.delete(coreDataEntity)
-        coreDataStack.saveContext()
+        coreDataStack.delete(object: coreDataEntity)
     }
 }
