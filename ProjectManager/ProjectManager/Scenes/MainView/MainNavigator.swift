@@ -37,8 +37,9 @@ final class DefaultMainNavigator: MainNavigator {
             navigationController: self.navigationController
         )
         let createProjectViewModel = CreateProjectViewModel(
-            coordinator: createProjectNavigator,
-            useCase: coreDataService.makeProjectListUseCase()
+            navigator: createProjectNavigator,
+            useCase: coreDataService.makeProjectListUseCase(),
+            leftBarButtonTitle: "Cancel"
         )
         let createProjectViewController = EditProjectViewController(
             viewModel: createProjectViewModel
@@ -56,8 +57,9 @@ final class DefaultMainNavigator: MainNavigator {
             navigationController: self.navigationController
         )
         let updateProjectViewModel = UpdateProjectViewModel(
-            coordinator: updateProjectNavigator,
-            useCase: coreDataService.makeProjectListUseCase()
+            navigator: updateProjectNavigator,
+            useCase: coreDataService.makeProjectListUseCase(),
+            leftBarButtonTitle: "Edit"
         )
         let updateProjectViewController = EditProjectViewController(
             viewModel: updateProjectViewModel

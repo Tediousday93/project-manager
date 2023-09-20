@@ -1,5 +1,5 @@
 //
-//  EditViewController.swift
+//  EditProjectViewController.swift
 //  ProjectManager
 //
 //  Created by Rowan on 2023/07/17.
@@ -9,12 +9,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class EditViewController: UIViewController {
+final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIViewController {
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.font = .preferredFont(forTextStyle: .title3)
         textField.textColor = .black
-        textField.placeholder = Constant.titlePlaceholder
+        textField.placeholder = Constant().titlePlaceholder
         
         return textField
     }()
@@ -39,14 +39,14 @@ final class EditViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = Constant.stackViewSpacing
+        stackView.spacing = Constant().stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
     
     private var rightBarButton: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(title: Constant.rightBarButtonTitle,
+        let barButtonItem = UIBarButtonItem(title: Constant().rightBarButtonTitle,
                                             style: .plain,
                                             target: nil,
                                             action: nil)
@@ -63,10 +63,10 @@ final class EditViewController: UIViewController {
         return barButtonItem
     }()
     
-    private let viewModel: AbstractEditViewModel
+    private let viewModel: ViewModelType
     private var disposeBag: DisposeBag = .init()
     
-    init(viewModel: AbstractEditViewModel) {
+    init(viewModel: ViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -89,10 +89,9 @@ final class EditViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-//        leftBarButton.title = viewModel.leftBarButtonTitle
-//        self.navigationItem.title = (viewModel.sourceProject?.state ?? .todo).rawValue
         self.navigationItem.rightBarButtonItem = rightBarButton
         self.navigationItem.leftBarButtonItem = leftBarButton
+        leftBarButton.title = viewModel.leftBarButtonTitle
     }
     
     private func configureRootView() {
@@ -108,86 +107,62 @@ final class EditViewController: UIViewController {
     }
     
     private func setupLayoutConstraints() {
+        let constant = Constant()
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,
-                                           constant: Constant.edgeSpacing),
+                                           constant: constant.edgeSpacing),
             stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: -Constant.edgeSpacing),
+                                              constant: -constant.edgeSpacing),
             stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
-                                               constant: Constant.edgeSpacing),
+                                               constant: constant.edgeSpacing),
             stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: -Constant.edgeSpacing)
+                                                constant: -constant.edgeSpacing)
         ])
     }
     
     private func bindUI() {
-        let viewWillAppearEvent = self.rx.viewWillAppear
-            .asObservable()
-        
-        let titleText = titleTextField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-        
-        let pickedDate = datePicker.rx.date
-            .distinctUntilChanged()
-        
-        let bodyText = bodyTextView.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-        
-        let projectContents = Observable.combineLatest(titleText, pickedDate, bodyText)
-            .catchAndReturn(("", Date(), ""))
-            .map { title, date, body in
-                EditViewModel.InputContents(title: title,
-                                            date: date,
-                                            body: body)
-            }
-            .asObservable()
-        
-        let rightBarButtonTapped = rightBarButton.rx.tap
-            .asDriver(onErrorJustReturn: ())
-            .asObservable()
-        
         let input = CreateProjectViewModel.Input(
-            viewWillAppearEvent: viewWillAppearEvent,
-            rightBarButtonTapped: rightBarButtonTapped,
-            projectContents: projectContents
+            title: titleTextField.rx.text.orEmpty.asDriver(),
+            date: datePicker.rx.date.distinctUntilChanged().asDriver(onErrorJustReturn: Date()),
+            body: bodyTextView.rx.text.orEmpty.asDriver(),
+            rightBarButtonTapped: rightBarButton.rx.tap.asDriver(),
+            leftBarButtonTapped: leftBarButton.rx.tap.asDriver()
         )
         
         let output = viewModel.transform(input)
         
-        output.projectDelegated
-            .asDriver(onErrorJustReturn: ())
-            .drive(with: self) { owner, _ in
-                owner.dismiss(animated: true)
+        output.canSave
+            .drive(with: self) { owner, canSave in
+                owner.rightBarButton.isEnabled = canSave
             }
             .disposed(by: disposeBag)
         
-        output.isContentEdited
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, isContentEdited in
-                if isContentEdited {
-                    owner.rightBarButton.isEnabled = true
-                } else {
-                    owner.rightBarButton.isEnabled = false
-                }
+        output.projectSave
+            .subscribe(onError: { error in
+                print(error)
+                // Alert 띄우기
+            })
+            .disposed(by: disposeBag)
+        
+        output.canEdit
+            .drive(with: self) { owner, canEdit in
+                owner.titleTextField.isEnabled = canEdit
+                owner.datePicker.isEnabled = canEdit
+                owner.bodyTextView.isUserInteractionEnabled = canEdit
             }
             .disposed(by: disposeBag)
         
-        leftBarButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.dismiss(animated: true)
-            }
+        output.dismiss
+            .drive()
             .disposed(by: disposeBag)
     }
 }
 
-private extension EditViewController {
-    enum Constant {
-        static let titlePlaceholder: String = "Title"
-        static let rightBarButtonTitle: String = "Done"
-        static let edgeSpacing: CGFloat = 10
-        static let stackViewSpacing: CGFloat = 15
+private extension EditProjectViewController {
+    struct Constant {
+        let titlePlaceholder: String = "Title"
+        let rightBarButtonTitle: String = "Done"
+        let edgeSpacing: CGFloat = 10
+        let stackViewSpacing: CGFloat = 15
     }
 }
