@@ -8,14 +8,16 @@
 import Foundation
 import RxSwift
 import RxCocoa
-// 책임 분리 -> Usecase 사용 기능 / Children을 관리하는 container의 기능
 
 final class MainViewModel {
     private var children: [ProjectListViewModel] = []
-    private let usecase: MainUsecaseType
+    private let navigator: MainNavigator
+    private let coreDataUseCase: ProjectListUseCaseType
     
-    init(usecase: MainUsecaseType) {
-        self.usecase = usecase
+    init(navigator: MainNavigator,
+         coreDataUseCase: ProjectListUseCaseType) {
+        self.navigator = navigator
+        self.coreDataUseCase = coreDataUseCase
     }
 }
 
@@ -27,34 +29,29 @@ extension MainViewModel: ViewModelType {
     
     struct Output {
         let projectListViewModels: Observable<[ProjectListViewModel]>
-        let editViewModel: Driver<CreateProjectViewModel>
+        let createProjectViewPresented: Driver<Void>
     }
     
     func transform(_ input: Input) -> Output {
         let projectListViewModels = input.viewWillAppearEvent
             .withUnretained(self)
             .map { owner, _ in
-                return (owner, owner.usecase.projectListUsecases())
-            }
-            .map { owner, projectListUsecases in
-                let viewModels = projectListUsecases.map { ProjectListViewModel(usecase: $0) }
+                let todoListViewModel = ProjectListViewModel(useCase: owner.coreDataUseCase)
+                let doingListViewModel = ProjectListViewModel(useCase: owner.coreDataUseCase)
+                let doneListViewModel = ProjectListViewModel(useCase: owner.coreDataUseCase)
+                let viewModels = [todoListViewModel, doingListViewModel, doneListViewModel]
+                
                 owner.addChildren(viewModels)
                 
                 return viewModels
             }
-        let editViewModel = input.addBarButtonTapped
-            .withUnretained(self)
-            .map { owner, _ in
-                let editViewModel = CreateProjectViewModel(usecase: CreateProjectUsecase())
-                editViewModel.delegate = owner.children[0]
-                
-                return editViewModel
-            }
-            .asDriver(onErrorJustReturn: CreateProjectViewModel(usecase: CreateProjectUsecase()))
+        let createProjectViewPresented = input.addBarButtonTapped
+            .do(onNext: navigator.toCreateProject)
+            .asDriver(onErrorJustReturn: ())
         
         return Output(
             projectListViewModels: projectListViewModels,
-            editViewModel: editViewModel
+            createProjectViewPresented: createProjectViewPresented
         )
     }
     

@@ -42,6 +42,7 @@ final class ProjectListViewController: UIViewController {
         configureTableView()
         setupLayoutConstraints()
         configureDataSource()
+        bindUI()
         bindState()
     }
     
@@ -76,13 +77,14 @@ final class ProjectListViewController: UIViewController {
         
         let output = viewModel.transform(input)
         
-        output.initialDataPassed
-            .asDriver(onErrorRecover: { error in
+        output.dataFetched
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.applyLatestSnapshot()
+            }, onError: { error in
                 print(error)
                 // Alert 띄우기
-                return Driver.just(())
             })
-            .drive()
             .disposed(by: disposeBag)
     }
     

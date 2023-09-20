@@ -75,10 +75,8 @@ final class MainViewController: UIViewController {
     }
     
     private func bindUI() {
-        let viewWillAppearEvent = self.rx.viewWillAppear
-            .asObservable()
-        let addBarButtonTapped = addBarButton.rx.tap
-            .asObservable()
+        let viewWillAppearEvent = self.rx.viewWillAppear.asObservable()
+        let addBarButtonTapped = addBarButton.rx.tap.asObservable()
         
         let input = MainViewModel.Input(
             viewWillAppearEvent: viewWillAppearEvent,
@@ -97,10 +95,8 @@ final class MainViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        output.editViewModel
-            .drive(with: self) { owner, editViewModel in
-                owner.presentEditView(viewModel: editViewModel)
-            }
+        output.createProjectViewPresented
+            .drive()
             .disposed(by: disposeBag)
     }
     
@@ -114,18 +110,6 @@ final class MainViewController: UIViewController {
         self.children.forEach { child in
             stackView.addArrangedSubview(child.view)
         }
-    }
-    
-    private func presentEditView(viewModel: CreateProjectViewModel) {
-        let editViewController = EditViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: editViewController)
-        let barAppearance = UINavigationBarAppearance()
-        barAppearance.backgroundColor = .systemGray6
-        
-        navigationController.navigationBar.scrollEdgeAppearance = barAppearance
-        navigationController.modalPresentationStyle = .formSheet
-        
-        self.present(navigationController, animated: true)
     }
 }
 
