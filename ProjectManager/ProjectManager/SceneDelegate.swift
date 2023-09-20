@@ -11,19 +11,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        let projectManager = ProjectManager()
-        let mainViewModel = MainViewModel()
-        let mainViewController = MainViewController(viewModel: mainViewModel)
-        let navigationController = UINavigationController(rootViewController: mainViewController)
-        let barAppearance = UINavigationBarAppearance()
-        barAppearance.backgroundColor = .systemGray5
-        barAppearance.shadowColor = .clear
-        navigationController.navigationBar.scrollEdgeAppearance = barAppearance
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        
+        ProjectManagerApplication.shared.configureMainUI(in: window)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
