@@ -15,11 +15,11 @@ final class CDProjectListUseCase<Repository>: ProjectListUseCaseType where Repos
         self.repository = repository
     }
     
-    func projectList(for state: Project.State? = nil) -> Observable<[Project]> {
+    func projectList(forState: Project.State?) -> Observable<[Project]> {
         var predicate: NSPredicate? = nil
         
-        if let state {
-            predicate = NSPredicate(format: "state == %@", state.rawValue)
+        if let forState {
+            predicate = NSPredicate(format: "state == %@", forState.rawValue)
         }
         
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)

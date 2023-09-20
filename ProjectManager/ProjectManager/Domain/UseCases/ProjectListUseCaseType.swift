@@ -8,7 +8,7 @@
 import RxSwift
 
 protocol ProjectListUseCaseType {
-    func projectList(for state: Project.State?) -> Observable<[Project]>
+    func projectList(forState: Project.State?) -> Observable<[Project]>
     func create(project: Project) throws
     func update(project: Project) throws
     func delete(project: Project) throws

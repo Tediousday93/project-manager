@@ -10,6 +10,4 @@ import Foundation
 import CoreData
 
 @objc(CDProject)
-public final class CDProject: NSManagedObject {
-
-}
+public final class CDProject: NSManagedObject { }

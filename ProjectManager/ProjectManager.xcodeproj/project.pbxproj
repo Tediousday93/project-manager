@@ -22,7 +22,7 @@
 		AD89944A2A5F5F3C00D848A5 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */; };
 		AD8994602A6510D900D848A5 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD89945F2A6510D900D848A5 /* ProjectCell.swift */; };
 		AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994612A65156C00D848A5 /* HeaderView.swift */; };
-		AD8994642A651F7600D848A5 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994632A651F7600D848A5 /* EditViewController.swift */; };
+		AD8994642A651F7600D848A5 /* EditProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8994632A651F7600D848A5 /* EditProjectViewController.swift */; };
 		AD9E51592AA8549A00A04A50 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51582AA8549A00A04A50 /* CoreDataStack.swift */; };
 		AD9E515C2AA856D200A04A50 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD9E515A2AA856D200A04A50 /* Model.xcdatamodeld */; };
 		AD9E51612AA8639900A04A50 /* CoreDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51602AA8639900A04A50 /* CoreDataRepository.swift */; };
@@ -35,6 +35,9 @@
 		AD9E517A2AB2631D00A04A50 /* ProjectListUseCaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51792AB2631D00A04A50 /* ProjectListUseCaseType.swift */; };
 		AD9E517C2AB27F7F00A04A50 /* CDUseCaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E517B2AB27F7F00A04A50 /* CDUseCaseProvider.swift */; };
 		AD9E517E2AB27F9D00A04A50 /* UseCaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E517D2AB27F9D00A04A50 /* UseCaseProvider.swift */; };
+		AD9E51802AB304E900A04A50 /* MainNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E517F2AB304E900A04A50 /* MainNavigator.swift */; };
+		AD9E51822AB3074C00A04A50 /* EditProjectNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51812AB3074C00A04A50 /* EditProjectNavigator.swift */; };
+		AD9E51A82AB9E32B00A04A50 /* ProjectManagerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51A72AB9E32B00A04A50 /* ProjectManagerApplication.swift */; };
 		C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0525F51E1D0094C4CF /* AppDelegate.swift */; };
 		C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */; };
 		C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0925F51E1D0094C4CF /* MainViewController.swift */; };
@@ -70,12 +73,12 @@
 		AD8994492A5F5F3C00D848A5 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		AD89945F2A6510D900D848A5 /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 		AD8994612A65156C00D848A5 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		AD8994632A651F7600D848A5 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		AD8994632A651F7600D848A5 /* EditProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectViewController.swift; sourceTree = "<group>"; };
 		AD9E51582AA8549A00A04A50 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		AD9E515B2AA856D200A04A50 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		AD9E51602AA8639900A04A50 /* CoreDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepository.swift; sourceTree = "<group>"; };
-		AD9E516B2AAA612700A04A50 /* CDProject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDProject+CoreDataClass.swift"; path = "ProjectManager/Data/CoreData/Entity/CDProject+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		AD9E516C2AAA612700A04A50 /* CDProject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDProject+CoreDataProperties.swift"; path = "ProjectManager/Data/CoreData/Entity/CDProject+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		AD9E516B2AAA612700A04A50 /* CDProject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDProject+CoreDataClass.swift"; path = "ProjectManager/Entity/CDProject+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		AD9E516C2AAA612700A04A50 /* CDProject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDProject+CoreDataProperties.swift"; path = "ProjectManager/Entity/CDProject+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		AD9E516F2AAA619F00A04A50 /* DomainConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainConvertible.swift; sourceTree = "<group>"; };
 		AD9E51722AAF7CAD00A04A50 /* Persistable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
 		AD9E51742AB238A800A04A50 /* CDProjectListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDProjectListUseCase.swift; sourceTree = "<group>"; };
@@ -83,6 +86,9 @@
 		AD9E51792AB2631D00A04A50 /* ProjectListUseCaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListUseCaseType.swift; sourceTree = "<group>"; };
 		AD9E517B2AB27F7F00A04A50 /* CDUseCaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUseCaseProvider.swift; sourceTree = "<group>"; };
 		AD9E517D2AB27F9D00A04A50 /* UseCaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseProvider.swift; sourceTree = "<group>"; };
+		AD9E517F2AB304E900A04A50 /* MainNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigator.swift; sourceTree = "<group>"; };
+		AD9E51812AB3074C00A04A50 /* EditProjectNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectNavigator.swift; sourceTree = "<group>"; };
+		AD9E51A72AB9E32B00A04A50 /* ProjectManagerApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManagerApplication.swift; sourceTree = "<group>"; };
 		B0B3BFE63510492564CC44FB /* Pods-ProjectManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.release.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.release.xcconfig"; sourceTree = "<group>"; };
 		C7431F0225F51E1D0094C4CF /* ProjectManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7431F0525F51E1D0094C4CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,12 +132,12 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		AD5F1EF32A8F8E5C007C7AD0 /* Entity */ = {
+		AD5F1EF32A8F8E5C007C7AD0 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
 				AD8994392A5E6B6200D848A5 /* Project.swift */,
 			);
-			path = Entity;
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		AD5F1EF92A96C320007C7AD0 /* Utility */ = {
@@ -145,6 +151,7 @@
 		AD8994282A5C5E2E00D848A5 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				AD9E517F2AB304E900A04A50 /* MainNavigator.swift */,
 				C7431F0925F51E1D0094C4CF /* MainViewController.swift */,
 				AD89943F2A5EAA8D00D848A5 /* MainViewModel.swift */,
 				AD8994432A5F5B2800D848A5 /* ProjectListView */,
@@ -164,7 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				AD9E51782AB2630700A04A50 /* UseCases */,
-				AD5F1EF32A8F8E5C007C7AD0 /* Entity */,
+				AD5F1EF32A8F8E5C007C7AD0 /* DTO */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -179,22 +186,13 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		AD89943B2A5E9D9300D848A5 /* View */ = {
+		AD89943B2A5E9D9300D848A5 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				AD8994482A5F5F2300D848A5 /* Common */,
 				AD8994282A5C5E2E00D848A5 /* MainView */,
 				AD8994652A651F8600D848A5 /* EditProjectView */,
 			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		AD89943C2A5E9FB700D848A5 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				AD9E51572AA8547800A04A50 /* CoreData */,
-			);
-			path = Data;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 		AD8994432A5F5B2800D848A5 /* ProjectListView */ = {
@@ -220,7 +218,8 @@
 		AD8994652A651F8600D848A5 /* EditProjectView */ = {
 			isa = PBXGroup;
 			children = (
-				AD8994632A651F7600D848A5 /* EditViewController.swift */,
+				AD9E51812AB3074C00A04A50 /* EditProjectNavigator.swift */,
+				AD8994632A651F7600D848A5 /* EditProjectViewController.swift */,
 				AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */,
 				AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */,
 				AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */,
@@ -231,7 +230,6 @@
 		AD9E51572AA8547800A04A50 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				AD9E51622AAA5F1200A04A50 /* Entity */,
 				AD9E515D2AA856D900A04A50 /* CoreDataStack */,
 				AD9E515E2AA8613400A04A50 /* Repository */,
 				AD9E515F2AA8615000A04A50 /* UseCase */,
@@ -294,6 +292,14 @@
 			path = UseCases;
 			sourceTree = "<group>";
 		};
+		AD9E51A62AB9E31F00A04A50 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				AD9E51A72AB9E32B00A04A50 /* ProjectManagerApplication.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		C7431EF925F51E1D0094C4CF = {
 			isa = PBXGroup;
 			children = (
@@ -319,9 +325,12 @@
 			children = (
 				C7431F0525F51E1D0094C4CF /* AppDelegate.swift */,
 				C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */,
-				AD89943C2A5E9FB700D848A5 /* Data */,
+				AD9E51A62AB9E31F00A04A50 /* Application */,
+				AD8994482A5F5F2300D848A5 /* Common */,
+				AD9E51622AAA5F1200A04A50 /* Entity */,
+				AD9E51572AA8547800A04A50 /* CoreData */,
 				AD8994362A5E42A800D848A5 /* Domain */,
-				AD89943B2A5E9D9300D848A5 /* View */,
+				AD89943B2A5E9D9300D848A5 /* Scenes */,
 				AD5F1EF92A96C320007C7AD0 /* Utility */,
 				AD8994372A5E460E00D848A5 /* Resource */,
 			);
@@ -542,19 +551,22 @@
 				AD8994602A6510D900D848A5 /* ProjectCell.swift in Sources */,
 				AD9E51752AB238A800A04A50 /* CDProjectListUseCase.swift in Sources */,
 				AD9E517C2AB27F7F00A04A50 /* CDUseCaseProvider.swift in Sources */,
+				AD9E51802AB304E900A04A50 /* MainNavigator.swift in Sources */,
 				AD9E516D2AAA612700A04A50 /* CDProject+CoreDataClass.swift in Sources */,
 				AD9E515C2AA856D200A04A50 /* Model.xcdatamodeld in Sources */,
 				AD9E516E2AAA612700A04A50 /* CDProject+CoreDataProperties.swift in Sources */,
 				AD9E51702AAA619F00A04A50 /* DomainConvertible.swift in Sources */,
+				AD9E51A82AB9E32B00A04A50 /* ProjectManagerApplication.swift in Sources */,
 				C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */,
 				AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */,
 				AD8994472A5F5E9400D848A5 /* ProjectListViewModel.swift in Sources */,
-				AD8994642A651F7600D848A5 /* EditViewController.swift in Sources */,
+				AD8994642A651F7600D848A5 /* EditProjectViewController.swift in Sources */,
 				AD9E517E2AB27F9D00A04A50 /* UseCaseProvider.swift in Sources */,
 				AD9E517A2AB2631D00A04A50 /* ProjectListUseCaseType.swift in Sources */,
 				AD8994452A5F5B4100D848A5 /* ProjectListViewController.swift in Sources */,
 				AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */,
 				C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */,
+				AD9E51822AB3074C00A04A50 /* EditProjectNavigator.swift in Sources */,
 				AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */,
 				AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */,
 				AD89944A2A5F5F3C00D848A5 /* ViewModelType.swift in Sources */,
