@@ -23,8 +23,8 @@ final class MainViewModel {
 
 extension MainViewModel: ViewModelType {
     struct Input {
-        let viewWillAppearEvent: Observable<Void>
-        let addBarButtonTapped: Observable<Void>
+        let viewWillAppearEvent: Single<Void>
+        let addBarButtonTapped: Driver<Void>
     }
     
     struct Output {
@@ -34,32 +34,23 @@ extension MainViewModel: ViewModelType {
     
     func transform(_ input: Input) -> Output {
         let projectListViewModels = input.viewWillAppearEvent
-            .withUnretained(self)
-            .map { owner, _ in
-                let todoListViewModel = ProjectListViewModel(useCase: owner.coreDataUseCase)
-                let doingListViewModel = ProjectListViewModel(useCase: owner.coreDataUseCase)
-                let doneListViewModel = ProjectListViewModel(useCase: owner.coreDataUseCase)
+            .map { [unowned self] _ in
+                let todoListViewModel = ProjectListViewModel(useCase: self.coreDataUseCase)
+                let doingListViewModel = ProjectListViewModel(useCase: self.coreDataUseCase)
+                let doneListViewModel = ProjectListViewModel(useCase: self.coreDataUseCase)
                 let viewModels = [todoListViewModel, doingListViewModel, doneListViewModel]
                 
-                owner.addChildren(viewModels)
+                self.children = viewModels
                 
                 return viewModels
             }
+            .asObservable()
         let createProjectViewPresented = input.addBarButtonTapped
             .do(onNext: navigator.toCreateProject)
-            .asDriver(onErrorJustReturn: ())
         
         return Output(
             projectListViewModels: projectListViewModels,
             createProjectViewPresented: createProjectViewPresented
         )
-    }
-    
-    private func addChildren(_ children: [ProjectListViewModel]) {
-        children.forEach { [weak self] child in
-            guard let self else { return }
-            
-            self.children.append(child)
-        }
     }
 }

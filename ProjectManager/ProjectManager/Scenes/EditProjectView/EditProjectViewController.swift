@@ -128,7 +128,6 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
             rightBarButtonTapped: rightBarButton.rx.tap.asDriver(),
             leftBarButtonTapped: leftBarButton.rx.tap.asDriver()
         )
-        
         let output = viewModel.transform(input)
         
         output.canSave

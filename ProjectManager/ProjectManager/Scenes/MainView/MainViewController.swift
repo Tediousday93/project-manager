@@ -56,7 +56,7 @@ final class MainViewController: UIViewController {
     
     private func configureNavigationBar() {
         self.navigationItem.title = Constant.title
-        self.navigationItem.rightBarButtonItem = self.addBarButton
+        self.navigationItem.rightBarButtonItem = addBarButton
     }
     
     private func configureRootView() {
@@ -75,21 +75,17 @@ final class MainViewController: UIViewController {
     }
     
     private func bindUI() {
-        let viewWillAppearEvent = self.rx.viewWillAppear.asObservable()
-        let addBarButtonTapped = addBarButton.rx.tap.asObservable()
-        
         let input = MainViewModel.Input(
-            viewWillAppearEvent: viewWillAppearEvent,
-            addBarButtonTapped: addBarButtonTapped
+            viewWillAppearEvent: self.rx.viewWillAppear.asSingle(),
+            addBarButtonTapped: addBarButton.rx.tap.asDriver()
         )
         let output = viewModel.transform(input)
         
         output.projectListViewModels
-            .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { owner, projectListViewModels in
+            .subscribe(with: self, onNext: { owner, projectListViewModels in
                 owner.addChildren(with: projectListViewModels)
-            }, onError: { error in
+            }, onError: { owner, error in
                 print(error)
                 // Alert 띄우기
             })
@@ -101,9 +97,7 @@ final class MainViewController: UIViewController {
     }
     
     private func addChildren(with viewModels: [ProjectListViewModel]) {
-        viewModels.forEach { [weak self] in
-            guard let self else { return }
-            
+        viewModels.forEach {
             self.addChild(ProjectListViewController(viewModel: $0))
         }
         
