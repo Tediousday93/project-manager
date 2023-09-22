@@ -10,7 +10,7 @@ import CoreData
 
 final class CoreDataStack {
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "ProjectManager")
+        let container = NSPersistentContainer(name: "Model")
         
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
