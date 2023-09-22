@@ -7,68 +7,55 @@
 
 import Foundation
 import RxSwift
-import RxRelay
+import RxCocoa
 
 final class ProjectListViewModel {
-    typealias ProjectContents = (title: String, date: Date, body: String)
-    
-    enum ProjectListEvent {
-        case added
-        case updated(id: UUID)
-        case deleted(id: UUID)
-    }
-    
-    let projectListEvent: PublishRelay<ProjectListEvent> = .init()
+    let updateTrigger: BehaviorRelay<Void> = .init(value: ())
     let projectList: BehaviorRelay<[Project]> = .init(value: [])
-    
-    var projectIDList: [Project.ID] {
-        return projectList.value.map { $0.id }
-    }
+    let projectState: Project.State
     
     private let useCase: ProjectListUseCaseType
-
-    init(useCase: ProjectListUseCaseType) {
-        self.useCase = useCase
-    }
+    private let navigator: MainNavigator
     
-    func retrieveProject(for identifier: UUID) -> Project? {
-        return projectList.value.first { $0.id == identifier }
+    init(useCase: ProjectListUseCaseType,
+         navigator: MainNavigator,
+         projectState: Project.State) {
+        self.useCase = useCase
+        self.navigator = navigator
+        self.projectState = projectState
     }
 }
 
 extension ProjectListViewModel: ViewModelType {
     struct Input {
-        let viewWillAppearEvent: Observable<Void>
+        let itemSelected: Driver<IndexPath>
     }
     
     struct Output {
-        let dataFetched: Observable<Void>
+        let projectListFetched: Driver<Void>
+        let updateProjectViewPresented: Driver<Void>
     }
     
     func transform(_ input: Input) -> Output {
-        let dataFetched =  input.viewWillAppearEvent
-            .withUnretained(self)
-            .flatMap { owner, _ in
-                owner.useCase.projectList(forState: nil)
-                    .withUnretained(owner)
+        let projectListFetched = updateTrigger
+            .flatMap { [unowned self] _ in
+                useCase.projectList(forState: projectState)
             }
+            .withUnretained(self)
             .map { owner, projectList in
-                owner.projectList
-                    .accept(projectList)
+                owner.projectList.accept(projectList)
+            }
+            .asDriver(onErrorJustReturn: ())
+        
+        let updateProjectViewPresented = input.itemSelected
+            .map { [unowned self] indexPath in
+                return projectList.value[indexPath.row]
+            }
+            .map { [unowned self] project in
+                navigator.toUpdate(project)
             }
         
-        return Output(
-            dataFetched: dataFetched
-        )
+        return Output(projectListFetched: projectListFetched,
+                      updateProjectViewPresented: updateProjectViewPresented)
     }
 }
-
-//extension ProjectListViewModel: EditViewModelDelegate {
-//    func createProject(title: String, date: Date, body: String) {
-//        usecase.createProject(title: title, date: date, body: body)
-//    }
-//
-//    func updateProject(at id: UUID, with inputContents: AbstractEditViewModel.InputContents) {
-//        usecase.updateProject(for: id, with: inputContents)
-//    }
-//}

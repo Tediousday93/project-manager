@@ -8,17 +8,26 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class ProjectListViewController: UIViewController {
-    private enum Section: Hashable {
-        case main
-    }
-    
-    private typealias DataSource = UITableViewDiffableDataSource<Section, Project.ID>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Project.ID>
+    private typealias DataSource = RxTableViewSectionedReloadDataSource<SectionOfProject>
     
     private let tableView: UITableView = UITableView()
-    private var dataSource: DataSource?
+    private let dataSource = DataSource(configureCell: { _, tableView, indexPath, project in
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ProjectCell.identifier,
+            for: indexPath
+        ) as? ProjectCell else {
+            fatalError("Fail to dequeue reusable cell")
+        }
+        
+        cell.titleLabel.text = project.title
+        cell.bodyLabel.text = project.body
+        
+        return cell
+    })
+    
     private var disposeBag: DisposeBag = .init()
     
     private let viewModel: ProjectListViewModel
@@ -41,9 +50,11 @@ final class ProjectListViewController: UIViewController {
         configureRootView()
         configureTableView()
         setupLayoutConstraints()
-        configureDataSource()
-        bindUI()
-        bindState()
+        setupBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.updateTrigger.accept(())
     }
     
     private func configureRootView() {
@@ -52,7 +63,6 @@ final class ProjectListViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
         tableView.separatorInset = .zero
@@ -68,94 +78,45 @@ final class ProjectListViewController: UIViewController {
         ])
     }
     
-    private func bindUI() {
-        let viewWillAppearEvent = self.rx.viewWillAppear.asObservable()
-        
+    private func setupBindings() {
         let input = ProjectListViewModel.Input(
-            viewWillAppearEvent: viewWillAppearEvent
+            itemSelected: tableView.rx.itemSelected.asDriver()
         )
-        
         let output = viewModel.transform(input)
         
-        output.dataFetched
-            .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
-                owner.applyLatestSnapshot()
-            }, onError: { error in
-                print(error)
-                // Alert 띄우기
-            })
+        output.projectListFetched
+            .drive()
             .disposed(by: disposeBag)
-    }
-    
-    private func bindState() {
-        viewModel.projectListEvent
-            .asDriver(onErrorJustReturn: .added)
-            .drive(with: self) { owner, event in
-                switch event {
-                case .added:
-                    owner.applyLatestSnapshot()
-                case .updated(let id):
-                    owner.reloadSnapshotItem(id: id)
-                case .deleted(let id):
-                    owner.deleteSnapshotItem(id: id)
-                }
+        
+        output.updateProjectViewPresented
+            .drive()
+            .disposed(by: disposeBag)
+       
+        
+        let projectState = viewModel.projectState
+        
+        viewModel.projectList
+            .withUnretained(self)
+            .map { owner, projectList in
+                [SectionOfProject(header: projectState.rawValue, items: projectList)]
             }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }
 }
 
-// MARK: - TableView DataSource
+// MARK: - Section for DataSource
+fileprivate struct SectionOfProject {
+    var header: String
+    var items: [Item]
+}
 
-extension ProjectListViewController {
-    private func configureDataSource() {
-        dataSource = DataSource(tableView: tableView, cellProvider: cellProvider)
-    }
+extension SectionOfProject: SectionModelType {
+    typealias Item = Project
     
-    private func cellProvider(
-        _ tableView: UITableView,
-        _ indexPath: IndexPath,
-        _ itemIdentifier: Project.ID
-    ) -> UITableViewCell? {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: ProjectCell.identifier,
-            for: indexPath
-        ) as? ProjectCell
-        
-        guard let project = viewModel.retrieveProject(for: itemIdentifier) else {
-            return cell
-        }
-        
-        cell?.titleLabel.text = project.title
-        cell?.bodyLabel.text = project.body
-        
-        return cell
-    }
-    
-    private func applyLatestSnapshot() {
-        let idList = viewModel.projectIDList
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(idList)
-        dataSource?.apply(snapshot)
-    }
-    
-    private func reloadSnapshotItem(id: UUID) {
-        guard var snapshot = dataSource?.snapshot() else {
-            return
-        }
-        
-        snapshot.reloadItems([id])
-        dataSource?.apply(snapshot)
-    }
-    
-    private func deleteSnapshotItem(id: UUID) {
-        guard var snapshot = dataSource?.snapshot() else {
-            return
-        }
-        
-        snapshot.deleteItems([id])
-        dataSource?.apply(snapshot)
+    init(original: SectionOfProject, items: [Project]) {
+        self = original
+        self.items = items
     }
 }
 
