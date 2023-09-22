@@ -15,7 +15,7 @@ final class CDProjectListUseCase<Repository>: ProjectListUseCaseType where Repos
         self.repository = repository
     }
     
-    func projectList(forState: Project.State?) -> Observable<[Project]> {
+    func projectList(forState: Project.State?) -> Single<[Project]> {
         var predicate: NSPredicate? = nil
         
         if let forState {

@@ -13,7 +13,7 @@ protocol CoreDataRepositoryType {
     associatedtype T
     
     func create(object: T) throws
-    func fetchObjects(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate?) -> Observable<[T]>
+    func fetchObjects(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate?) -> Single<[T]>
     func update(object: T, with predicate: NSPredicate) throws
     func delete(object: T, with predicate: NSPredicate) throws
 }
@@ -39,7 +39,7 @@ final class CoreDataRepository<T: CoreDataRepresentable>: CoreDataRepositoryType
         coreDataStack.saveContext()
     }
     
-    func fetchObjects(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate? = nil) -> Observable<[T]> {
+    func fetchObjects(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate? = nil) -> Single<[T]> {
         return Single<[T]>.create { [weak self] single in
             let request = T.CoreDataType.fetchRequest()
             request.sortDescriptors = sortDescriptors
@@ -55,7 +55,6 @@ final class CoreDataRepository<T: CoreDataRepresentable>: CoreDataRepositoryType
             
             return Disposables.create()
         }
-        .asObservable()
     }
     
     func update(object: T, with predicate: NSPredicate) throws {
