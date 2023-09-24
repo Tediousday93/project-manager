@@ -31,7 +31,7 @@ final class CreateProjectViewModel: AbstractEditViewModel {
             }
             .map { [unowned self] project in
                 try useCase.create(project: project)
-                delegate?.projectCreated()
+                delegate?.updateTrigger.accept(())
             }
             .share()
         

@@ -10,8 +10,7 @@ import RxSwift
 import RxCocoa
 
 protocol EditViewModelDelegate: AnyObject {
-    func projectCreated()
-    func projectUpdated(at state: Project.State)
+    var updateTrigger: BehaviorRelay<Void> { get }
 }
 
 class AbstractEditViewModel: ViewModelType {

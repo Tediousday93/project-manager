@@ -9,8 +9,8 @@ import UIKit
 
 protocol MainNavigator {
     func toMain()
-    func toCreateProject(delegate: EditViewModelDelegate)
-    func toUpdate(_ project: Project)
+    func toCreateProject(delegate: EditViewModelDelegate?)
+    func toUpdate(_ project: Project, delegate: EditViewModelDelegate?)
 }
 
 final class DefaultMainNavigator: MainNavigator {
@@ -32,14 +32,15 @@ final class DefaultMainNavigator: MainNavigator {
         navigationController.pushViewController(mainViewController, animated: true)
     }
     
-    func toCreateProject(delegate: EditViewModelDelegate) {
+    func toCreateProject(delegate: EditViewModelDelegate?) {
         let createProjectNavigator = DefaultEditProjectNavigator(
             navigationController: self.navigationController
         )
         let createProjectViewModel = CreateProjectViewModel(
             navigator: createProjectNavigator,
             useCase: coreDataService.makeProjectListUseCase(),
-            leftBarButtonTitle: "Cancel"
+            leftBarButtonTitle: "Cancel",
+            sourceProject: nil
         )
         let createProjectViewController = EditProjectViewController(
             viewModel: createProjectViewModel
@@ -54,14 +55,15 @@ final class DefaultMainNavigator: MainNavigator {
         self.navigationController.present(createProjectNavigationController, animated: true)
     }
     
-    func toUpdate(_ project: Project) {
+    func toUpdate(_ project: Project, delegate: EditViewModelDelegate?) {
         let updateProjectNavigator = DefaultEditProjectNavigator(
             navigationController: self.navigationController
         )
         let updateProjectViewModel = UpdateProjectViewModel(
             navigator: updateProjectNavigator,
             useCase: coreDataService.makeProjectListUseCase(),
-            leftBarButtonTitle: "Edit"
+            leftBarButtonTitle: "Edit",
+            sourceProject: project
         )
         let updateProjectViewController = EditProjectViewController(
             viewModel: updateProjectViewModel
@@ -69,6 +71,7 @@ final class DefaultMainNavigator: MainNavigator {
         let updateProjectNavigationController = UINavigationController(
             rootViewController: updateProjectViewController
         )
+        updateProjectViewModel.delegate = delegate
         updateProjectNavigationController.modalPresentationStyle = .formSheet
         
         self.navigationController.present(updateProjectNavigationController, animated: true)

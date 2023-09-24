@@ -54,22 +54,11 @@ extension MainViewModel: ViewModelType {
         
         let createProjectViewPresented = input.addBarButtonTapped
             .map { [unowned self] _ in
-                navigator.toCreateProject(delegate: self)
+                let todoViewModel = children.first(where: { $0.projectState == .todo })
+                navigator.toCreateProject(delegate: todoViewModel)
             }
         
         return Output(projectListViewModels: projectListViewModels,
                       createProjectViewPresented: createProjectViewPresented)
-    }
-}
-
-extension MainViewModel: EditViewModelDelegate {
-    func projectCreated() {
-        let todoViewModel = children.first(where: { $0.projectState == .todo })
-        todoViewModel?.updateTrigger.accept(())
-    }
-    
-    func projectUpdated(at state: Project.State) {
-        let childViewModel = children.first(where: { $0.projectState == state})
-        childViewModel?.updateTrigger.accept(())
     }
 }

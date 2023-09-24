@@ -52,10 +52,12 @@ extension ProjectListViewModel: ViewModelType {
                 return projectList.value[indexPath.row]
             }
             .map { [unowned self] project in
-                navigator.toUpdate(project)
+                navigator.toUpdate(project, delegate: self)
             }
         
         return Output(projectListFetched: projectListFetched,
                       updateProjectViewPresented: updateProjectViewPresented)
     }
 }
+
+extension ProjectListViewModel: EditViewModelDelegate { }
