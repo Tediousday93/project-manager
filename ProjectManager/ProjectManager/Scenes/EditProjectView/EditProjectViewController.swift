@@ -121,7 +121,7 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
     }
     
     private func setupBindings() {
-        let input = CreateProjectViewModel.Input(
+        let input = ViewModelType.Input(
             title: titleTextField.rx.text.orEmpty.asDriver(),
             date: datePicker.rx.date.distinctUntilChanged().asDriver(onErrorJustReturn: Date()),
             body: bodyTextView.rx.text.orEmpty.asDriver(),
