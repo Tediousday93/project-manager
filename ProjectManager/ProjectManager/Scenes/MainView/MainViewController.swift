@@ -51,7 +51,7 @@ final class MainViewController: UIViewController {
         configureNavigationBar()
         configureRootView()
         setupLayoutConstraints()
-        bindUI()
+        setupBindings()
     }
     
     private func configureNavigationBar() {
@@ -74,9 +74,9 @@ final class MainViewController: UIViewController {
         ])
     }
     
-    private func bindUI() {
+    private func setupBindings() {
         let input = MainViewModel.Input(
-            viewWillAppearEvent: self.rx.viewWillAppear.asSingle(),
+            viewWillAppearEvent: self.rx.viewWillAppear.asObservable(),
             addBarButtonTapped: addBarButton.rx.tap.asDriver()
         )
         let output = viewModel.transform(input)

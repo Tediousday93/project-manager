@@ -23,7 +23,7 @@ final class MainViewModel {
 
 extension MainViewModel: ViewModelType {
     struct Input {
-        let viewWillAppearEvent: Single<Void>
+        let viewWillAppearEvent: Observable<Void>
         let addBarButtonTapped: Driver<Void>
     }
     
@@ -35,9 +35,15 @@ extension MainViewModel: ViewModelType {
     func transform(_ input: Input) -> Output {
         let projectListViewModels = input.viewWillAppearEvent
             .map { [unowned self] _ in
-                let todoListViewModel = ProjectListViewModel(useCase: self.coreDataUseCase)
-                let doingListViewModel = ProjectListViewModel(useCase: self.coreDataUseCase)
-                let doneListViewModel = ProjectListViewModel(useCase: self.coreDataUseCase)
+                let todoListViewModel = ProjectListViewModel(useCase: coreDataUseCase,
+                                                             navigator: navigator,
+                                                             projectState: .todo)
+                let doingListViewModel = ProjectListViewModel(useCase: coreDataUseCase,
+                                                              navigator: navigator,
+                                                              projectState: .doing)
+                let doneListViewModel = ProjectListViewModel(useCase: coreDataUseCase,
+                                                             navigator: navigator,
+                                                             projectState: .done)
                 let viewModels = [todoListViewModel, doingListViewModel, doneListViewModel]
                 
                 self.children = viewModels
@@ -45,12 +51,25 @@ extension MainViewModel: ViewModelType {
                 return viewModels
             }
             .asObservable()
-        let createProjectViewPresented = input.addBarButtonTapped
-            .do(onNext: navigator.toCreateProject)
         
-        return Output(
-            projectListViewModels: projectListViewModels,
-            createProjectViewPresented: createProjectViewPresented
-        )
+        let createProjectViewPresented = input.addBarButtonTapped
+            .map { [unowned self] _ in
+                navigator.toCreateProject(delegate: self)
+            }
+        
+        return Output(projectListViewModels: projectListViewModels,
+                      createProjectViewPresented: createProjectViewPresented)
+    }
+}
+
+extension MainViewModel: EditViewModelDelegate {
+    func projectCreated() {
+        let todoViewModel = children.first(where: { $0.projectState == .todo })
+        todoViewModel?.updateTrigger.accept(())
+    }
+    
+    func projectUpdated(at state: Project.State) {
+        let childViewModel = children.first(where: { $0.projectState == state})
+        childViewModel?.updateTrigger.accept(())
     }
 }

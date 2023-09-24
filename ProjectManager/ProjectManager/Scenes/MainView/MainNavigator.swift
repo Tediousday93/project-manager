@@ -9,8 +9,8 @@ import UIKit
 
 protocol MainNavigator {
     func toMain()
-    func toCreateProject()
-    func toUpdateProject(_ project: Project)
+    func toCreateProject(delegate: EditViewModelDelegate)
+    func toUpdate(_ project: Project)
 }
 
 final class DefaultMainNavigator: MainNavigator {
@@ -32,7 +32,7 @@ final class DefaultMainNavigator: MainNavigator {
         navigationController.pushViewController(mainViewController, animated: true)
     }
     
-    func toCreateProject() {
+    func toCreateProject(delegate: EditViewModelDelegate) {
         let createProjectNavigator = DefaultEditProjectNavigator(
             navigationController: self.navigationController
         )
@@ -48,11 +48,13 @@ final class DefaultMainNavigator: MainNavigator {
             rootViewController: createProjectViewController
         )
         
-        self.navigationController.modalPresentationStyle = .formSheet
+        createProjectViewModel.delegate = delegate
+        createProjectNavigationController.modalPresentationStyle = .formSheet
+        
         self.navigationController.present(createProjectNavigationController, animated: true)
     }
     
-    func toUpdateProject(_ project: Project) {
+    func toUpdate(_ project: Project) {
         let updateProjectNavigator = DefaultEditProjectNavigator(
             navigationController: self.navigationController
         )
@@ -67,8 +69,8 @@ final class DefaultMainNavigator: MainNavigator {
         let updateProjectNavigationController = UINavigationController(
             rootViewController: updateProjectViewController
         )
+        updateProjectNavigationController.modalPresentationStyle = .formSheet
         
-        self.navigationController.modalPresentationStyle = .formSheet
         self.navigationController.present(updateProjectNavigationController, animated: true)
     }
 }
