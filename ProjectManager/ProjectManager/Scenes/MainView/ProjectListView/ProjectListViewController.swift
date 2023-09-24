@@ -16,9 +16,9 @@ final class ProjectListViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     private let dataSource = DataSource(configureCell: { _, tableView, indexPath, project in
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: ProjectCell.identifier,
+            withIdentifier: ProjectTableViewCell.identifier,
             for: indexPath
-        ) as? ProjectCell else {
+        ) as? ProjectTableViewCell else {
             fatalError("Fail to dequeue reusable cell")
         }
         
@@ -64,7 +64,7 @@ final class ProjectListViewController: UIViewController {
     
     private func configureTableView() {
         tableView.delegate = self
-        tableView.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
+        tableView.register(ProjectTableViewCell.self, forCellReuseIdentifier: ProjectTableViewCell.identifier)
         tableView.separatorInset = .zero
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }

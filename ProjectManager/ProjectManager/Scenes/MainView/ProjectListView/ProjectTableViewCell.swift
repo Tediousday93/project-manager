@@ -1,13 +1,15 @@
 //
-//  ProjectCell.swift
+//  ProjectTableViewCell.swift
 //  ProjectManager
 //
 //  Created by Rowan on 2023/07/17.
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-final class ProjectCell: UITableViewCell {
+final class ProjectTableViewCell: UITableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
@@ -36,7 +38,7 @@ final class ProjectCell: UITableViewCell {
         return label
     }()
     
-    private let labelStackView: UIStackView = {
+    private let upperLabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -56,6 +58,8 @@ final class ProjectCell: UITableViewCell {
         return stackView
     }()
     
+    private let disposeBag: DisposeBag = .init()
+    
     override init(style: UITableViewCell.CellStyle,
                   reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,10 +78,10 @@ final class ProjectCell: UITableViewCell {
     }
     
     private func configureViewHierarchy() {
-        labelStackView.addArrangedSubview(titleLabel)
-        labelStackView.addArrangedSubview(bodyLabel)
+        upperLabelStackView.addArrangedSubview(titleLabel)
+        upperLabelStackView.addArrangedSubview(bodyLabel)
         
-        contentsStackView.addArrangedSubview(labelStackView)
+        contentsStackView.addArrangedSubview(upperLabelStackView)
         contentsStackView.addArrangedSubview(dateLabel)
         
         contentView.addSubview(contentsStackView)
@@ -91,6 +95,22 @@ final class ProjectCell: UITableViewCell {
             contentsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
         ])
     }
+    
+    func bind(_ project: Project, dateFormatter) {
+        Observable.just(project.title)
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        Observable.just(project.body)
+            .bind(to: bodyLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        Observable.just(project.date)
+            .map { date in
+                
+            }
+            
+    }
 }
 
-extension ProjectCell: IdentifierProtocol { }
+extension ProjectTableViewCell: IdentifierProtocol { }
