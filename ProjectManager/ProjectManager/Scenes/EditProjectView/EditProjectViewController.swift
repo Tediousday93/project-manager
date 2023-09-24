@@ -85,7 +85,7 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
         configureRootView()
         configureViewHierarchy()
         setupLayoutConstraints()
-        bindUI()
+        setupBindings()
     }
     
     private func configureNavigationBar() {
@@ -120,7 +120,7 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
         ])
     }
     
-    private func bindUI() {
+    private func setupBindings() {
         let input = CreateProjectViewModel.Input(
             title: titleTextField.rx.text.orEmpty.asDriver(),
             date: datePicker.rx.date.distinctUntilChanged().asDriver(onErrorJustReturn: Date()),

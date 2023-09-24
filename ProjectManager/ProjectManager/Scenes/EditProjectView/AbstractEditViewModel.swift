@@ -9,9 +9,9 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol EditViewModelDelegate {
-    func projectCreated(at state: Project.State)
-    func projectUpdated()
+protocol EditViewModelDelegate: AnyObject {
+    func projectCreated()
+    func projectUpdated(at state: Project.State)
 }
 
 class AbstractEditViewModel: ViewModelType {
@@ -29,6 +29,8 @@ class AbstractEditViewModel: ViewModelType {
         let canEdit: Driver<Bool>
         let dismiss: Driver<Void>
     }
+    
+    weak var delegate: EditViewModelDelegate?
     
     let navigator: EditProjectNavigator
     let useCase: ProjectListUseCaseType

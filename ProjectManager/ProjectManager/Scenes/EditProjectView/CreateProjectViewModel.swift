@@ -11,12 +11,13 @@ import RxCocoa
 
 final class CreateProjectViewModel: AbstractEditViewModel {
     override func transform(_ input: AbstractEditViewModel.Input) -> AbstractEditViewModel.Output {
-        let projectContents = Driver.combineLatest(input.title,
-                                                   input.date,
-                                                   input.body)
-        let canSave = projectContents.map { title, date, body in
-            return title != "" || body != ""
-        }
+        let projectContents = Driver.combineLatest(input.title, input.date, input.body)
+        
+        let canSave = projectContents
+            .map { title, _, body in
+                return title != "" || body != ""
+            }
+            .asDriver(onErrorJustReturn: false)
         
         let projectSave = input.rightBarButtonTapped
             .asObservable()
@@ -29,13 +30,15 @@ final class CreateProjectViewModel: AbstractEditViewModel {
                                id: UUID())
             }
             .map { [unowned self] project in
-                try self.useCase.create(project: project)
+                try useCase.create(project: project)
+                delegate?.projectCreated()
             }
+            .share()
         
         let canEdit = Driver.just(true)
         
         let dismiss = Driver.merge(input.leftBarButtonTapped,
-                                       projectSave.asDriver(onErrorJustReturn: ()))
+                                   projectSave.asDriver(onErrorJustReturn: ()))
             .do(onNext: navigator.toMain)
         
         return Output(canSave: canSave,
