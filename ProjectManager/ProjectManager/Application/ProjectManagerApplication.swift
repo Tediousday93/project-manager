@@ -23,6 +23,7 @@ final class ProjectManagerApplication {
         barAppearance.backgroundColor = .systemGray5
         barAppearance.shadowColor = .clear
         navigationController.navigationBar.scrollEdgeAppearance = barAppearance
+        navigationController.navigationBar.standardAppearance = barAppearance
         
         let mainNavigator = DefaultMainNavigator(coreDataService: cdUseCaseProvider,
                                                  navigationController: navigationController)
