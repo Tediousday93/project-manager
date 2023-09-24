@@ -49,7 +49,7 @@ final class ProjectTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
-        stackView.alignment = .leading
+        stackView.alignment = .fill
         stackView.spacing = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -78,6 +78,7 @@ final class ProjectTableViewCell: UITableViewCell {
         titleLabel.text = nil
         bodyLabel.text = nil
         dateLabel.text = nil
+        self.setNeedsLayout()
     }
     
     override func layoutSubviews() {
@@ -119,7 +120,7 @@ final class ProjectTableViewCell: UITableViewCell {
             .forEach { $0.disposed(by: disposeBag) }
         
         output.isDateExpired
-            .subscribe(with: self, onNext: { owner, isDateExpired in
+            .drive(with: self, onNext: { owner, isDateExpired in
                 if isDateExpired {
                     owner.dateLabel.textColor = .systemRed
                 } else {

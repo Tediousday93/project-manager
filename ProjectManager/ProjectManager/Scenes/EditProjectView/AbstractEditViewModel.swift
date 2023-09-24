@@ -34,13 +34,16 @@ class AbstractEditViewModel: ViewModelType {
     let navigator: EditProjectNavigator
     let useCase: ProjectListUseCaseType
     let leftBarButtonTitle: String
+    let sourceProject: Project?
     
     init(navigator: EditProjectNavigator,
          useCase: ProjectListUseCaseType,
-         leftBarButtonTitle: String) {
+         leftBarButtonTitle: String,
+         sourceProject: Project?) {
         self.navigator = navigator
         self.useCase = useCase
         self.leftBarButtonTitle = leftBarButtonTitle
+        self.sourceProject = sourceProject
     }
     
     func transform(_ input: Input) -> Output {

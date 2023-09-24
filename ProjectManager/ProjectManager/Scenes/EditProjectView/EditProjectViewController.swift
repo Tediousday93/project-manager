@@ -83,7 +83,8 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
         super.viewDidLoad()
         configureNavigationBar()
         configureRootView()
-        configureViewHierarchy()
+        configureInitialContents()
+        setupViewHierarchy()
         setupLayoutConstraints()
         setupBindings()
     }
@@ -98,7 +99,17 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
         self.view.backgroundColor = .systemBackground
     }
     
-    private func configureViewHierarchy() {
+    private func configureInitialContents() {
+        guard let project = viewModel.sourceProject else {
+            return
+        }
+        
+        titleTextField.text = project.title
+        datePicker.date = project.date
+        bodyTextView.text = project.body
+    }
+    
+    private func setupViewHierarchy() {
         self.view.addSubview(stackView)
         
         stackView.addArrangedSubview(titleTextField)
@@ -137,10 +148,13 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
             .disposed(by: disposeBag)
         
         output.projectSave
-            .subscribe(onError: { error in
+            .observe(on: MainScheduler.instance)
+            .catch({ error in
                 print(error)
                 // Alert 띄우기
+                return Observable.just(())
             })
+            .subscribe()
             .disposed(by: disposeBag)
         
         output.canEdit

@@ -26,25 +26,28 @@ extension ProjectItemViewModel: ViewModelType {
         let title: Observable<String>
         let body: Observable<String>
         let dateString: Observable<String>
-        let isDateExpired: Observable<Bool>
+        let isDateExpired: Driver<Bool>
     }
     
     func transform(_ input: Input) -> Output {
-        let title = input.project.map { $0.title }
+        let title = input.project
+            .map { $0.title }
         
-        let body = input.project.map { $0.body }
+        let body = input.project
+            .map { $0.body }
         
-        let dateString = input.project.map { $0.date }
+        let dateString = input.project
+            .map { $0.date }
             .withUnretained(self)
             .map { owner, date in
                 owner.dateFormatter.string(from: date)
             }
         
-        let isDateExpired = input.project.map { $0.date }
+        let isDateExpired = input.project
+            .map { $0.date }
             .map { $0.compare(Date()) }
-            .map { compareResult in
-                compareResult == .orderedAscending
-            }
+            .map { $0 == .orderedAscending }
+            .asDriver(onErrorJustReturn: false)
         
         return Output(title: title,
                       body: body,
