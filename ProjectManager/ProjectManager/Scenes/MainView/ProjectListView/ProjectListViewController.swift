@@ -14,7 +14,7 @@ final class ProjectListViewController: UIViewController {
     private typealias DataSource = RxTableViewSectionedReloadDataSource<SectionOfProject>
     
     private let tableView: UITableView = UITableView()
-    private let dataSource = DataSource(configureCell: { _, tableView, indexPath, project in
+    private lazy var dataSource = DataSource(configureCell: { _, tableView, indexPath, project in
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ProjectTableViewCell.identifier,
             for: indexPath
@@ -22,8 +22,10 @@ final class ProjectListViewController: UIViewController {
             fatalError("Fail to dequeue reusable cell")
         }
         
-        cell.titleLabel.text = project.title
-        cell.bodyLabel.text = project.body
+        let cellViewModel = ProjectItemViewModel(dateFormatter: self.dateFormatter)
+        
+        cell.viewModel = cellViewModel
+        cell.bind(project)
         
         return cell
     })
@@ -31,9 +33,12 @@ final class ProjectListViewController: UIViewController {
     private var disposeBag: DisposeBag = .init()
     
     private let viewModel: ProjectListViewModel
+    private let dateFormatter: DateFormatter
     
-    init(viewModel: ProjectListViewModel) {
+    init(viewModel: ProjectListViewModel,
+         dateFormatter: DateFormatter) {
         self.viewModel = viewModel
+        self.dateFormatter = dateFormatter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -66,6 +71,7 @@ final class ProjectListViewController: UIViewController {
         tableView.delegate = self
         tableView.register(ProjectTableViewCell.self, forCellReuseIdentifier: ProjectTableViewCell.identifier)
         tableView.separatorInset = .zero
+        tableView.backgroundColor = .systemGray6
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -123,5 +129,11 @@ extension SectionOfProject: SectionModelType {
 // MARK: - TableView Delegate
 
 extension ProjectListViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let selectedCell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        
+        selectedCell.isSelected = false
+    }
 }

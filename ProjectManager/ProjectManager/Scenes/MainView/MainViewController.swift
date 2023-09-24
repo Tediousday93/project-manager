@@ -30,6 +30,12 @@ final class MainViewController: UIViewController {
         return barButtonItem
     }()
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy. MM. dd"
+        
+        return formatter
+    }()
     private var disposeBag: DisposeBag = .init()
     private let viewModel: MainViewModel
     
@@ -98,7 +104,9 @@ final class MainViewController: UIViewController {
     
     private func addChildren(with viewModels: [ProjectListViewModel]) {
         viewModels.forEach {
-            self.addChild(ProjectListViewController(viewModel: $0))
+            self.addChild(
+                ProjectListViewController(viewModel: $0, dateFormatter: dateFormatter)
+            )
         }
         
         self.children.forEach { child in
