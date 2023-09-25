@@ -69,7 +69,9 @@ final class ProjectListViewController: UIViewController {
     
     private func configureTableView() {
         tableView.delegate = self
-        tableView.register(ProjectTableViewCell.self, forCellReuseIdentifier: ProjectTableViewCell.identifier)
+        tableView.register(ProjectTableViewCell.self,
+                           forCellReuseIdentifier: ProjectTableViewCell.identifier)
+        tableView.register(HeaderView.self, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
         tableView.separatorInset = .zero
         tableView.backgroundColor = .systemGray6
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,8 +87,35 @@ final class ProjectListViewController: UIViewController {
     }
     
     private func setupBindings() {
+        let projectState = viewModel.projectState
+        
+        let sections = viewModel.projectList
+            .withUnretained(self)
+            .map { owner, projectList in
+                [SectionOfProject(header: projectState.rawValue, items: projectList)]
+            }
+            .share()
+        
+        sections
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        sections
+            .compactMap { sections in
+                guard let section = sections.first else { return nil }
+                
+                let headerView = HeaderView(frame: .init(x: 0, y: 0, width: self.tableView.frame.width, height: 50))
+                headerView.bind(header: section.header,
+                                badge: section.items.count)
+                
+                return headerView
+            }
+            .bind(to: tableView.rx.tableHeaderView)
+            .disposed(by: disposeBag)
+        
         let input = ProjectListViewModel.Input(
-            itemSelected: tableView.rx.itemSelected.asDriver()
+            itemSelected: tableView.rx.itemSelected.asDriver(),
+            itemDeleted: tableView.rx.itemDeleted.asDriver()
         )
         let output = viewModel.transform(input)
         
@@ -97,17 +126,27 @@ final class ProjectListViewController: UIViewController {
         output.updateProjectViewPresented
             .drive()
             .disposed(by: disposeBag)
-       
         
-        let projectState = viewModel.projectState
-        
-        viewModel.projectList
-            .withUnretained(self)
-            .map { owner, projectList in
-                [SectionOfProject(header: projectState.rawValue, items: projectList)]
-            }
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+        output.deleteProject
+            .observe(on: MainScheduler.instance)
+            .catch({ error in
+                print(error)
+                // Alert 띄우기
+                return Observable.just(nil)
+            })
+            .subscribe(with: self, onNext: { owner, indexPath in
+                owner.removeDataSourceItem(at: indexPath)
+            })
             .disposed(by: disposeBag)
+    }
+    
+    private func removeDataSourceItem(at indexPath: IndexPath?) {
+        guard let indexPath else { return }
+        
+        var items = viewModel.projectList.value
+        items.remove(at: indexPath.row)
+        
+        viewModel.projectList.accept(items)
     }
 }
 

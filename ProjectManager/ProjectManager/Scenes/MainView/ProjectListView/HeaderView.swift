@@ -7,11 +7,12 @@
 
 import UIKit
 
-final class HeaderView: UIView {
+final class HeaderView: UITableViewHeaderFooterView {
     let headerLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title1)
         label.textColor = .black
+        label.setContentHuggingPriority(.required, for: .horizontal)
         
         return label
     }()
@@ -19,7 +20,7 @@ final class HeaderView: UIView {
     let badgeLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.textColor = .white
+        label.textColor = .black
         
         return label
     }()
@@ -29,20 +30,25 @@ final class HeaderView: UIView {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
-        stackView.spacing = 5
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         configureViewHierarchy()
         setupLayoutConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(header: String, badge: Int) {
+        headerLabel.text = header
+        badgeLabel.text = String(badge)
     }
     
     private func configureViewHierarchy() {
@@ -61,3 +67,5 @@ final class HeaderView: UIView {
         ])
     }
 }
+
+extension HeaderView: IdentifierProtocol { }

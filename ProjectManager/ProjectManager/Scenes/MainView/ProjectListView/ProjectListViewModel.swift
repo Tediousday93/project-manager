@@ -29,11 +29,13 @@ final class ProjectListViewModel {
 extension ProjectListViewModel: ViewModelType {
     struct Input {
         let itemSelected: Driver<IndexPath>
+        let itemDeleted: Driver<IndexPath>
     }
     
     struct Output {
         let projectListFetched: Driver<Void>
         let updateProjectViewPresented: Driver<Void>
+        let deleteProject: Observable<IndexPath?>
     }
     
     func transform(_ input: Input) -> Output {
@@ -55,8 +57,19 @@ extension ProjectListViewModel: ViewModelType {
                 navigator.toUpdate(project, delegate: self)
             }
         
+        let deleteProject = input.itemDeleted
+            .asObservable()
+            .withUnretained(self)
+            .map { owner, indexPath in
+                let project = owner.projectList.value[indexPath.row]
+                try owner.useCase.delete(project: project)
+                
+                return Optional(indexPath)
+            }
+        
         return Output(projectListFetched: projectListFetched,
-                      updateProjectViewPresented: updateProjectViewPresented)
+                      updateProjectViewPresented: updateProjectViewPresented,
+                      deleteProject: deleteProject)
     }
 }
 

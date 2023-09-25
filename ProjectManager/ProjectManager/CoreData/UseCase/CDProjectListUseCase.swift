@@ -37,7 +37,7 @@ final class CDProjectListUseCase<Repository>: ProjectListUseCaseType where Repos
     }
     
     func delete(project: Project) throws {
-        let predicate = NSPredicate(format: "id == @%", project.id.uuidString)
+        let predicate = NSPredicate(format: "id == %@", project.id.uuidString)
         try repository.delete(object: project, with: predicate)
     }
 }
