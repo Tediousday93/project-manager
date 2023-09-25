@@ -22,9 +22,7 @@ final class ProjectListViewController: UIViewController {
             fatalError("Fail to dequeue reusable cell")
         }
         
-        let cellViewModel = ProjectItemViewModel(dateFormatter: self.dateFormatter)
-        
-        cell.viewModel = cellViewModel
+        cell.viewModel = ProjectItemViewModel(dateFormatter: self.dateFormatter)
         cell.bind(project)
         
         return cell
@@ -54,6 +52,7 @@ final class ProjectListViewController: UIViewController {
         super.viewDidLoad()
         configureRootView()
         configureTableView()
+        configureDataSource()
         setupLayoutConstraints()
         setupBindings()
     }
@@ -71,10 +70,17 @@ final class ProjectListViewController: UIViewController {
         tableView.delegate = self
         tableView.register(ProjectTableViewCell.self,
                            forCellReuseIdentifier: ProjectTableViewCell.identifier)
-        tableView.register(HeaderView.self, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
-        tableView.separatorInset = .zero
+        tableView.register(HeaderView.self,
+                           forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
+        tableView.separatorStyle = .none
         tableView.backgroundColor = .systemGray6
         tableView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureDataSource() {
+        dataSource.canEditRowAtIndexPath = { dataSource, indexPath in
+            return true
+        }
     }
     
     private func setupLayoutConstraints() {
