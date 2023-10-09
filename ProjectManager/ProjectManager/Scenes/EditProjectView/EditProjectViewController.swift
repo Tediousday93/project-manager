@@ -45,7 +45,7 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
         return stackView
     }()
     
-    private var rightBarButton: UIBarButtonItem = {
+    private let rightBarButton: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem(title: Constant().rightBarButtonTitle,
                                             style: .plain,
                                             target: nil,
@@ -55,7 +55,7 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
         return barButtonItem
     }()
     
-    private var leftBarButton: UIBarButtonItem = {
+    private let leftBarButton: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem(title: nil,
                                             style: .plain,
                                             target: nil,
