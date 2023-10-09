@@ -8,7 +8,7 @@
 import Foundation
 
 struct Project: Identifiable, Equatable {
-    enum State: String {
+    enum State: String, CaseIterable {
         case todo = "TODO"
         case doing = "DOING"
         case done = "DONE"
