@@ -29,9 +29,10 @@ final class CreateProjectViewModel: AbstractEditViewModel {
                                state: .todo,
                                id: UUID())
             }
-            .map { [unowned self] project in
-                try useCase.create(project: project)
-                delegate?.updateTrigger.accept(())
+            .withUnretained(self)
+            .map { owner, project in
+                try owner.useCase.create(project: project)
+                owner.delegate?.updateTrigger.accept(())
             }
             .share()
         

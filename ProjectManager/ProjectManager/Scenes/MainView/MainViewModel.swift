@@ -34,31 +34,47 @@ extension MainViewModel: ViewModelType {
     
     func transform(_ input: Input) -> Output {
         let projectListViewModels = input.viewWillAppearEvent
-            .map { [unowned self] _ in
-                let todoListViewModel = ProjectListViewModel(useCase: coreDataUseCase,
-                                                             navigator: navigator,
-                                                             projectState: .todo)
-                let doingListViewModel = ProjectListViewModel(useCase: coreDataUseCase,
-                                                              navigator: navigator,
-                                                              projectState: .doing)
-                let doneListViewModel = ProjectListViewModel(useCase: coreDataUseCase,
-                                                             navigator: navigator,
-                                                             projectState: .done)
-                let viewModels = [todoListViewModel, doingListViewModel, doneListViewModel]
+            .withUnretained(self)
+            .map { owner, _ in
+                let viewModels = Project.State
+                    .allCases
+                    .map { state in
+                        ProjectListViewModel(useCase: owner.coreDataUseCase,
+                                             navigator: owner.navigator,
+                                             projectState: state)
+                    }
                 
-                self.children = viewModels
+                viewModels.forEach { $0.parent = owner }
+                owner.children = viewModels
                 
                 return viewModels
             }
-            .asObservable()
         
         let createProjectViewPresented = input.addBarButtonTapped
-            .map { [unowned self] _ in
-                let todoViewModel = children.first(where: { $0.projectState == .todo })
-                navigator.toCreateProject(delegate: todoViewModel)
+            .asObservable()
+            .withUnretained(self)
+            .map { owner, _ in
+                let todoViewModel = owner.children.first(where: { $0.projectState == .todo })
+                owner.navigator.toCreateProject(delegate: todoViewModel)
             }
+            .asDriver(onErrorJustReturn: ())
         
         return Output(projectListViewModels: projectListViewModels,
                       createProjectViewPresented: createProjectViewPresented)
+    }
+}
+
+extension MainViewModel: ChangeStateViewModelDelegate {
+    func updateListView(states: [Project.State]) {
+        states.forEach { state in
+            switch state {
+            case .todo:
+                children[safe: 0]?.updateTrigger.accept(())
+            case .doing:
+                children[safe: 1]?.updateTrigger.accept(())
+            case .done:
+                children[safe: 2]?.updateTrigger.accept(())
+            }
+        }
     }
 }
