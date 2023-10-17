@@ -11,7 +11,6 @@ protocol MainNavigator {
     func toMain()
     func toCreateProject(delegate: EditViewModelDelegate?)
     func toUpdate(_ project: Project, delegate: EditViewModelDelegate?)
-    func toChangeState()
 }
 
 final class DefaultMainNavigator: MainNavigator {
@@ -76,9 +75,5 @@ final class DefaultMainNavigator: MainNavigator {
         updateProjectNavigationController.modalPresentationStyle = .formSheet
         
         self.navigationController.present(updateProjectNavigationController, animated: true)
-    }
-    
-    func toChangeState() {
-        
     }
 }
