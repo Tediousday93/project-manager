@@ -10,9 +10,11 @@ import RxSwift
 import RxCocoa
 
 final class ProjectListViewModel {
-    let updateTrigger: BehaviorRelay<Void> = .init(value: ())
     let projectList: BehaviorRelay<[Project]> = .init(value: [])
+    let updateTrigger: PublishRelay<Void> = .init()
     let projectState: Project.State
+    
+    weak var parent: MainViewModel?
     
     private let useCase: ProjectListUseCaseType
     private let navigator: MainNavigator
@@ -30,12 +32,14 @@ extension ProjectListViewModel: ViewModelType {
     struct Input {
         let itemSelected: Driver<IndexPath>
         let itemDeleted: Driver<IndexPath>
+        let longPressEnded: Driver<IndexPath?>
     }
     
     struct Output {
         let projectListFetched: Driver<Void>
         let updateProjectViewPresented: Driver<Void>
         let deleteProject: Observable<IndexPath?>
+        let longPressedCellSource: Observable<ChangeStateViewModel>
     }
     
     func transform(_ input: Input) -> Output {
@@ -67,9 +71,26 @@ extension ProjectListViewModel: ViewModelType {
                 return Optional(indexPath)
             }
         
+        let longPressedCellSource = input.longPressEnded
+            .asObservable()
+            .compactMap { $0 }
+            .withUnretained(self)
+            .map { owner, indexPath in
+                let project = owner.projectList.value[indexPath.row]
+                return (owner, project)
+            }
+            .map { owner, project in
+                let viewModel = ChangeStateViewModel(sourceProject: project,
+                                                     useCase: owner.useCase)
+                viewModel.delegate = owner.parent
+                
+                return viewModel
+            }
+        
         return Output(projectListFetched: projectListFetched,
                       updateProjectViewPresented: updateProjectViewPresented,
-                      deleteProject: deleteProject)
+                      deleteProject: deleteProject,
+                      longPressedCellSource: longPressedCellSource)
     }
 }
 

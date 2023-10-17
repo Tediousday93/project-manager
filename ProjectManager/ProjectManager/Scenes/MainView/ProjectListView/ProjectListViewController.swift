@@ -9,12 +9,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import RxGesture
 
 final class ProjectListViewController: UIViewController {
     private typealias DataSource = RxTableViewSectionedReloadDataSource<SectionOfProject>
     
-    private let tableView: UITableView = UITableView()
-    private lazy var dataSource = DataSource(configureCell: { _, tableView, indexPath, project in
+    private let tableView: UITableView = .init()
+    private var longPressedCell: UITableViewCell?
+    
+    private lazy var dataSource = DataSource(configureCell: { [unowned self] _, tableView, indexPath, project in
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ProjectTableViewCell.identifier,
             for: indexPath
@@ -22,8 +25,8 @@ final class ProjectListViewController: UIViewController {
             fatalError("Fail to dequeue reusable cell")
         }
         
-        cell.viewModel = ProjectItemViewModel(dateFormatter: self.dateFormatter)
-        cell.bind(project)
+        cell.dateFormatter = self.dateFormatter
+        cell.configureContents(with: project)
         
         return cell
     })
@@ -93,8 +96,69 @@ final class ProjectListViewController: UIViewController {
     }
     
     private func setupBindings() {
-        let projectState = viewModel.projectState
+// MARK: - Bind UI
+        // Controll Event 연관값 활용 Recognizer 학습 필요
+        tableView.rx.longPressGesture()
+            .when(.began)
+            .asLocation()
+            .subscribe(with: self) { owner, location in
+                owner.saveLongPressedCell(at: location)
+            }
+            .disposed(by: disposeBag)
         
+        let longPressEnded = tableView.rx.longPressGesture()
+            .when(.ended)
+            .asLocation()
+            .withUnretained(self)
+            .map { owner, location in
+                if owner.islongPressedCellChanged(location: location) == false {
+                    return owner.tableView.indexPathForRow(at: location)
+                } else {
+                    return nil
+                }
+            }
+            .asDriver(onErrorJustReturn: nil)
+        
+        let input = ProjectListViewModel.Input(
+            itemSelected: tableView.rx.itemSelected.asDriver(),
+            itemDeleted: tableView.rx.itemDeleted.asDriver(),
+            longPressEnded: longPressEnded
+        )
+        let output = viewModel.transform(input)
+        
+        output.projectListFetched
+            .drive()
+            .disposed(by: disposeBag)
+        
+        output.updateProjectViewPresented
+            .drive()
+            .disposed(by: disposeBag)
+        
+        output.deleteProject
+            .observe(on: MainScheduler.instance)
+            .catch({ error in
+                print(error)
+                // Alert 띄우기
+                return Observable.just(nil)
+            })
+            .subscribe(with: self, onNext: { owner, indexPath in
+                owner.removeDataSourceItem(at: indexPath)
+            })
+            .disposed(by: disposeBag)
+                    
+        output.longPressedCellSource
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self, onNext: { owner, changeStateViewModel in
+                try? ChangeStatePopOverBuilder(presentingViewController: owner)
+                    .withSourceView(owner.longPressedCell)
+                    .arrowDirections(.up)
+                    .preferredContentSize(CGSize(width: 300, height: 120))
+                    .show(with: changeStateViewModel)
+            })
+            .disposed(by: disposeBag)
+        
+// MARK: - Bind State
+        let projectState = viewModel.projectState
         let sections = viewModel.projectList
             .withUnretained(self)
             .map { owner, projectList in
@@ -117,32 +181,6 @@ final class ProjectListViewController: UIViewController {
                 return headerView
             }
             .bind(to: tableView.rx.tableHeaderView)
-            .disposed(by: disposeBag)
-        
-        let input = ProjectListViewModel.Input(
-            itemSelected: tableView.rx.itemSelected.asDriver(),
-            itemDeleted: tableView.rx.itemDeleted.asDriver()
-        )
-        let output = viewModel.transform(input)
-        
-        output.projectListFetched
-            .drive()
-            .disposed(by: disposeBag)
-        
-        output.updateProjectViewPresented
-            .drive()
-            .disposed(by: disposeBag)
-        
-        output.deleteProject
-            .observe(on: MainScheduler.instance)
-            .catch({ error in
-                print(error)
-                // Alert 띄우기
-                return Observable.just(nil)
-            })
-            .subscribe(with: self, onNext: { owner, indexPath in
-                owner.removeDataSourceItem(at: indexPath)
-            })
             .disposed(by: disposeBag)
     }
     
@@ -180,5 +218,27 @@ extension ProjectListViewController: UITableViewDelegate {
         }
         
         selectedCell.isSelected = false
+    }
+}
+
+// MARK: - LongPressGestureRecognizer
+extension ProjectListViewController {
+    private func saveLongPressedCell(at location: CGPoint) {
+        guard let indexPath = tableView.indexPathForRow(at: location),
+              let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        
+        self.longPressedCell = cell
+    }
+    
+    private func islongPressedCellChanged(location: CGPoint) -> Bool {
+        guard let indexPath = tableView.indexPathForRow(at: location),
+              let previousCell = self.longPressedCell,
+              let currentCell = tableView.cellForRow(at: indexPath) else {
+            return true
+        }
+        
+        return currentCell == previousCell ? false : true
     }
 }
