@@ -11,7 +11,7 @@
 		79A248FE0FF8C2A9975A10CC /* Pods_ProjectManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F94021592CAF34083BDA7774 /* Pods_ProjectManager.framework */; };
 		AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */; };
 		AD5DAB652AD41B3D00DC30B9 /* Array+ProjectState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */; };
-		AD5DAB672AD4220400DC30B9 /* MoveToButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB662AD4220400DC30B9 /* MoveToButton.swift */; };
+		AD5DAB712AD8530D00DC30B9 /* PopOverBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */; };
 		AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */; };
 		AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */; };
 		AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */; };
@@ -39,11 +39,9 @@
 		AD9E51A82AB9E32B00A04A50 /* ProjectManagerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51A72AB9E32B00A04A50 /* ProjectManagerApplication.swift */; };
 		AD9E51AF2ABD07B800A04A50 /* CDProject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51AD2ABD07B800A04A50 /* CDProject+CoreDataClass.swift */; };
 		AD9E51B02ABD07B800A04A50 /* CDProject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51AE2ABD07B800A04A50 /* CDProject+CoreDataProperties.swift */; };
-		AD9E51B22AC01DF800A04A50 /* ProjectItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51B12AC01DF800A04A50 /* ProjectItemViewModel.swift */; };
 		AD9E51B42AC0295D00A04A50 /* Rx+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51B32AC0295D00A04A50 /* Rx+UIViewController.swift */; };
 		AD9E51B92AC1ECBC00A04A50 /* ChangeStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51B82AC1ECBC00A04A50 /* ChangeStateViewController.swift */; };
 		AD9E51BB2AC1EF5C00A04A50 /* ChangeStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51BA2AC1EF5C00A04A50 /* ChangeStateViewModel.swift */; };
-		AD9E51BD2AC1F1DC00A04A50 /* ChangeStateNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E51BC2AC1F1DC00A04A50 /* ChangeStateNavigator.swift */; };
 		C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0525F51E1D0094C4CF /* AppDelegate.swift */; };
 		C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */; };
 		C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7431F0925F51E1D0094C4CF /* MainViewController.swift */; };
@@ -67,7 +65,7 @@
 		A75CEDCD244C20CEFDC6E51F /* Pods-ProjectManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.debug.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.debug.xcconfig"; sourceTree = "<group>"; };
 		AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
 		AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ProjectState.swift"; sourceTree = "<group>"; };
-		AD5DAB662AD4220400DC30B9 /* MoveToButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveToButton.swift; sourceTree = "<group>"; };
+		AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverBuilder.swift; sourceTree = "<group>"; };
 		AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEditViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProjectViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProjectViewModel.swift; sourceTree = "<group>"; };
@@ -96,11 +94,9 @@
 		AD9E51A72AB9E32B00A04A50 /* ProjectManagerApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManagerApplication.swift; sourceTree = "<group>"; };
 		AD9E51AD2ABD07B800A04A50 /* CDProject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDProject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AD9E51AE2ABD07B800A04A50 /* CDProject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDProject+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		AD9E51B12AC01DF800A04A50 /* ProjectItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectItemViewModel.swift; sourceTree = "<group>"; };
 		AD9E51B32AC0295D00A04A50 /* Rx+UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Rx+UIViewController.swift"; sourceTree = "<group>"; };
 		AD9E51B82AC1ECBC00A04A50 /* ChangeStateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStateViewController.swift; sourceTree = "<group>"; };
 		AD9E51BA2AC1EF5C00A04A50 /* ChangeStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStateViewModel.swift; sourceTree = "<group>"; };
-		AD9E51BC2AC1F1DC00A04A50 /* ChangeStateNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStateNavigator.swift; sourceTree = "<group>"; };
 		B0B3BFE63510492564CC44FB /* Pods-ProjectManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.release.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.release.xcconfig"; sourceTree = "<group>"; };
 		C7431F0225F51E1D0094C4CF /* ProjectManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7431F0525F51E1D0094C4CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +138,15 @@
 				5A3CFABBF8DFE17EA7FAA362 /* Pods-ProjectManagerTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		AD5DAB722ADE61B200DC30B9 /* PopOvers */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */,
+				AD9E51B72AC1EC8D00A04A50 /* ChangeStateView */,
+			);
+			path = PopOvers;
 			sourceTree = "<group>";
 		};
 		AD5F1EF32A8F8E5C007C7AD0 /* DTO */ = {
@@ -203,8 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				AD8994282A5C5E2E00D848A5 /* MainView */,
+				AD5DAB722ADE61B200DC30B9 /* PopOvers */,
 				AD8994652A651F8600D848A5 /* EditProjectView */,
-				AD9E51B72AC1EC8D00A04A50 /* ChangeStateView */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -215,7 +220,6 @@
 				AD8994442A5F5B4100D848A5 /* ProjectListViewController.swift */,
 				AD8994462A5F5E9400D848A5 /* ProjectListViewModel.swift */,
 				AD89945F2A6510D900D848A5 /* ProjectTableViewCell.swift */,
-				AD9E51B12AC01DF800A04A50 /* ProjectItemViewModel.swift */,
 				AD8994612A65156C00D848A5 /* HeaderView.swift */,
 			);
 			path = ProjectListView;
@@ -318,9 +322,7 @@
 		AD9E51B72AC1EC8D00A04A50 /* ChangeStateView */ = {
 			isa = PBXGroup;
 			children = (
-				AD9E51BC2AC1F1DC00A04A50 /* ChangeStateNavigator.swift */,
 				AD9E51B82AC1ECBC00A04A50 /* ChangeStateViewController.swift */,
-				AD5DAB662AD4220400DC30B9 /* MoveToButton.swift */,
 				AD9E51BA2AC1EF5C00A04A50 /* ChangeStateViewModel.swift */,
 			);
 			path = ChangeStateView;
@@ -568,13 +570,12 @@
 				AD9E51612AA8639900A04A50 /* CoreDataRepository.swift in Sources */,
 				AD9E51592AA8549A00A04A50 /* CoreDataStack.swift in Sources */,
 				AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */,
-				AD5DAB672AD4220400DC30B9 /* MoveToButton.swift in Sources */,
 				AD9E51772AB2430600A04A50 /* CoreDataError.swift in Sources */,
 				AD9E51B02ABD07B800A04A50 /* CDProject+CoreDataProperties.swift in Sources */,
 				AD9E51B92AC1ECBC00A04A50 /* ChangeStateViewController.swift in Sources */,
 				AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */,
 				C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */,
-				AD9E51B22AC01DF800A04A50 /* ProjectItemViewModel.swift in Sources */,
+				AD5DAB712AD8530D00DC30B9 /* PopOverBuilder.swift in Sources */,
 				AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */,
 				AD9E51732AAF7CAD00A04A50 /* Persistable.swift in Sources */,
 				AD8994602A6510D900D848A5 /* ProjectTableViewCell.swift in Sources */,
@@ -596,7 +597,6 @@
 				AD8994452A5F5B4100D848A5 /* ProjectListViewController.swift in Sources */,
 				AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */,
 				C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */,
-				AD9E51BD2AC1F1DC00A04A50 /* ChangeStateNavigator.swift in Sources */,
 				AD9E51822AB3074C00A04A50 /* EditProjectNavigator.swift in Sources */,
 				AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */,
 				AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */,

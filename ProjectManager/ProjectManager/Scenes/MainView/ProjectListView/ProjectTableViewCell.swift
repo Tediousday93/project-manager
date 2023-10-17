@@ -56,11 +56,9 @@ final class ProjectTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    var viewModel: ProjectItemViewModel?
-    private var disposeBag: DisposeBag = .init()
+    weak var dateFormatter: DateFormatter?
     
-    override init(style: UITableViewCell.CellStyle,
-                  reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureViewHierarchy()
@@ -74,7 +72,6 @@ final class ProjectTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        disposeBag = .init()
         titleLabel.text = nil
         bodyLabel.text = nil
         dateLabel.text = nil
@@ -84,7 +81,9 @@ final class ProjectTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0))
+        contentView.frame = contentView.frame.inset(
+            by: UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        )
     }
     
     private func configureViewHierarchy() {
@@ -106,28 +105,36 @@ final class ProjectTableViewCell: UITableViewCell {
         ])
     }
     
-    func bind(_ project: Project) {
-        guard let viewModel else { return }
+    func configureContents(with source: Project) {
+        titleLabel.text = source.title
+        dateLabel.text = dateFormatter?.string(from: source.date)
+        bodyLabel.text = source.body
         
-        let input = ProjectItemViewModel.Input(
-            project: Observable.just(project)
-        )
-        let output = viewModel.transform(input)
-        
-        [output.title.bind(to: titleLabel.rx.text),
-         output.body.bind(to: bodyLabel.rx.text),
-         output.dateString.bind(to: dateLabel.rx.text)]
-            .forEach { $0.disposed(by: disposeBag) }
-        
-        output.isDateExpired
-            .drive(with: self, onNext: { owner, isDateExpired in
-                if isDateExpired {
-                    owner.dateLabel.textColor = .systemRed
-                } else {
-                    owner.dateLabel.textColor = .black
-                }
-            })
-            .disposed(by: disposeBag)
+        if source.date.compare(Date()) == .orderedAscending {
+            dateLabel.textColor = .systemRed
+        } else {
+            dateLabel.textColor = .black
+        }
+
+//        let input = ProjectTableViewCellViewModel.Input(
+//            contentsUpdateTrigger: contentsUpdateTrigger
+//        )
+//        let output = viewModel.transform(input)
+//
+//        [output.title.bind(to: titleLabel.rx.text),
+//         output.body.bind(to: bodyLabel.rx.text),
+//         output.dateString.bind(to: dateLabel.rx.text)]
+//            .forEach { $0.disposed(by: disposeBag) }
+//
+//        output.isDateExpired
+//            .drive(with: self, onNext: { owner, isDateExpired in
+//                if isDateExpired {
+//                    owner.dateLabel.textColor = .systemRed
+//                } else {
+//                    owner.dateLabel.textColor = .black
+//                }
+//            })
+//            .disposed(by: disposeBag)
     }
 }
 
