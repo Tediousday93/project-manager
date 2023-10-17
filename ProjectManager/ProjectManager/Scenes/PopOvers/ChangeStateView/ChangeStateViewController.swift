@@ -15,9 +15,12 @@ final class ChangeStateViewController: UIViewController {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillEqually
         stackView.alignment = .fill
         stackView.spacing = 10
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -58,10 +61,10 @@ final class ChangeStateViewController: UIViewController {
     
     private func setupLayoutConstraints() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
@@ -86,8 +89,8 @@ final class ChangeStateViewController: UIViewController {
         
         output.buttonTitles
             .drive(with: self) { owner, buttonTitles in
-                owner.firstButton.setTitle(buttonTitles[safe: 0], for: .normal)
-                owner.secondButton.setTitle(buttonTitles[safe: 1], for: .normal)
+                owner.firstButton.provide(titleSuffix: buttonTitles[safe: 0] ?? "")
+                owner.secondButton.provide(titleSuffix: buttonTitles[safe: 1] ?? "")
             }
             .disposed(by: disposeBag)
         
@@ -102,5 +105,21 @@ final class ChangeStateViewController: UIViewController {
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
+    }
+}
+
+fileprivate
+final class MoveToButton: UIButton {
+    private(set) var titleSuffix: String = ""
+    
+    func provide(titleSuffix: String) {
+        self.titleSuffix = titleSuffix
+        self.setTitle(Constants.title + titleSuffix, for: .normal)
+        self.setTitleColor(.systemBlue, for: .normal)
+        self.backgroundColor = .white
+    }
+    
+    private enum Constants {
+        static let title: String = "Move to "
     }
 }

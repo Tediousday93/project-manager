@@ -9,7 +9,13 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+protocol ChangeStateViewModelDelegate: AnyObject {
+    func updateListView(states: [Project.State])
+}
+
 final class ChangeStateViewModel {
+    weak var delegate: ChangeStateViewModelDelegate?
+    
     private let sourceProject: Project
     private let useCase: ProjectListUseCaseType
     
@@ -60,6 +66,7 @@ extension ChangeStateViewModel: ViewModelType {
                                              id: owner.sourceProject.id)
                 
                 try owner.useCase.update(project: changedProject)
+                owner.delegate?.updateListView(states: [state, owner.sourceProject.state])
             }
         
         return Output(buttonTitles: buttonTitles,
