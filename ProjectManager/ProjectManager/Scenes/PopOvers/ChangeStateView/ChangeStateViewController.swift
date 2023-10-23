@@ -68,7 +68,7 @@ final class ChangeStateViewController: UIViewController {
         ])
     }
     
-    func setupBindings() {
+    private func setupBindings() {
         let firstButtonTapped = firstButton.rx.tap
             .withUnretained(self)
             .map { owner, _ in

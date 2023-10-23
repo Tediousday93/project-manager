@@ -203,7 +203,7 @@ fileprivate struct SectionOfProject {
 extension SectionOfProject: SectionModelType {
     typealias Item = Project
     
-    init(original: SectionOfProject, items: [Project]) {
+    init(original: SectionOfProject, items: [Item]) {
         self = original
         self.items = items
     }

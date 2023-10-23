@@ -115,26 +115,6 @@ final class ProjectTableViewCell: UITableViewCell {
         } else {
             dateLabel.textColor = .black
         }
-
-//        let input = ProjectTableViewCellViewModel.Input(
-//            contentsUpdateTrigger: contentsUpdateTrigger
-//        )
-//        let output = viewModel.transform(input)
-//
-//        [output.title.bind(to: titleLabel.rx.text),
-//         output.body.bind(to: bodyLabel.rx.text),
-//         output.dateString.bind(to: dateLabel.rx.text)]
-//            .forEach { $0.disposed(by: disposeBag) }
-//
-//        output.isDateExpired
-//            .drive(with: self, onNext: { owner, isDateExpired in
-//                if isDateExpired {
-//                    owner.dateLabel.textColor = .systemRed
-//                } else {
-//                    owner.dateLabel.textColor = .black
-//                }
-//            })
-//            .disposed(by: disposeBag)
     }
 }
 
