@@ -12,6 +12,12 @@
 		AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */; };
 		AD5DAB652AD41B3D00DC30B9 /* Array+ProjectState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */; };
 		AD5DAB712AD8530D00DC30B9 /* PopOverBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */; };
+		AD5DAB772AE124B900DC30B9 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB762AE124B900DC30B9 /* HistoryViewController.swift */; };
+		AD5DAB792AE1265D00DC30B9 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB782AE1265D00DC30B9 /* HistoryTableViewCell.swift */; };
+		AD5DAB7C2AE129FC00DC30B9 /* ProjectHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB7B2AE129FC00DC30B9 /* ProjectHistory.swift */; };
+		AD5DAB7F2AE63B6100DC30B9 /* HistoryRecordable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB7E2AE63B6100DC30B9 /* HistoryRecordable.swift */; };
+		AD5DAB832AE64C5500DC30B9 /* ProjectHistoryRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB822AE64C5500DC30B9 /* ProjectHistoryRecorder.swift */; };
+		AD5DAB872AE6503B00DC30B9 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB862AE6503B00DC30B9 /* HistoryViewModel.swift */; };
 		AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */; };
 		AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */; };
 		AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */; };
@@ -66,6 +72,12 @@
 		AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
 		AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ProjectState.swift"; sourceTree = "<group>"; };
 		AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverBuilder.swift; sourceTree = "<group>"; };
+		AD5DAB762AE124B900DC30B9 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		AD5DAB782AE1265D00DC30B9 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		AD5DAB7B2AE129FC00DC30B9 /* ProjectHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectHistory.swift; sourceTree = "<group>"; };
+		AD5DAB7E2AE63B6100DC30B9 /* HistoryRecordable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryRecordable.swift; sourceTree = "<group>"; };
+		AD5DAB822AE64C5500DC30B9 /* ProjectHistoryRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectHistoryRecorder.swift; sourceTree = "<group>"; };
+		AD5DAB862AE6503B00DC30B9 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEditViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProjectViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProjectViewModel.swift; sourceTree = "<group>"; };
@@ -145,8 +157,45 @@
 			children = (
 				AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */,
 				AD9E51B72AC1EC8D00A04A50 /* ChangeStateView */,
+				AD5DAB732AE1245C00DC30B9 /* HistoryView */,
 			);
 			path = PopOvers;
+			sourceTree = "<group>";
+		};
+		AD5DAB732AE1245C00DC30B9 /* HistoryView */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB762AE124B900DC30B9 /* HistoryViewController.swift */,
+				AD5DAB782AE1265D00DC30B9 /* HistoryTableViewCell.swift */,
+				AD5DAB862AE6503B00DC30B9 /* HistoryViewModel.swift */,
+			);
+			path = HistoryView;
+			sourceTree = "<group>";
+		};
+		AD5DAB7D2AE63B4400DC30B9 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB842AE64F9C00DC30B9 /* Interface */,
+				AD5DAB852AE64FA200DC30B9 /* Implementation */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		AD5DAB842AE64F9C00DC30B9 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB7E2AE63B6100DC30B9 /* HistoryRecordable.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		AD5DAB852AE64FA200DC30B9 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB7B2AE129FC00DC30B9 /* ProjectHistory.swift */,
+				AD5DAB822AE64C5500DC30B9 /* ProjectHistoryRecorder.swift */,
+			);
+			path = Implementation;
 			sourceTree = "<group>";
 		};
 		AD5F1EF32A8F8E5C007C7AD0 /* DTO */ = {
@@ -190,6 +239,7 @@
 			children = (
 				AD9E51782AB2630700A04A50 /* UseCases */,
 				AD5F1EF32A8F8E5C007C7AD0 /* DTO */,
+				AD5DAB7D2AE63B4400DC30B9 /* History */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -569,6 +619,7 @@
 			files = (
 				AD9E51612AA8639900A04A50 /* CoreDataRepository.swift in Sources */,
 				AD9E51592AA8549A00A04A50 /* CoreDataStack.swift in Sources */,
+				AD5DAB7C2AE129FC00DC30B9 /* ProjectHistory.swift in Sources */,
 				AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */,
 				AD9E51772AB2430600A04A50 /* CoreDataError.swift in Sources */,
 				AD9E51B02ABD07B800A04A50 /* CDProject+CoreDataProperties.swift in Sources */,
@@ -581,7 +632,9 @@
 				AD8994602A6510D900D848A5 /* ProjectTableViewCell.swift in Sources */,
 				AD9E51752AB238A800A04A50 /* CDProjectListUseCase.swift in Sources */,
 				AD5DAB652AD41B3D00DC30B9 /* Array+ProjectState.swift in Sources */,
+				AD5DAB872AE6503B00DC30B9 /* HistoryViewModel.swift in Sources */,
 				AD9E517C2AB27F7F00A04A50 /* CDUseCaseProvider.swift in Sources */,
+				AD5DAB772AE124B900DC30B9 /* HistoryViewController.swift in Sources */,
 				AD9E51802AB304E900A04A50 /* MainNavigator.swift in Sources */,
 				AD9E515C2AA856D200A04A50 /* Model.xcdatamodeld in Sources */,
 				AD9E51702AAA619F00A04A50 /* DomainConvertible.swift in Sources */,
@@ -590,12 +643,15 @@
 				C7431F0625F51E1D0094C4CF /* AppDelegate.swift in Sources */,
 				AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */,
 				AD8994472A5F5E9400D848A5 /* ProjectListViewModel.swift in Sources */,
+				AD5DAB792AE1265D00DC30B9 /* HistoryTableViewCell.swift in Sources */,
 				AD8994642A651F7600D848A5 /* EditProjectViewController.swift in Sources */,
 				AD9E517E2AB27F9D00A04A50 /* UseCaseProvider.swift in Sources */,
 				AD9E51BB2AC1EF5C00A04A50 /* ChangeStateViewModel.swift in Sources */,
 				AD9E517A2AB2631D00A04A50 /* ProjectListUseCaseType.swift in Sources */,
+				AD5DAB832AE64C5500DC30B9 /* ProjectHistoryRecorder.swift in Sources */,
 				AD8994452A5F5B4100D848A5 /* ProjectListViewController.swift in Sources */,
 				AD8994622A65156C00D848A5 /* HeaderView.swift in Sources */,
+				AD5DAB7F2AE63B6100DC30B9 /* HistoryRecordable.swift in Sources */,
 				C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */,
 				AD9E51822AB3074C00A04A50 /* EditProjectNavigator.swift in Sources */,
 				AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */,
