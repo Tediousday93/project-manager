@@ -11,13 +11,15 @@
 		79A248FE0FF8C2A9975A10CC /* Pods_ProjectManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F94021592CAF34083BDA7774 /* Pods_ProjectManager.framework */; };
 		AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */; };
 		AD5DAB652AD41B3D00DC30B9 /* Array+ProjectState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */; };
-		AD5DAB712AD8530D00DC30B9 /* PopOverBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */; };
+		AD5DAB712AD8530D00DC30B9 /* ChangeStatePopOverBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB702AD8530D00DC30B9 /* ChangeStatePopOverBuilder.swift */; };
 		AD5DAB772AE124B900DC30B9 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB762AE124B900DC30B9 /* HistoryViewController.swift */; };
 		AD5DAB792AE1265D00DC30B9 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB782AE1265D00DC30B9 /* HistoryTableViewCell.swift */; };
 		AD5DAB7C2AE129FC00DC30B9 /* ProjectHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB7B2AE129FC00DC30B9 /* ProjectHistory.swift */; };
 		AD5DAB7F2AE63B6100DC30B9 /* HistoryRecordable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB7E2AE63B6100DC30B9 /* HistoryRecordable.swift */; };
 		AD5DAB832AE64C5500DC30B9 /* ProjectHistoryRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB822AE64C5500DC30B9 /* ProjectHistoryRecorder.swift */; };
 		AD5DAB872AE6503B00DC30B9 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB862AE6503B00DC30B9 /* HistoryViewModel.swift */; };
+		AD5DAB8C2AE686A700DC30B9 /* PopOverBuilderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB8B2AE686A700DC30B9 /* PopOverBuilderType.swift */; };
+		AD5DAB8E2AE68A6000DC30B9 /* HistoryPopOverBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB8D2AE68A6000DC30B9 /* HistoryPopOverBuilder.swift */; };
 		AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */; };
 		AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */; };
 		AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */; };
@@ -71,13 +73,15 @@
 		A75CEDCD244C20CEFDC6E51F /* Pods-ProjectManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.debug.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.debug.xcconfig"; sourceTree = "<group>"; };
 		AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
 		AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ProjectState.swift"; sourceTree = "<group>"; };
-		AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverBuilder.swift; sourceTree = "<group>"; };
+		AD5DAB702AD8530D00DC30B9 /* ChangeStatePopOverBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStatePopOverBuilder.swift; sourceTree = "<group>"; };
 		AD5DAB762AE124B900DC30B9 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		AD5DAB782AE1265D00DC30B9 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		AD5DAB7B2AE129FC00DC30B9 /* ProjectHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectHistory.swift; sourceTree = "<group>"; };
 		AD5DAB7E2AE63B6100DC30B9 /* HistoryRecordable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryRecordable.swift; sourceTree = "<group>"; };
 		AD5DAB822AE64C5500DC30B9 /* ProjectHistoryRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectHistoryRecorder.swift; sourceTree = "<group>"; };
 		AD5DAB862AE6503B00DC30B9 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		AD5DAB8B2AE686A700DC30B9 /* PopOverBuilderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverBuilderType.swift; sourceTree = "<group>"; };
+		AD5DAB8D2AE68A6000DC30B9 /* HistoryPopOverBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPopOverBuilder.swift; sourceTree = "<group>"; };
 		AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEditViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProjectViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProjectViewModel.swift; sourceTree = "<group>"; };
@@ -155,7 +159,7 @@
 		AD5DAB722ADE61B200DC30B9 /* PopOvers */ = {
 			isa = PBXGroup;
 			children = (
-				AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */,
+				AD5DAB882AE6868400DC30B9 /* Builder */,
 				AD9E51B72AC1EC8D00A04A50 /* ChangeStateView */,
 				AD5DAB732AE1245C00DC30B9 /* HistoryView */,
 			);
@@ -194,6 +198,32 @@
 			children = (
 				AD5DAB7B2AE129FC00DC30B9 /* ProjectHistory.swift */,
 				AD5DAB822AE64C5500DC30B9 /* ProjectHistoryRecorder.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		AD5DAB882AE6868400DC30B9 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB892AE6868800DC30B9 /* Interface */,
+				AD5DAB8A2AE6869100DC30B9 /* Implementation */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		AD5DAB892AE6868800DC30B9 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB8B2AE686A700DC30B9 /* PopOverBuilderType.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		AD5DAB8A2AE6869100DC30B9 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				AD5DAB702AD8530D00DC30B9 /* ChangeStatePopOverBuilder.swift */,
+				AD5DAB8D2AE68A6000DC30B9 /* HistoryPopOverBuilder.swift */,
 			);
 			path = Implementation;
 			sourceTree = "<group>";
@@ -257,9 +287,10 @@
 		AD89943B2A5E9D9300D848A5 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				AD8994482A5F5F2300D848A5 /* Common */,
 				AD8994282A5C5E2E00D848A5 /* MainView */,
-				AD5DAB722ADE61B200DC30B9 /* PopOvers */,
 				AD8994652A651F8600D848A5 /* EditProjectView */,
+				AD5DAB722ADE61B200DC30B9 /* PopOvers */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -404,7 +435,6 @@
 				C7431F0525F51E1D0094C4CF /* AppDelegate.swift */,
 				C7431F0725F51E1D0094C4CF /* SceneDelegate.swift */,
 				AD9E51A62AB9E31F00A04A50 /* Application */,
-				AD8994482A5F5F2300D848A5 /* Common */,
 				AD9E51622AAA5F1200A04A50 /* Entity */,
 				AD9E51572AA8547800A04A50 /* CoreData */,
 				AD8994362A5E42A800D848A5 /* Domain */,
@@ -626,7 +656,7 @@
 				AD9E51B92AC1ECBC00A04A50 /* ChangeStateViewController.swift in Sources */,
 				AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */,
 				C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */,
-				AD5DAB712AD8530D00DC30B9 /* PopOverBuilder.swift in Sources */,
+				AD5DAB712AD8530D00DC30B9 /* ChangeStatePopOverBuilder.swift in Sources */,
 				AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */,
 				AD9E51732AAF7CAD00A04A50 /* Persistable.swift in Sources */,
 				AD8994602A6510D900D848A5 /* ProjectTableViewCell.swift in Sources */,
@@ -655,9 +685,11 @@
 				C7431F0825F51E1D0094C4CF /* SceneDelegate.swift in Sources */,
 				AD9E51822AB3074C00A04A50 /* EditProjectNavigator.swift in Sources */,
 				AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */,
+				AD5DAB8E2AE68A6000DC30B9 /* HistoryPopOverBuilder.swift in Sources */,
 				AD89943A2A5E6B6200D848A5 /* Project.swift in Sources */,
 				AD9E51B42AC0295D00A04A50 /* Rx+UIViewController.swift in Sources */,
 				AD89944A2A5F5F3C00D848A5 /* ViewModelType.swift in Sources */,
+				AD5DAB8C2AE686A700DC30B9 /* PopOverBuilderType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
