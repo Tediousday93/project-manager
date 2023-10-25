@@ -17,7 +17,7 @@ final class ProjectListViewController: UIViewController {
     private let tableView: UITableView = .init()
     private var longPressedCell: UITableViewCell?
     
-    private lazy var dataSource = DataSource(configureCell: { [unowned self] _, tableView, indexPath, project in
+    private lazy var dataSource = DataSource(configureCell: { [weak self] _, tableView, indexPath, project in
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ProjectTableViewCell.identifier,
             for: indexPath
@@ -25,7 +25,7 @@ final class ProjectListViewController: UIViewController {
             fatalError("Fail to dequeue reusable cell")
         }
         
-        cell.dateFormatter = self.dateFormatter
+        cell.dateFormatter = self?.dateFormatter
         cell.configureContents(with: project)
         
         return cell
