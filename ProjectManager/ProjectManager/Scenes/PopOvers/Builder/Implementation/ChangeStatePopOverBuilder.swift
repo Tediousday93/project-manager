@@ -11,36 +11,38 @@ enum PopOverBuilderError: Error {
     case propertiesNotConfigured
 }
 
-final class ChangeStatePopOverBuilder {
+final class ChangeStatePopOverBuilder: PopOverBuilderType {
+    typealias ViewModel = ChangeStateViewModel
+    
     struct PopOverProperties {
         var sourceView: UIView?
         var permittedArrowDirections: UIPopoverArrowDirection?
         var preferredContentSize: CGSize?
     }
     
-    private let presentingViewController: UIViewController
     private var popOverProperties: PopOverProperties = .init()
+    private let presentingViewController: UIViewController
     
     init(presentingViewController: UIViewController) {
         self.presentingViewController = presentingViewController
     }
     
-    func withSourceView(_ view: UIView?) -> ChangeStatePopOverBuilder {
+    func withSourceView(_ view: UIView?) -> Self {
         popOverProperties.sourceView = view
         return self
     }
     
-    func arrowDirections(_ directions: UIPopoverArrowDirection) -> ChangeStatePopOverBuilder {
+    func arrowDirections(_ directions: UIPopoverArrowDirection) -> Self {
         popOverProperties.permittedArrowDirections = directions
         return self
     }
     
-    func preferredContentSize(_ size: CGSize) -> ChangeStatePopOverBuilder {
+    func preferredContentSize(_ size: CGSize) -> Self {
         popOverProperties.preferredContentSize = size
         return self
     }
     
-    func show(with viewModel: ChangeStateViewModel) throws {
+    func show(with viewModel: ViewModel) throws {
         guard let sourceView = popOverProperties.sourceView,
               let arrowDirections = popOverProperties.permittedArrowDirections,
               let preferredContentsSize = popOverProperties.preferredContentSize else {
@@ -59,5 +61,6 @@ final class ChangeStatePopOverBuilder {
         popOver.popoverPresentationController?.permittedArrowDirections = arrowDirections
         
         presentingViewController.present(popOver, animated: true)
+        popOverProperties = .init()
     }
 }
