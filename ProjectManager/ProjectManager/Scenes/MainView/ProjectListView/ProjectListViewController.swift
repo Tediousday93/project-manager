@@ -70,7 +70,6 @@ final class ProjectListViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.delegate = self
         tableView.register(ProjectTableViewCell.self,
                            forCellReuseIdentifier: ProjectTableViewCell.identifier)
         tableView.register(HeaderView.self,
@@ -105,6 +104,14 @@ final class ProjectListViewController: UIViewController {
                 owner.saveLongPressedCell(at: location)
             }
             .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .asDriver()
+            .drive(with: self, onNext: { owner, indexPath in
+                owner.tableView.deselectRow(at: indexPath, animated: true)
+            })
+            .disposed(by: disposeBag)
+            
         
         let longPressEnded = tableView.rx.longPressGesture()
             .when(.ended)
@@ -206,18 +213,6 @@ extension SectionOfProject: SectionModelType {
     init(original: SectionOfProject, items: [Project]) {
         self = original
         self.items = items
-    }
-}
-
-// MARK: - TableView Delegate
-
-extension ProjectListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedCell = tableView.cellForRow(at: indexPath) else {
-            return
-        }
-        
-        selectedCell.isSelected = false
     }
 }
 
