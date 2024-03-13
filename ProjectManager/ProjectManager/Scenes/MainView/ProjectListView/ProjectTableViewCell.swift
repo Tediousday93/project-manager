@@ -21,7 +21,7 @@ final class ProjectTableViewCell: UITableViewCell {
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.textColor = .systemGray2
+        label.textColor = .systemGray
         label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingTail
         
@@ -110,10 +110,18 @@ final class ProjectTableViewCell: UITableViewCell {
         titleLabel.text = source.title
         dateLabel.text = dateFormatter?.string(from: source.date)
         bodyLabel.text = source.body
-        
-        if source.date.compare(Date()) == .orderedAscending {
-            dateLabel.textColor = .systemRed
-        } else {
+        setDateLabelTextColor(for: source)
+    }
+    
+    private func setDateLabelTextColor(for project: Project) {
+        switch project.state {
+        case .todo, .doing:
+            if project.date.compare(Date()) == .orderedAscending {
+                dateLabel.textColor = .systemRed
+            } else {
+                dateLabel.textColor = .black
+            }
+        case .done:
             dateLabel.textColor = .black
         }
     }

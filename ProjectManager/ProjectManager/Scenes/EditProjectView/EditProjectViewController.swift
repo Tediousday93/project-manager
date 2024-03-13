@@ -30,6 +30,8 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
     private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderWidth = 0.5
         
         return textView
     }()
