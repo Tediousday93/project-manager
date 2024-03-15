@@ -9,7 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ChangeStateViewController: UIViewController {
+final class ChangeStateViewController: UIViewController, PopoverViewType {
+    typealias ViewModel = ChangeStateViewModel
+    
     private let firstButton: MoveToButton = .init()
     private let secondButton: MoveToButton = .init()
     private let stackView: UIStackView = {

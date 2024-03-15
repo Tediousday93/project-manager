@@ -87,7 +87,9 @@ extension ProjectListViewModel: ViewModelType {
                 return (owner, project)
             }
             .map { owner, project in
-                ChangeStateViewModel(sourceProject: project, useCase: owner.useCase)
+                let viewModel = ChangeStateViewModel(sourceProject: project, useCase: owner.useCase)
+                viewModel.delegate = owner.parent
+                return viewModel
             }
         
         return Output(projectListFetched: projectListFetched,

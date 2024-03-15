@@ -11,7 +11,7 @@
 		79A248FE0FF8C2A9975A10CC /* Pods_ProjectManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F94021592CAF34083BDA7774 /* Pods_ProjectManager.framework */; };
 		AD1CEF2E2A79BE0300AD7B98 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */; };
 		AD5DAB652AD41B3D00DC30B9 /* Array+ProjectState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */; };
-		AD5DAB712AD8530D00DC30B9 /* PopOverBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */; };
+		AD5DAB712AD8530D00DC30B9 /* PopoverBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5DAB702AD8530D00DC30B9 /* PopoverBuilder.swift */; };
 		AD5F1F182A9F89B2007C7AD0 /* AbstractEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */; };
 		AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */; };
 		AD5F1F1E2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */; };
@@ -65,7 +65,7 @@
 		A75CEDCD244C20CEFDC6E51F /* Pods-ProjectManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManager.debug.xcconfig"; path = "Target Support Files/Pods-ProjectManager/Pods-ProjectManager.debug.xcconfig"; sourceTree = "<group>"; };
 		AD1CEF2D2A79BE0300AD7B98 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
 		AD5DAB642AD41B3D00DC30B9 /* Array+ProjectState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ProjectState.swift"; sourceTree = "<group>"; };
-		AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverBuilder.swift; sourceTree = "<group>"; };
+		AD5DAB702AD8530D00DC30B9 /* PopoverBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverBuilder.swift; sourceTree = "<group>"; };
 		AD5F1F172A9F89B2007C7AD0 /* AbstractEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEditViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1B2AA05A4B007C7AD0 /* CreateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProjectViewModel.swift; sourceTree = "<group>"; };
 		AD5F1F1C2AA05A4B007C7AD0 /* UpdateProjectViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProjectViewModel.swift; sourceTree = "<group>"; };
@@ -140,13 +140,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		AD5DAB722ADE61B200DC30B9 /* PopOvers */ = {
+		AD5DAB722ADE61B200DC30B9 /* Popovers */ = {
 			isa = PBXGroup;
 			children = (
-				AD5DAB702AD8530D00DC30B9 /* PopOverBuilder.swift */,
+				AD5DAB702AD8530D00DC30B9 /* PopoverBuilder.swift */,
 				AD9E51B72AC1EC8D00A04A50 /* ChangeStateView */,
 			);
-			path = PopOvers;
+			path = Popovers;
 			sourceTree = "<group>";
 		};
 		AD5F1EF32A8F8E5C007C7AD0 /* DTO */ = {
@@ -208,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				AD8994282A5C5E2E00D848A5 /* MainView */,
-				AD5DAB722ADE61B200DC30B9 /* PopOvers */,
+				AD5DAB722ADE61B200DC30B9 /* Popovers */,
 				AD8994652A651F8600D848A5 /* EditProjectView */,
 			);
 			path = Scenes;
@@ -575,7 +575,7 @@
 				AD9E51B92AC1ECBC00A04A50 /* ChangeStateViewController.swift in Sources */,
 				AD8994402A5EAA8D00D848A5 /* MainViewModel.swift in Sources */,
 				C7431F0A25F51E1D0094C4CF /* MainViewController.swift in Sources */,
-				AD5DAB712AD8530D00DC30B9 /* PopOverBuilder.swift in Sources */,
+				AD5DAB712AD8530D00DC30B9 /* PopoverBuilder.swift in Sources */,
 				AD5F1F1D2AA05A4B007C7AD0 /* CreateProjectViewModel.swift in Sources */,
 				AD9E51732AAF7CAD00A04A50 /* Persistable.swift in Sources */,
 				AD8994602A6510D900D848A5 /* ProjectTableViewCell.swift in Sources */,
