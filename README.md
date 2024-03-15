@@ -43,11 +43,11 @@ CoreData를 활용한 일정 관리 iPad 앱 프로젝트 입니다.
 # 📱 실행화면
 | 메인 화면 | 할 일 추가(입력 전) |
 | :--------: | :--------: |
-| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_main_screenshot.png?raw=true" width="700"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_disabledButton_screenshot.png?raw=true" width="700"> |
+| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_main_screenshot.png?raw=true" width="500"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_disabledButton_screenshot.png?raw=true" width="500"> |
 | **할 일 추가(입력 후)** | **할 일 수정** |
-| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_enableButton_screenshot.png?raw=true" width="700"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_editFeature_Capture.gif?raw=true" width="700"> |
+| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_enableButton_screenshot.png?raw=true" width="500"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_editFeature_Capture.gif?raw=true" width="500"> |
 | **상태 변경 기능** | **할 일 삭제** |
-| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_ChangeStateFeature_Capture.gif?raw=true" width="700"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_delete_capture.gif?raw=true" width="700"> |
+| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_ChangeStateFeature_Capture.gif?raw=true" width="500"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_delete_capture.gif?raw=true" width="500"> |
 
 </br>
 
