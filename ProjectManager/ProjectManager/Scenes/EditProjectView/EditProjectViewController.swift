@@ -151,12 +151,10 @@ final class EditProjectViewController<ViewModelType: AbstractEditViewModel>: UIV
         
         output.projectSave
             .observe(on: MainScheduler.instance)
-            .catch({ error in
+            .subscribe(onError: { error in
                 print(error)
-                // Alert 띄우기
-                return Observable.just(())
+                // 얼럿 띄우기
             })
-            .subscribe()
             .disposed(by: disposeBag)
         
         output.canEdit

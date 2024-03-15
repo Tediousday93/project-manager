@@ -52,10 +52,12 @@ extension MainViewModel: ViewModelType {
         
         let createProjectViewPresented = input.addBarButtonTapped
             .asObservable()
+            .compactMap { [weak self] _ in
+                self?.children.first(where: { $0.projectState == .todo })
+            }
             .withUnretained(self)
-            .map { owner, _ in
-                let todoViewModel = owner.children.first(where: { $0.projectState == .todo })
-                owner.navigator.toCreateProject(delegate: todoViewModel)
+            .map { owner, todoViewModel in
+                owner.navigator.toCreateProject(updateTrigger: todoViewModel.updateTrigger)
             }
             .asDriver(onErrorJustReturn: ())
         
