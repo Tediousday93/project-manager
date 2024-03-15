@@ -14,20 +14,23 @@ final class UpdateProjectViewModel: AbstractEditViewModel {
         case nilSourceProject
     }
     
-    override func transform(_ input: AbstractEditViewModel.Input) -> AbstractEditViewModel.Output {
+    override func transform(_ input: Input) -> Output {
         let projectContents = Driver.combineLatest(input.title, input.date, input.body)
         
         let canSave = projectContents
-            .map { [unowned self] title, date, body in
-                return title != sourceProject?.title || body != sourceProject?.body || date != sourceProject?.date
+            .map { [weak self] title, date, body in
+                let isTitleModified = title != self?.sourceProject?.title
+                let isBodyModified = body != self?.sourceProject?.body
+                let isDateModified = date != self?.sourceProject?.date
+                return isTitleModified || isBodyModified || isDateModified
             }
             .asDriver(onErrorJustReturn: false)
         
         let projectSave = input.rightBarButtonTapped
             .asObservable()
             .withLatestFrom(projectContents)
-            .map { [unowned self] title, date, body in
-                guard let sourceProject else {
+            .map { [weak self] title, date, body in
+                guard let sourceProject = self?.sourceProject else {
                     throw SaveError.nilSourceProject
                 }
                 
@@ -37,9 +40,10 @@ final class UpdateProjectViewModel: AbstractEditViewModel {
                                state: sourceProject.state,
                                id: sourceProject.id)
             }
-            .map { [unowned self] project in
-                try useCase.update(project: project)
-                delegate?.updateTrigger.accept(())
+            .withUnretained(self)
+            .map { owner, project in
+                try owner.useCase.update(project: project)
+                owner.updateTrigger.accept(())
             }
             .share()
         

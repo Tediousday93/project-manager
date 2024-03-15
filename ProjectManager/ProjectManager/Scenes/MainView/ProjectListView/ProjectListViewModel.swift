@@ -44,22 +44,29 @@ extension ProjectListViewModel: ViewModelType {
     
     func transform(_ input: Input) -> Output {
         let projectListFetched = updateTrigger
-            .flatMap { [unowned self] _ in
-                useCase.projectList(forState: projectState)
-            }
             .withUnretained(self)
+            .flatMap { owner, _ in
+                owner.useCase.projectList(forState: owner.projectState)
+                    .map { (owner, $0) }
+            }
             .map { owner, projectList in
                 owner.projectList.accept(projectList)
             }
             .asDriver(onErrorJustReturn: ())
         
         let updateProjectViewPresented = input.itemSelected
-            .map { [unowned self] indexPath in
-                return projectList.value[indexPath.row]
+            .asObservable()
+            .withUnretained(self)
+            .map { owner, indexPath in
+                (owner, owner.projectList.value[indexPath.row])
             }
-            .map { [unowned self] project in
-                navigator.toUpdate(project, delegate: self)
+            .map { owner, project in
+                owner.navigator.toUpdateProject(
+                    project,
+                    updateTrigger: owner.updateTrigger
+                )
             }
+            .asDriver(onErrorJustReturn: ())
         
         let deleteProject = input.itemDeleted
             .asObservable()
@@ -80,10 +87,8 @@ extension ProjectListViewModel: ViewModelType {
                 return (owner, project)
             }
             .map { owner, project in
-                let viewModel = ChangeStateViewModel(sourceProject: project,
-                                                     useCase: owner.useCase)
+                let viewModel = ChangeStateViewModel(sourceProject: project, useCase: owner.useCase)
                 viewModel.delegate = owner.parent
-                
                 return viewModel
             }
         
@@ -93,5 +98,3 @@ extension ProjectListViewModel: ViewModelType {
                       longPressedCellSource: longPressedCellSource)
     }
 }
-
-extension ProjectListViewModel: EditViewModelDelegate { }

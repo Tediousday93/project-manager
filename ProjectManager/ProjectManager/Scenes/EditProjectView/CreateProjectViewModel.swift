@@ -10,12 +10,12 @@ import RxSwift
 import RxCocoa
 
 final class CreateProjectViewModel: AbstractEditViewModel {
-    override func transform(_ input: AbstractEditViewModel.Input) -> AbstractEditViewModel.Output {
+    override func transform(_ input: Input) -> Output {
         let projectContents = Driver.combineLatest(input.title, input.date, input.body)
         
         let canSave = projectContents
             .map { title, _, body in
-                return title != "" || body != ""
+                title != "" || body != ""
             }
             .asDriver(onErrorJustReturn: false)
         
@@ -23,16 +23,16 @@ final class CreateProjectViewModel: AbstractEditViewModel {
             .asObservable()
             .withLatestFrom(projectContents)
             .map { title, date, body in
-                return Project(title: title,
-                               date: date,
-                               body: body,
-                               state: .todo,
-                               id: UUID())
+                Project(title: title,
+                        date: date,
+                        body: body,
+                        state: .todo,
+                        id: UUID())
             }
             .withUnretained(self)
             .map { owner, project in
                 try owner.useCase.create(project: project)
-                owner.delegate?.updateTrigger.accept(())
+                owner.updateTrigger.accept(())
             }
             .share()
         

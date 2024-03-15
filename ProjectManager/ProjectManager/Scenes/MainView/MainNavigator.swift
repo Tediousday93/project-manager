@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import RxCocoa
 
-protocol MainNavigator {
+protocol MainNavigator: AnyObject {
     func toMain()
-    func toCreateProject(delegate: EditViewModelDelegate?)
-    func toUpdate(_ project: Project, delegate: EditViewModelDelegate?)
+    func toCreateProject(updateTrigger: PublishRelay<Void>)
+    func toUpdateProject(_ project: Project, updateTrigger: PublishRelay<Void>)
 }
 
 final class DefaultMainNavigator: MainNavigator {
@@ -32,7 +33,7 @@ final class DefaultMainNavigator: MainNavigator {
         navigationController.pushViewController(mainViewController, animated: true)
     }
     
-    func toCreateProject(delegate: EditViewModelDelegate?) {
+    func toCreateProject(updateTrigger: PublishRelay<Void>) {
         let createProjectNavigator = DefaultEditProjectNavigator(
             navigationController: self.navigationController
         )
@@ -40,6 +41,7 @@ final class DefaultMainNavigator: MainNavigator {
             navigator: createProjectNavigator,
             useCase: coreDataService.makeProjectListUseCase(),
             leftBarButtonTitle: "Cancel",
+            updateTrigger: updateTrigger,
             sourceProject: nil
         )
         let createProjectViewController = EditProjectViewController(
@@ -49,13 +51,12 @@ final class DefaultMainNavigator: MainNavigator {
             rootViewController: createProjectViewController
         )
         
-        createProjectViewModel.delegate = delegate
         createProjectNavigationController.modalPresentationStyle = .formSheet
         
         self.navigationController.present(createProjectNavigationController, animated: true)
     }
     
-    func toUpdate(_ project: Project, delegate: EditViewModelDelegate?) {
+    func toUpdateProject(_ project: Project, updateTrigger: PublishRelay<Void>) {
         let updateProjectNavigator = DefaultEditProjectNavigator(
             navigationController: self.navigationController
         )
@@ -63,6 +64,7 @@ final class DefaultMainNavigator: MainNavigator {
             navigator: updateProjectNavigator,
             useCase: coreDataService.makeProjectListUseCase(),
             leftBarButtonTitle: "Edit",
+            updateTrigger: updateTrigger,
             sourceProject: project
         )
         let updateProjectViewController = EditProjectViewController(
@@ -71,7 +73,7 @@ final class DefaultMainNavigator: MainNavigator {
         let updateProjectNavigationController = UINavigationController(
             rootViewController: updateProjectViewController
         )
-        updateProjectViewModel.delegate = delegate
+        
         updateProjectNavigationController.modalPresentationStyle = .formSheet
         
         self.navigationController.present(updateProjectNavigationController, animated: true)

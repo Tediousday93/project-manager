@@ -9,10 +9,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol EditViewModelDelegate: AnyObject {
-    var updateTrigger: PublishRelay<Void> { get }
-}
-
 class AbstractEditViewModel: ViewModelType {
     struct Input {
         let title: Driver<String>
@@ -29,20 +25,21 @@ class AbstractEditViewModel: ViewModelType {
         let dismiss: Driver<Void>
     }
     
-    weak var delegate: EditViewModelDelegate?
-    
     let navigator: EditProjectNavigator
     let useCase: ProjectListUseCaseType
     let leftBarButtonTitle: String
+    let updateTrigger: PublishRelay<Void>
     let sourceProject: Project?
     
     init(navigator: EditProjectNavigator,
          useCase: ProjectListUseCaseType,
          leftBarButtonTitle: String,
+         updateTrigger: PublishRelay<Void>,
          sourceProject: Project?) {
         self.navigator = navigator
         self.useCase = useCase
         self.leftBarButtonTitle = leftBarButtonTitle
+        self.updateTrigger = updateTrigger
         self.sourceProject = sourceProject
     }
     

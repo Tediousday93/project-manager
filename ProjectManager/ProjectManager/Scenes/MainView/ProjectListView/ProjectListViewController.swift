@@ -156,7 +156,7 @@ final class ProjectListViewController: UIViewController {
         output.longPressedCellSource
             .observe(on: MainScheduler.instance)
             .subscribe(with: self, onNext: { owner, changeStateViewModel in
-                try? ChangeStatePopOverBuilder(presentingViewController: owner)
+                try? PopoverBuilder<ChangeStateViewController>(presentingViewController: owner)
                     .withSourceView(owner.longPressedCell)
                     .arrowDirections(.up)
                     .preferredContentSize(CGSize(width: 300, height: 120))
