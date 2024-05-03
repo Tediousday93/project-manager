@@ -35,19 +35,19 @@ CoreData를 활용한 일정 관리 iPad 앱 프로젝트 입니다.
 
 </br>
 
-# 🗂️ 프로젝트 구조
-<img src="https://github.com/Tediousday93/ios-project-manager/blob/main/ProjectManager_Screenshot/ProjectManager_UML.png?raw=true" width="550">
+# 🪜 프로젝트 구조
+<img src="https://github.com/Tediousday93/project-manager/blob/main/ProjectManager_Screenshot/ProjectManager_UML.png?raw=true" width="550">
 
 </br>
 
 # 📱 실행화면
 | 메인 화면 | 할 일 추가(입력 전) |
 | :--------: | :--------: |
-| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_main_screenshot.png?raw=true" width="500"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_disabledButton_screenshot.png?raw=true" width="500"> |
+| <img src="https://github.com/Tediousday93/project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_main_screenshot.png?raw=true" width="500"> | <img src="https://github.com/Tediousday93/project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_disabledButton_screenshot.png?raw=true" width="500"> |
 | **할 일 추가(입력 후)** | **할 일 수정** |
-| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_enableButton_screenshot.png?raw=true" width="500"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_editFeature_Capture.gif?raw=true" width="500"> |
+| <img src="https://github.com/Tediousday93/project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_create_enableButton_screenshot.png?raw=true" width="500"> | <img src="https://github.com/Tediousday93/project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_editFeature_Capture.gif?raw=true" width="500"> |
 | **상태 변경 기능** | **할 일 삭제** |
-| <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_ChangeStateFeature_Capture.gif?raw=true" width="500"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_delete_capture.gif?raw=true" width="500"> |
+| <img src="https://github.com/Tediousday93/project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_ChangeStateFeature_Capture.gif?raw=true" width="500"> | <img src="https://github.com/Tediousday93/project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_delete_capture.gif?raw=true" width="500"> |
 
 </br>
 
@@ -56,7 +56,7 @@ CoreData를 활용한 일정 관리 iPad 앱 프로젝트 입니다.
 ### 🔍 문제점
 | 할 일 추가 | 할 일 수정 |
 | :----: | :----: |
-| <img src="https://github.com/Tediousday93/ios-project-manager/blob/main/ProjectManager_Screenshot/CreateProjectView_screenshot.png?raw=true" width="700"> | <img src="https://github.com/Tediousday93/ios-project-manager/blob/main/ProjectManager_Screenshot/UpdateProjectView_screenshot.png?raw=true" width="700"> |
+| <img src="https://github.com/Tediousday93/project-manager/blob/main/ProjectManager_Screenshot/CreateProjectView_screenshot.png?raw=true" width="700"> | <img src="https://github.com/Tediousday93/project-manager/blob/main/ProjectManager_Screenshot/UpdateProjectView_screenshot.png?raw=true" width="700"> |
 
 위의 두 View는 기능만 다르고 완전히 같은 형태를 띄고 있습니다.
 이 때, ViewController의 viewModel이 추상화가 되어 있지 않았기 때문에 view model을 교체하며 view를 재사용하기 어려웠습니다.
@@ -135,7 +135,7 @@ final class UpdateProjectViewModel: AbstractEditViewModel {
     
 ## 2️⃣ Popover
 ### 🔍 문제점
-<img src="https://github.com/Tediousday93/ios-project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_ChangeStateFeature_Capture.gif?raw=true" width="500">
+<img src="https://github.com/Tediousday93/project-manager/blob/develop/ProjectManager_Screenshot/ProjectManager_ChangeStateFeature_Capture.gif?raw=true" width="500">
 
 tableViewCell을 longPress하면 할 일의 상태를 바꿀 수 있는 popover view를 보여줘야 합니다.
 현재 화면전환 로직은 `Navigator`라는 객체를 통해 관리하고 있으며 해당 객체의 인터페이스를 ViewModel이 참조하여 화면전환 메서드를 ViewModel 내부에서 호출하고 있습니다.
